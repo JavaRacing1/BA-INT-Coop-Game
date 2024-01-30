@@ -1,0 +1,4 @@
+{
+    "omnisharp.enableEditorConfigSupport": true,
+    "dotnet.server.useOmnisharp": true
+}

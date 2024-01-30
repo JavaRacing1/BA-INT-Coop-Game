@@ -1,6 +1,12 @@
 using Godot;
-using System;
 
-public partial class MainMenu : Control
+namespace OnlineGame
 {
+    /// <summary>
+    /// The start scene of the game
+    /// </summary>
+    public partial class MainMenu : Control
+    {
+
+    }
 }
