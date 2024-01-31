@@ -1,0 +1,5 @@
+[gd_resource type="Theme" format=3 uid="uid://cqi3axgr2ci8h"]
+
+[resource]
+LargeButton/base_type = &"Button"
+LargeButton/font_sizes/font_size = 22
