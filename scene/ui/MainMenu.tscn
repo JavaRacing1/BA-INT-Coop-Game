@@ -48,3 +48,6 @@ layout_mode = 2
 theme = ExtResource("2_kjibb")
 theme_type_variation = &"LargeButton"
 text = "Beenden"
+
+[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/ExitButton" to="." method="OnExitButtonPressed"]
