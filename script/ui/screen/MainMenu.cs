@@ -7,9 +7,17 @@ namespace OnlineGame
     /// </summary>
     public partial class MainMenu : Control
     {
+        private GameConfirmationDialog _exitDialog;
+
         private void OnExitButtonPressed()
         {
-            //TODO: Create ConfirmationPopup and exit game on confirmation
+            if (_exitDialog == null)
+            {
+                _exitDialog = new("Spiel verlassen", "Möchtest du wirklich das Spiel verlassen?");
+                _exitDialog.GetOkButton().Pressed += () => GetTree().Quit();
+                AddChild(_exitDialog);
+            }
+            _exitDialog.Visible = true;
         }
 
         private void OnSettingsButtonPressed()

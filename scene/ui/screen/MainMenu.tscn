@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://brhiuyjy4of4v"]
 
-[ext_resource type="Script" path="res://script/ui/screen/MainMenu.cs" id="1_3b2p3"]
-[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_kjibb"]
+[ext_resource type="Script" path="res://script/ui/screen/MainMenu.cs" id="1_154ca"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_558lk"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_3b2p3")
+script = ExtResource("1_154ca")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1
@@ -38,14 +38,14 @@ theme_override_constants/separation = 15
 [node name="SettingsButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-theme = ExtResource("2_kjibb")
+theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Einstellungen"
 
 [node name="ExitButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-theme = ExtResource("2_kjibb")
+theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Beenden"
 
