@@ -9,6 +9,7 @@ namespace OnlineGame
     {
         private const string CreditFilePath = "res://config/credits.txt";
         private GameConfirmationDialog _exitDialog;
+        private SettingsWindow _settingsWindow;
         private CanvasLayer _creditCanvas;
 
         /// <summary>
@@ -51,7 +52,12 @@ namespace OnlineGame
 
         private void OnSettingsButtonPressed()
         {
-            //TODO: Add settings menu
+            if (_settingsWindow == null)
+            {
+                _settingsWindow = GD.Load<PackedScene>("res://scene/ui/screen/SettingsWindow.tscn").Instantiate<SettingsWindow>();
+                AddChild(_settingsWindow);
+            }
+            _settingsWindow.Visible = true;
         }
 
         private void OnCreditsButtonPressed()
