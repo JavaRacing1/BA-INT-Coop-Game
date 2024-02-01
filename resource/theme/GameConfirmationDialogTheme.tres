@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://cphf0jxgeb4cw"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://cphf0jxgeb4cw"]
 
 [ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/ConfirmButtonHover.png" id="1_1d3o0"]
 [ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/CancelButtonHover.png" id="1_5cqak"]
+[ext_resource type="Texture2D" uid="uid://d0nram0o0cy6v" path="res://assets/texture/button/DialogButtonFocused.png" id="1_ycnxn"]
 [ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/CancelButtonNormal.png" id="2_6prog"]
 [ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/ConfirmButtonNormal.png" id="2_d7eth"]
 [ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/ConfirmButtonPressed.png" id="3_1tupf"]
@@ -9,6 +10,9 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fv5i"]
 bg_color = Color(0.203922, 0.203922, 0.203922, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sa0ah"]
+texture = ExtResource("1_ycnxn")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a34pw"]
 texture = ExtResource("1_5cqak")
@@ -18,6 +22,9 @@ texture = ExtResource("2_6prog")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5u7mb"]
 texture = ExtResource("3_av6vd")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m3ryt"]
+texture = ExtResource("1_ycnxn")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7rvm7"]
 texture = ExtResource("1_1d3o0")
@@ -31,10 +38,12 @@ texture = ExtResource("3_1tupf")
 [resource]
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_6fv5i")
 CancelButton/base_type = &"Button"
+CancelButton/styles/focus = SubResource("StyleBoxTexture_sa0ah")
 CancelButton/styles/hover = SubResource("StyleBoxTexture_a34pw")
 CancelButton/styles/normal = SubResource("StyleBoxTexture_bh85i")
 CancelButton/styles/pressed = SubResource("StyleBoxTexture_5u7mb")
 OkButton/base_type = &"Button"
+OkButton/styles/focus = SubResource("StyleBoxTexture_m3ryt")
 OkButton/styles/hover = SubResource("StyleBoxTexture_7rvm7")
 OkButton/styles/normal = SubResource("StyleBoxTexture_v6k8k")
 OkButton/styles/pressed = SubResource("StyleBoxTexture_eg0eq")
