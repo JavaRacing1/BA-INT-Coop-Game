@@ -42,6 +42,14 @@ theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Einstellungen"
 
+[node name="CreditsButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme = ExtResource("2_558lk")
+theme_type_variation = &"LargeButton"
+text = "Credits
+"
+
 [node name="ExitButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
@@ -49,5 +57,5 @@ theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Beenden"
 
-[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/CreditsButton" to="." method="OnSettingsButtonPressed"]
 [connection signal="pressed" from="Background/MarginContainer/ButtonContainer/ExitButton" to="." method="OnExitButtonPressed"]

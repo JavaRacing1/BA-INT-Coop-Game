@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0yts0shheeis"
-path="res://.godot/imported/CancelButtonHover.png-b05efbd462f5b49cbc107c821c9b8717.ctex"
+path="res://.godot/imported/CancelButtonHover.png-74c71e2395852ff774f04b4f554a6950.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/texture/button/CancelButtonHover.png"
-dest_files=["res://.godot/imported/CancelButtonHover.png-b05efbd462f5b49cbc107c821c9b8717.ctex"]
+source_file="res://assets/texture/button/dialog/CancelButtonHover.png"
+dest_files=["res://.godot/imported/CancelButtonHover.png-74c71e2395852ff774f04b4f554a6950.ctex"]
 
 [params]
 

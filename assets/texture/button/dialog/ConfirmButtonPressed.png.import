@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0nram0o0cy6v"
-path="res://.godot/imported/DialogButtonFocused.png-28d8b67fa074f86d70d9bc54cddc95e9.ctex"
+uid="uid://bstltd1axg5a"
+path="res://.godot/imported/ConfirmButtonPressed.png-7637ed17a96952c38f54cd07603b6556.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/texture/button/DialogButtonFocused.png"
-dest_files=["res://.godot/imported/DialogButtonFocused.png-28d8b67fa074f86d70d9bc54cddc95e9.ctex"]
+source_file="res://assets/texture/button/dialog/ConfirmButtonPressed.png"
+dest_files=["res://.godot/imported/ConfirmButtonPressed.png-7637ed17a96952c38f54cd07603b6556.ctex"]
 
 [params]
 

@@ -20,6 +20,11 @@ namespace OnlineGame
             _exitDialog.Visible = true;
         }
 
+        private void OnCreditsButtonPressed()
+        {
+            //TODO: Add credits
+        }
+
         private void OnSettingsButtonPressed()
         {
             //TODO: Add settings menu

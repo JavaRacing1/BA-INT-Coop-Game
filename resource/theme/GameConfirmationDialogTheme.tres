@@ -1,12 +1,12 @@
 [gd_resource type="Theme" load_steps=17 format=3 uid="uid://cphf0jxgeb4cw"]
 
-[ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/ConfirmButtonHover.png" id="1_1d3o0"]
-[ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/CancelButtonHover.png" id="1_5cqak"]
-[ext_resource type="Texture2D" uid="uid://d0nram0o0cy6v" path="res://assets/texture/button/DialogButtonFocused.png" id="1_ycnxn"]
-[ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/CancelButtonNormal.png" id="2_6prog"]
-[ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/ConfirmButtonNormal.png" id="2_d7eth"]
-[ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/ConfirmButtonPressed.png" id="3_1tupf"]
-[ext_resource type="Texture2D" uid="uid://hqutx654d6o5" path="res://assets/texture/button/CancelButtonPressed.png" id="3_av6vd"]
+[ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/dialog/ConfirmButtonHover.png" id="1_1d3o0"]
+[ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/dialog/CancelButtonHover.png" id="1_5cqak"]
+[ext_resource type="Texture2D" uid="uid://d0nram0o0cy6v" path="res://assets/texture/button/dialog/DialogButtonFocused.png" id="1_ycnxn"]
+[ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/dialog/CancelButtonNormal.png" id="2_6prog"]
+[ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/dialog/ConfirmButtonNormal.png" id="2_d7eth"]
+[ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/dialog/ConfirmButtonPressed.png" id="3_1tupf"]
+[ext_resource type="Texture2D" uid="uid://hqutx654d6o5" path="res://assets/texture/button/dialog/CancelButtonPressed.png" id="3_av6vd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6fv5i"]
 bg_color = Color(0.203922, 0.203922, 0.203922, 1)
