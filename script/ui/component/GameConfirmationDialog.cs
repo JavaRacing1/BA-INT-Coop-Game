@@ -7,7 +7,7 @@ namespace OnlineGame
     /// </summary>
     public partial class GameConfirmationDialog : ConfirmationDialog
     {
-        private static readonly Theme ButtonTheme = GD.Load<Theme>("res://resource/theme/GameConfirmationDialogTheme.tres");
+        private static readonly Theme DialogTheme = GD.Load<Theme>("res://resource/theme/GameConfirmationDialogTheme.tres");
 
         /// <summary>
         /// Creates a new GameConfimationDialog with the specified texts
@@ -19,6 +19,7 @@ namespace OnlineGame
             Title = title;
             DialogText = description;
 
+            Theme = DialogTheme;
             Size = new(400, 200);
             Name = "GameConfirmationDialog";
             InitialPosition = WindowInitialPosition.CenterMainWindowScreen;
@@ -33,7 +34,7 @@ namespace OnlineGame
         {
             button.Text = "";
             button.CustomMinimumSize = new(100, 50);
-            button.Theme = ButtonTheme;
+            button.Theme = DialogTheme;
             button.ThemeTypeVariation = themeTypeVariation;
         }
     }
