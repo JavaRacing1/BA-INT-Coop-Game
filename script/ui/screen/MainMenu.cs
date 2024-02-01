@@ -7,7 +7,36 @@ namespace OnlineGame
     /// </summary>
     public partial class MainMenu : Control
     {
+        private const string CreditFilePath = "res://config/credits.txt";
         private GameConfirmationDialog _exitDialog;
+        private CanvasLayer _creditCanvas;
+
+        /// <summary>
+        /// Receives node references and loads the credit file
+        /// </summary>
+        public override void _Ready()
+        {
+            _creditCanvas = GetNode<CanvasLayer>("CreditLayer");
+            LoadCredits();
+        }
+
+        private void LoadCredits()
+        {
+            if (!FileAccess.FileExists(CreditFilePath))
+            {
+                return;
+            }
+
+            RichTextLabel creditTextLabel = GetNode<RichTextLabel>("%CreditTextLabel");
+            using FileAccess creditFile = FileAccess.Open(CreditFilePath, FileAccess.ModeFlags.Read);
+            if (creditFile == null)
+            {
+                GD.PrintErr($"File Error: {FileAccess.GetOpenError()}");
+            }
+
+            string text = creditFile.GetAsText();
+            creditTextLabel.Text = text;
+        }
 
         private void OnExitButtonPressed()
         {
@@ -20,14 +49,19 @@ namespace OnlineGame
             _exitDialog.Visible = true;
         }
 
-        private void OnCreditsButtonPressed()
-        {
-            //TODO: Add credits
-        }
-
         private void OnSettingsButtonPressed()
         {
             //TODO: Add settings menu
+        }
+
+        private void OnCreditsButtonPressed()
+        {
+            _creditCanvas.Visible = true;
+        }
+
+        private void OnCloseCreditsButtonPressed()
+        {
+            _creditCanvas.Visible = false;
         }
     }
 }
