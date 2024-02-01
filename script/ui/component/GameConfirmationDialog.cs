@@ -7,7 +7,7 @@ namespace OnlineGame
     /// </summary>
     public partial class GameConfirmationDialog : ConfirmationDialog
     {
-        private static readonly Theme DialogTheme = GD.Load<Theme>("res://resource/theme/GameConfirmationDialogTheme.tres");
+        private static readonly Theme DialogTheme = GD.Load<Theme>("res://resource/theme/MainTheme.tres");
 
         /// <summary>
         /// Creates a new GameConfimationDialog with the specified texts
