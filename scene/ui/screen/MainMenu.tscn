@@ -57,5 +57,6 @@ theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Beenden"
 
-[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/CreditsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="Background/MarginContainer/ButtonContainer/CreditsButton" to="." method="OnCreditsButtonPressed"]
 [connection signal="pressed" from="Background/MarginContainer/ButtonContainer/ExitButton" to="." method="OnExitButtonPressed"]
