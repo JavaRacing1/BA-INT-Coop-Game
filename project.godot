@@ -23,7 +23,7 @@ window/stretch/mode="canvas_items"
 
 [dotnet]
 
-project/assembly_name="INT-Online-Coop"
+project/assembly_name="INT-Online-Game"
 
 [file_customization]
 

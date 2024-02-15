@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INT-Online-Coop", "INT-Online-Coop.csproj", "{C07A0A31-5C25-4B14-9ED5-9F8468C50CB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INT-Online-Game", "INT-Online-Game.csproj", "{C07A0A31-5C25-4B14-9ED5-9F8468C50CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
