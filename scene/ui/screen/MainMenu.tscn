@@ -36,14 +36,14 @@ layout_mode = 2
 theme_override_constants/separation = 15
 
 [node name="SettingsButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(130, 30)
 layout_mode = 2
 theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Einstellungen"
 
 [node name="CreditsButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(130, 30)
 layout_mode = 2
 theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
@@ -51,14 +51,13 @@ text = "Credits
 "
 
 [node name="ExitButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
-custom_minimum_size = Vector2(200, 50)
+custom_minimum_size = Vector2(130, 30)
 layout_mode = 2
 theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Beenden"
 
 [node name="CreditLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="CreditBackground" type="ColorRect" parent="CreditLayer"]
 anchors_preset = 15
@@ -74,25 +73,24 @@ anchors_preset = -1
 anchor_left = 0.03
 anchor_top = 0.05
 anchor_right = 0.7
-anchor_bottom = 0.9
+anchor_bottom = 0.84
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 24
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 15
+theme_override_font_sizes/italics_font_size = 12
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/mono_font_size = 12
 bbcode_enabled = true
 
 [node name="CloseCreditsButton" type="Button" parent="CreditLayer"]
-custom_minimum_size = Vector2(230, 60)
 anchors_preset = -1
 anchor_left = 0.95
 anchor_top = 0.95
 anchor_right = 0.95
 anchor_bottom = 0.95
-offset_left = -230.0
-offset_top = -60.0
+offset_left = -100.0
+offset_top = -30.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource("2_558lk")
