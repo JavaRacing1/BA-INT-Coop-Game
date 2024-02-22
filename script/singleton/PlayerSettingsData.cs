@@ -31,6 +31,12 @@ namespace OnlineGame
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
 
         /// <summary>
+        /// Returns the status of unsaved changes
+        /// </summary>
+        /// <value>true if a save to file is pending</value>
+        public bool HasUnsavedChanges { get; private set; }
+
+        /// <summary>
         /// Initializes the settings file
         /// </summary>
         public override void _Ready()
@@ -53,6 +59,7 @@ namespace OnlineGame
         public void SetDisplayMode(DisplayMode displayMode)
         {
             _displayMode = displayMode.ToString();
+            HasUnsavedChanges = true;
         }
 
         /// <summary>
@@ -61,6 +68,7 @@ namespace OnlineGame
         public void ApplyChanges()
         {
             Save();
+            HasUnsavedChanges = false;
             UpdateWindow();
         }
 
@@ -70,6 +78,7 @@ namespace OnlineGame
         public void DiscardChanges()
         {
             Load();
+            HasUnsavedChanges = false;
         }
 
         private void UpdateWindow()
