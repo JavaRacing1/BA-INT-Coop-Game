@@ -7,19 +7,55 @@ namespace OnlineGame
     /// </summary>
     public partial class SettingsWindow : CanvasLayer
     {
+
+        [Export]
+        private OptionButton _displayModeButton;
+        private PlayerSettingsData _playerSettingsData;
+
+        /// <summary>
+        /// Initializes the settings window
+        /// </summary>
+        public override void _Ready()
+        {
+            _playerSettingsData = GetNode<PlayerSettingsData>("/root/PlayerSettingsData");
+            if (_displayModeButton != null)
+            {
+                _displayModeButton.ItemSelected += OnDisplayModeItemSelected;
+            }
+            UpdateSettings();
+        }
+
+        private void UpdateSettings()
+        {
+            if (_displayModeButton != null)
+            {
+                _displayModeButton.Selected = (int)_playerSettingsData.SelectedDisplayMode;
+            }
+        }
+
+        private void OnDisplayModeItemSelected(long index)
+        {
+            _playerSettingsData.SetDisplayMode((DisplayMode)index);
+        }
+
         private void OnCancelButtonPressed()
         {
+            //TODO: Abfrage
+            _playerSettingsData.DiscardChanges();
+            UpdateSettings();
             Visible = false;
         }
 
         private void OnDiscardButtonPressed()
         {
-            //TODO: Reset unsaved changes
+            //TODO: Abfrage
+            _playerSettingsData.DiscardChanges();
+            UpdateSettings();
         }
 
         private void OnApplyButtonPressed()
         {
-            //TODO: Apply changes
+            _playerSettingsData.ApplyChanges();
             Visible = false;
         }
     }
