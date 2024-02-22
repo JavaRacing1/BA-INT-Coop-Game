@@ -58,6 +58,7 @@ theme_type_variation = &"LargeButton"
 text = "Beenden"
 
 [node name="CreditLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="CreditBackground" type="ColorRect" parent="CreditLayer"]
 anchors_preset = 15
