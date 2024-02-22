@@ -43,6 +43,7 @@ namespace OnlineGame
             {
                 Load();
             }
+            UpdateWindow();
         }
 
         /// <summary>
@@ -60,14 +61,7 @@ namespace OnlineGame
         public void ApplyChanges()
         {
             Save();
-
-            DisplayServer.WindowMode newMode = SelectedDisplayMode switch
-            {
-                DisplayMode.Window => DisplayServer.WindowMode.Windowed,
-                DisplayMode.Fullscreen => DisplayServer.WindowMode.ExclusiveFullscreen,
-                _ => DisplayServer.WindowMode.ExclusiveFullscreen
-            };
-            DisplayServer.WindowSetMode(newMode);
+            UpdateWindow();
         }
 
         /// <summary>
@@ -76,6 +70,17 @@ namespace OnlineGame
         public void DiscardChanges()
         {
             Load();
+        }
+
+        private void UpdateWindow()
+        {
+            DisplayServer.WindowMode newMode = SelectedDisplayMode switch
+            {
+                DisplayMode.Window => DisplayServer.WindowMode.Windowed,
+                DisplayMode.Fullscreen => DisplayServer.WindowMode.ExclusiveFullscreen,
+                _ => DisplayServer.WindowMode.ExclusiveFullscreen
+            };
+            DisplayServer.WindowSetMode(newMode);
         }
 
         private void Load()
