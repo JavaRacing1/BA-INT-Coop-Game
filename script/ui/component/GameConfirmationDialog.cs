@@ -20,10 +20,11 @@ namespace OnlineGame
             DialogText = description;
 
             Theme = DialogTheme;
-            Size = new(400, 200);
+            Size = new(200, 100);
             Name = "GameConfirmationDialog";
             InitialPosition = WindowInitialPosition.CenterMainWindowScreen;
-
+            GetLabel().AddThemeFontSizeOverride("font_size", 10);
+            GetLabel().AutowrapMode = TextServer.AutowrapMode.WordSmart;
             GetLabel().HorizontalAlignment = HorizontalAlignment.Center;
 
             SetButtonProperties(GetOkButton(), "OkButton");
@@ -33,7 +34,7 @@ namespace OnlineGame
         private static void SetButtonProperties(Button button, string themeTypeVariation)
         {
             button.Text = "";
-            button.CustomMinimumSize = new(100, 50);
+            button.CustomMinimumSize = new(40, 20);
             button.Theme = DialogTheme;
             button.ThemeTypeVariation = themeTypeVariation;
         }
