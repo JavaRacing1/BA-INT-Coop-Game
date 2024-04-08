@@ -13,6 +13,12 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         [Export] private OptionButton _displayModeButton;
         [Export] private CheckBox _particleCheckBox;
+        [Export] private HSlider _masterVolumeSlider;
+        [Export] private HSlider _musicVolumeSlider;
+        [Export] private HSlider _effectVolumeSlider;
+        [Export] private Label _masterCurrentVolumeLabel;
+        [Export] private Label _musicCurrentVolumeLabel;
+        [Export] private Label _effectCurrentVolumeLabel;
         private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;

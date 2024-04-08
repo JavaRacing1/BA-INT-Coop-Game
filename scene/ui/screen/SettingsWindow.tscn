@@ -3,10 +3,16 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_5kdtc"]
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
 
-[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox")]
+[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel")]
 script = ExtResource("1_n4ifw")
 _displayModeButton = NodePath("Panel/TabContainer/Grafik/VBoxContainer/DisplayModeContainer/DisplayModeOptionButton")
 _particleCheckBox = NodePath("Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer/ParticleCheckBox")
+_masterVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer/MasterVolumeSlider")
+_musicVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicVolumeSlider")
+_effectVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectVolumeSlider")
+_masterCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer/MasterCurrentVolume")
+_musicCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicCurrentVolume")
+_effectCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectCurrentVolume")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = -1
@@ -27,8 +33,10 @@ anchor_right = 0.98
 anchor_bottom = 0.82
 grow_horizontal = 2
 tab_alignment = 1
+current_tab = 1
 
 [node name="Grafik" type="CenterContainer" parent="Panel/TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Grafik"]
@@ -64,8 +72,55 @@ layout_mode = 2
 button_pressed = true
 
 [node name="Audio" type="CenterContainer" parent="Panel/TabContainer"]
-visible = false
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="MasterVolumeContainer" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+layout_mode = 2
+text = "Gesamt:"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="MasterCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+layout_mode = 2
+text = "100"
+
+[node name="MusicVolumeContainer2" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+layout_mode = 2
+text = "Musik:"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="MusicCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+layout_mode = 2
+text = "100"
+
+[node name="EffectVolumeContainer3" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="EffectVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+layout_mode = 2
+text = "Effekte:"
+
+[node name="EffectVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="EffectCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+layout_mode = 2
+text = "100"
 
 [node name="Gameplay" type="CenterContainer" parent="Panel/TabContainer"]
 visible = false
