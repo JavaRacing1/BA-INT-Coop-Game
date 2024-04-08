@@ -3,7 +3,7 @@ using System;
 using Godot;
 using Godot.Collections;
 
-namespace OnlineGame
+namespace INTOnlineCoop.Script.Singleton
 {
     /// <summary>
     /// Available display modes
@@ -104,7 +104,8 @@ namespace OnlineGame
             if (saveFile == null)
             {
                 Error fileError = FileAccess.GetOpenError();
-                GD.PrintErr($"File Error: {FileAccess.GetOpenError()}");
+                GD.PrintErr($"File Error: {fileError}");
+                return;
             }
 
             string fileData = saveFile.GetAsText();
@@ -133,6 +134,7 @@ namespace OnlineGame
             {
                 Error fileError = FileAccess.GetOpenError();
                 GD.PrintErr($"File Error: {fileError}");
+                return;
             }
             saveFile.StoreLine(jsonData);
         }

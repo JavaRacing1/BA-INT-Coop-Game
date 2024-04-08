@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OnlineGame
+namespace INTOnlineCoop.Script.UI.Component
 {
     /// <summary>
     /// A pre-configured variant of ConfirmationDialog

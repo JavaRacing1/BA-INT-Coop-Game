@@ -1,6 +1,8 @@
 using Godot;
 
-namespace OnlineGame
+using INTOnlineCoop.Script.UI.Component;
+
+namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
     /// The start scene of the game
@@ -33,6 +35,7 @@ namespace OnlineGame
             if (creditFile == null)
             {
                 GD.PrintErr($"File Error: {FileAccess.GetOpenError()}");
+                return;
             }
 
             string text = creditFile.GetAsText();

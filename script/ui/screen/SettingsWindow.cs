@@ -1,6 +1,9 @@
 using Godot;
 
-namespace OnlineGame
+using INTOnlineCoop.Script.Singleton;
+using INTOnlineCoop.Script.UI.Component;
+
+namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
     /// Screen for the user to change his settings
