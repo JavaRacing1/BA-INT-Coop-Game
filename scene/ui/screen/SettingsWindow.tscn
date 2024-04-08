@@ -3,9 +3,10 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_5kdtc"]
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
 
-[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton")]
+[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox")]
 script = ExtResource("1_n4ifw")
 _displayModeButton = NodePath("Panel/TabContainer/Grafik/VBoxContainer/DisplayModeContainer/DisplayModeOptionButton")
+_particleCheckBox = NodePath("Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer/ParticleCheckBox")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = -1
@@ -50,6 +51,17 @@ popup/item_0/text = "Vollbild"
 popup/item_0/id = 0
 popup/item_1/text = "Fenster"
 popup/item_1/id = 1
+
+[node name="ParticleContainer" type="HBoxContainer" parent="Panel/TabContainer/Grafik/VBoxContainer"]
+layout_mode = 2
+
+[node name="ParticleLabel" type="Label" parent="Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer"]
+layout_mode = 2
+text = "Partikel:"
+
+[node name="ParticleCheckBox" type="CheckBox" parent="Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer"]
+layout_mode = 2
+button_pressed = true
 
 [node name="Audio" type="CenterContainer" parent="Panel/TabContainer"]
 visible = false

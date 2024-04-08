@@ -31,6 +31,12 @@ namespace INTOnlineCoop.Script.Singleton
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
 
         /// <summary>
+        /// Returns true if particles are enabled
+        /// </summary>
+        /// <returns>true if particles are enabled</returns>
+        public bool AreParticlesEnabled { get; private set; } = true;
+
+        /// <summary>
         /// Returns the status of unsaved changes
         /// </summary>
         /// <value>true if a save to file is pending</value>
@@ -59,6 +65,16 @@ namespace INTOnlineCoop.Script.Singleton
         public void SetDisplayMode(DisplayMode displayMode)
         {
             _displayMode = displayMode.ToString();
+            HasUnsavedChanges = true;
+        }
+
+        /// <summary>
+        /// Sets the particle activation status
+        /// </summary>
+        /// <param name="enabled">True if particles should be enabled</param>
+        public void SetParticlesEnabled(bool enabled)
+        {
+            AreParticlesEnabled = enabled;
             HasUnsavedChanges = true;
         }
 
@@ -120,12 +136,14 @@ namespace INTOnlineCoop.Script.Singleton
 
             //Write variables
             _displayMode = (string)dataDict["DisplayMode"];
+            AreParticlesEnabled = (bool)dataDict["ParticlesEnabled"];
         }
 
         private void Save()
         {
             Dictionary<string, Variant> dataDict = new() {
-                {"DisplayMode", _displayMode}
+                {"DisplayMode", _displayMode},
+                {"ParticlesEnabled", AreParticlesEnabled}
             };
             string jsonData = Json.Stringify(dataDict);
 

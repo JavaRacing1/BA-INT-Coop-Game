@@ -11,8 +11,8 @@ namespace INTOnlineCoop.Script.UI.Screen
     public partial class SettingsWindow : CanvasLayer
     {
 
-        [Export]
-        private OptionButton _displayModeButton;
+        [Export] private OptionButton _displayModeButton;
+        [Export] private CheckBox _particleCheckBox;
         private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;
@@ -27,6 +27,11 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _displayModeButton.ItemSelected += OnDisplayModeItemSelected;
             }
+
+            if (_particleCheckBox != null)
+            {
+                _particleCheckBox.Toggled += OnParticleBoxToggled;
+            }
             UpdateSettings();
         }
 
@@ -36,11 +41,21 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _displayModeButton.Selected = (int)_playerSettingsData.SelectedDisplayMode;
             }
+
+            if (_particleCheckBox != null)
+            {
+                _particleCheckBox.ButtonPressed = _playerSettingsData.AreParticlesEnabled;
+            }
         }
 
         private void OnDisplayModeItemSelected(long index)
         {
             _playerSettingsData.SetDisplayMode((DisplayMode)index);
+        }
+
+        private void OnParticleBoxToggled(bool toggled)
+        {
+            _playerSettingsData.SetParticlesEnabled(toggled);
         }
 
         private void OnCancelButtonPressed()
