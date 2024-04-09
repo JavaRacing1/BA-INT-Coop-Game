@@ -20,6 +20,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private Label _masterCurrentVolumeLabel;
         [Export] private Label _musicCurrentVolumeLabel;
         [Export] private Label _effectCurrentVolumeLabel;
+        [Export] private CheckBox _controlHintCheckBox;
         private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;
@@ -67,6 +68,11 @@ namespace INTOnlineCoop.Script.UI.Screen
                 };
             }
 
+            if (_controlHintCheckBox != null)
+            {
+                _controlHintCheckBox.Toggled += toggled => _playerSettingsData.SetControlHintVisibility(toggled);
+            }
+
             UpdateSettings();
         }
 
@@ -98,6 +104,11 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _effectVolumeSlider.Value = _playerSettingsData.EffectVolume;
                 _effectCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.EffectVolume);
+            }
+
+            if (_controlHintCheckBox != null)
+            {
+                _controlHintCheckBox.ButtonPressed = _playerSettingsData.ShowControlHints;
             }
         }
 

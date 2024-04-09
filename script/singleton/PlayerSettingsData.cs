@@ -27,9 +27,8 @@ namespace INTOnlineCoop.Script.Singleton
         private string _displayMode = "Fullscreen";
 
         /// <summary>
-        /// Returns the currently selected display mode
+        /// The currently selected display mode
         /// </summary>
-        /// <returns>Selected DisplayMode</returns>
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
 
         /// <summary>
@@ -49,9 +48,14 @@ namespace INTOnlineCoop.Script.Singleton
         public int MusicVolume { get; private set; } = 100;
 
         /// <summary>
-        /// The 
+        /// The effect volume of the game
         /// </summary>
         public int EffectVolume { get; private set; } = 100;
+
+        /// <summary>
+        /// The visibility of control hints
+        /// </summary>
+        public bool ShowControlHints { get; private set; } = true;
 
         /// <summary>
         /// Returns the status of unsaved changes
@@ -127,6 +131,16 @@ namespace INTOnlineCoop.Script.Singleton
         }
 
         /// <summary>
+        /// Changes the visibility of control hints
+        /// </summary>
+        /// <param name="visible">True if control hints should be visible</param>
+        public void SetControlHintVisibility(bool visible)
+        {
+            ShowControlHints = visible;
+            HasUnsavedChanges = true;
+        }
+
+        /// <summary>
         /// Saves and applies the pending setting changes
         /// </summary>
         public void ApplyChanges()
@@ -188,6 +202,7 @@ namespace INTOnlineCoop.Script.Singleton
             MasterVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "MasterVolume", 100), 0, 100);
             MusicVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "MusicVolume", 100), 0, 100);
             EffectVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "EffectVolume", 100), 0, 100);
+            ShowControlHints = (bool)CollectionExtensions.GetValueOrDefault(dataDict, "ShowControlHints", true);
         }
 
         private void Save()
@@ -198,7 +213,8 @@ namespace INTOnlineCoop.Script.Singleton
                 { "ParticlesEnabled", AreParticlesEnabled },
                 { "MasterVolume", MasterVolume },
                 { "MusicVolume", MusicVolume },
-                { "EffectVolume", EffectVolume }
+                { "EffectVolume", EffectVolume },
+                { "ShowControlHints", ShowControlHints }
             };
             string jsonData = Json.Stringify(dataDict);
 

@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_5kdtc"]
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
 
-[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel")]
+[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel", "_controlHintCheckBox")]
 script = ExtResource("1_n4ifw")
 _displayModeButton = NodePath("Panel/TabContainer/Grafik/VBoxContainer/DisplayModeContainer/DisplayModeOptionButton")
 _particleCheckBox = NodePath("Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer/ParticleCheckBox")
@@ -13,6 +13,7 @@ _effectVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVol
 _masterCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer/MasterCurrentVolume")
 _musicCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicCurrentVolume")
 _effectCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectCurrentVolume")
+_controlHintCheckBox = NodePath("Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer/ControlHintsCheckBox")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = -1
@@ -33,7 +34,7 @@ anchor_right = 0.98
 anchor_bottom = 0.82
 grow_horizontal = 2
 tab_alignment = 1
-current_tab = 1
+current_tab = 2
 
 [node name="Grafik" type="CenterContainer" parent="Panel/TabContainer"]
 visible = false
@@ -72,6 +73,7 @@ layout_mode = 2
 button_pressed = true
 
 [node name="Audio" type="CenterContainer" parent="Panel/TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Audio"]
@@ -126,8 +128,21 @@ layout_mode = 2
 text = "100"
 
 [node name="Gameplay" type="CenterContainer" parent="Panel/TabContainer"]
-visible = false
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Gameplay"]
+layout_mode = 2
+
+[node name="ControlHintsContainer" type="HBoxContainer" parent="Panel/TabContainer/Gameplay/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlHintsLabel" type="Label" parent="Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer"]
+layout_mode = 2
+text = "Hinweise zur Steuerung"
+
+[node name="ControlHintsCheckBox" type="CheckBox" parent="Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer"]
+layout_mode = 2
+button_pressed = true
 
 [node name="SettingsLabel" type="Label" parent="Panel"]
 layout_mode = 1
