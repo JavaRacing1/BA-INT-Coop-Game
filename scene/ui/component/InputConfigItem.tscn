@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh3ulu14fm0k2"]
+
+[ext_resource type="StyleBox" uid="uid://dwmva1m8ilsq1" path="res://resource/stylebox/InputConfigStyleBox.tres" id="1_jfj46"]
+
+[node name="InputConfigItem" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 23)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="NamePanel" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_jfj46")
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/NamePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/NamePanel/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test"
+horizontal_alignment = 1
+
+[node name="PrimaryInputPanel" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_jfj46")
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/PrimaryInputPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PrimaryInputLabel" type="Label" parent="HBoxContainer/PrimaryInputPanel/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Linke Maustaste"
+horizontal_alignment = 1
+
+[node name="SecondaryInputPanel" type="Panel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("1_jfj46")
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/SecondaryInputPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SecondaryInputLabel" type="Label" parent="HBoxContainer/SecondaryInputPanel/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rechte Maustaste"
+horizontal_alignment = 1
