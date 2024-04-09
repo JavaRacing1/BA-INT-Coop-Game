@@ -50,6 +50,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _exitDialog.GetOkButton().Pressed += () => GetTree().Quit();
                 AddChild(_exitDialog);
             }
+
             _exitDialog.Visible = true;
         }
 
@@ -57,9 +58,11 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             if (_settingsWindow == null)
             {
-                _settingsWindow = GD.Load<PackedScene>("res://scene/ui/screen/SettingsWindow.tscn").Instantiate<SettingsWindow>();
+                _settingsWindow = GD.Load<PackedScene>("res://scene/ui/screen/SettingsWindow.tscn")
+                    .Instantiate<SettingsWindow>();
                 AddChild(_settingsWindow);
             }
+
             _settingsWindow.Visible = true;
         }
 

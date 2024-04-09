@@ -87,6 +87,7 @@ text = "Gesamt:"
 [node name="MasterVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+rounded = true
 
 [node name="MasterCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
 layout_mode = 2
@@ -102,6 +103,7 @@ text = "Musik:"
 [node name="MusicVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+rounded = true
 
 [node name="MusicCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
 layout_mode = 2
@@ -117,6 +119,7 @@ text = "Effekte:"
 [node name="EffectVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+rounded = true
 
 [node name="EffectCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
 layout_mode = 2

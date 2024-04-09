@@ -1,3 +1,5 @@
+using System;
+
 using Godot;
 
 using INTOnlineCoop.Script.Singleton;
@@ -10,7 +12,6 @@ namespace INTOnlineCoop.Script.UI.Screen
     /// </summary>
     public partial class SettingsWindow : CanvasLayer
     {
-
         [Export] private OptionButton _displayModeButton;
         [Export] private CheckBox _particleCheckBox;
         [Export] private HSlider _masterVolumeSlider;
@@ -31,13 +32,41 @@ namespace INTOnlineCoop.Script.UI.Screen
             _playerSettingsData = GetNode<PlayerSettingsData>("/root/PlayerSettingsData");
             if (_displayModeButton != null)
             {
-                _displayModeButton.ItemSelected += OnDisplayModeItemSelected;
+                _displayModeButton.ItemSelected += index => _playerSettingsData.SetDisplayMode((DisplayMode)index);
             }
 
             if (_particleCheckBox != null)
             {
-                _particleCheckBox.Toggled += OnParticleBoxToggled;
+                _particleCheckBox.Toggled += toggled => _playerSettingsData.SetParticlesEnabled(toggled);
             }
+
+            if (_masterVolumeSlider != null && _masterCurrentVolumeLabel != null)
+            {
+                _masterVolumeSlider.ValueChanged += volume =>
+                {
+                    _playerSettingsData.SetMasterVolume((int)volume);
+                    _masterCurrentVolumeLabel.Text = Convert.ToString((int)volume);
+                };
+            }
+
+            if (_musicVolumeSlider != null && _musicCurrentVolumeLabel != null)
+            {
+                _musicVolumeSlider.ValueChanged += volume =>
+                {
+                    _playerSettingsData.SetMusicVolume((int)volume);
+                    _musicCurrentVolumeLabel.Text = Convert.ToString((int)volume);
+                };
+            }
+
+            if (_effectVolumeSlider != null && _effectCurrentVolumeLabel != null)
+            {
+                _effectVolumeSlider.ValueChanged += volume =>
+                {
+                    _playerSettingsData.SetEffectVolume((int)volume);
+                    _effectCurrentVolumeLabel.Text = Convert.ToString((int)volume);
+                };
+            }
+
             UpdateSettings();
         }
 
@@ -52,16 +81,24 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _particleCheckBox.ButtonPressed = _playerSettingsData.AreParticlesEnabled;
             }
-        }
 
-        private void OnDisplayModeItemSelected(long index)
-        {
-            _playerSettingsData.SetDisplayMode((DisplayMode)index);
-        }
+            if (_masterVolumeSlider != null && _masterCurrentVolumeLabel != null)
+            {
+                _masterVolumeSlider.Value = _playerSettingsData.MasterVolume;
+                _masterCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.MasterVolume);
+            }
 
-        private void OnParticleBoxToggled(bool toggled)
-        {
-            _playerSettingsData.SetParticlesEnabled(toggled);
+            if (_musicVolumeSlider != null && _musicCurrentVolumeLabel != null)
+            {
+                _musicVolumeSlider.Value = _playerSettingsData.MusicVolume;
+                _musicCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.MusicVolume);
+            }
+
+            if (_effectVolumeSlider != null && _effectCurrentVolumeLabel != null)
+            {
+                _effectVolumeSlider.Value = _playerSettingsData.EffectVolume;
+                _effectCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.EffectVolume);
+            }
         }
 
         private void OnCancelButtonPressed()
@@ -75,7 +112,8 @@ namespace INTOnlineCoop.Script.UI.Screen
 
             if (_cancelDialog == null)
             {
-                _cancelDialog = new("Einstellungen verlassen", "Möchtest du die Einstellungen wirklich verlassen? Deine Änderungen werden nicht gespeichert");
+                _cancelDialog = new("Einstellungen verlassen",
+                    "Möchtest du die Einstellungen wirklich verlassen? Deine Änderungen werden nicht gespeichert");
                 _cancelDialog.GetOkButton().Pressed += () => PressAction();
                 AddChild(_cancelDialog);
             }
@@ -100,7 +138,8 @@ namespace INTOnlineCoop.Script.UI.Screen
 
             if (_discardDialog == null)
             {
-                _discardDialog = new("Änderungen verwerfen", "Möchtest du deine ungespeicherten Änderungen wirklich verwerfen?");
+                _discardDialog = new("Änderungen verwerfen",
+                    "Möchtest du deine ungespeicherten Änderungen wirklich verwerfen?");
                 _discardDialog.GetOkButton().Pressed += () => PressAction();
                 AddChild(_discardDialog);
             }
@@ -122,4 +161,3 @@ namespace INTOnlineCoop.Script.UI.Screen
         }
     }
 }
-

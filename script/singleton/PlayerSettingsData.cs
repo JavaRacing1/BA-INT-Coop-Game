@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Godot;
 using Godot.Collections;
@@ -12,6 +13,7 @@ namespace INTOnlineCoop.Script.Singleton
     {
         ///<summary>Exclusive fullscreen mode</summary>
         Fullscreen,
+
         ///<summary>Windowed mode</summary>
         Window
     }
@@ -31,10 +33,25 @@ namespace INTOnlineCoop.Script.Singleton
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
 
         /// <summary>
-        /// Returns true if particles are enabled
+        /// The particle status
         /// </summary>
         /// <returns>true if particles are enabled</returns>
         public bool AreParticlesEnabled { get; private set; } = true;
+
+        /// <summary>
+        /// The master volume of the game
+        /// </summary>
+        public int MasterVolume { get; private set; } = 100;
+
+        /// <summary>
+        /// The music volume of the game
+        /// </summary>
+        public int MusicVolume { get; private set; } = 100;
+
+        /// <summary>
+        /// The 
+        /// </summary>
+        public int EffectVolume { get; private set; } = 100;
 
         /// <summary>
         /// Returns the status of unsaved changes
@@ -55,6 +72,7 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 Load();
             }
+
             UpdateWindow();
         }
 
@@ -75,6 +93,36 @@ namespace INTOnlineCoop.Script.Singleton
         public void SetParticlesEnabled(bool enabled)
         {
             AreParticlesEnabled = enabled;
+            HasUnsavedChanges = true;
+        }
+
+        /// <summary>
+        /// Changes the master volume
+        /// </summary>
+        /// <param name="volume">The new volume</param>
+        public void SetMasterVolume(int volume)
+        {
+            MasterVolume = volume;
+            HasUnsavedChanges = true;
+        }
+
+        /// <summary>
+        /// Changes the music volume
+        /// </summary>
+        /// <param name="volume">The new volume</param>
+        public void SetMusicVolume(int volume)
+        {
+            MusicVolume = volume;
+            HasUnsavedChanges = true;
+        }
+
+        /// <summary>
+        /// Changes the effect volume
+        /// </summary>
+        /// <param name="volume">The new volume</param>
+        public void SetEffectVolume(int volume)
+        {
+            EffectVolume = volume;
             HasUnsavedChanges = true;
         }
 
@@ -132,18 +180,25 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.PrintErr($"JSON Parse Error: {json.GetErrorMessage()} in {fileData} at line {json.GetErrorLine()}");
             }
 
-            Dictionary<string, Variant> dataDict = new((Dictionary)json.Data);
+            Godot.Collections.Dictionary<string, Variant> dataDict = new((Dictionary)json.Data);
 
             //Write variables
-            _displayMode = (string)dataDict["DisplayMode"];
-            AreParticlesEnabled = (bool)dataDict["ParticlesEnabled"];
+            _displayMode = (string)CollectionExtensions.GetValueOrDefault(dataDict, "DisplayMode", "Fullscreen");
+            AreParticlesEnabled = (bool)CollectionExtensions.GetValueOrDefault(dataDict, "ParticlesEnabled", true);
+            MasterVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "MasterVolume", 100), 0, 100);
+            MusicVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "MusicVolume", 100), 0, 100);
+            EffectVolume = Math.Clamp((int)CollectionExtensions.GetValueOrDefault(dataDict, "EffectVolume", 100), 0, 100);
         }
 
         private void Save()
         {
-            Dictionary<string, Variant> dataDict = new() {
-                {"DisplayMode", _displayMode},
-                {"ParticlesEnabled", AreParticlesEnabled}
+            Godot.Collections.Dictionary<string, Variant> dataDict = new()
+            {
+                { "DisplayMode", _displayMode },
+                { "ParticlesEnabled", AreParticlesEnabled },
+                { "MasterVolume", MasterVolume },
+                { "MusicVolume", MusicVolume },
+                { "EffectVolume", EffectVolume }
             };
             string jsonData = Json.Stringify(dataDict);
 
@@ -154,6 +209,7 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.PrintErr($"File Error: {fileError}");
                 return;
             }
+
             saveFile.StoreLine(jsonData);
         }
     }
