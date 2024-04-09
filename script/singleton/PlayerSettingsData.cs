@@ -25,6 +25,7 @@ namespace INTOnlineCoop.Script.Singleton
     {
         private const string SettingsPath = "user://settings.dat";
         private string _displayMode = "Fullscreen";
+        private bool _changedDisplaySettings;
 
         /// <summary>
         /// The currently selected display mode
@@ -88,6 +89,7 @@ namespace INTOnlineCoop.Script.Singleton
         {
             _displayMode = displayMode.ToString();
             HasUnsavedChanges = true;
+            _changedDisplaySettings = true;
         }
 
         /// <summary>
@@ -146,8 +148,9 @@ namespace INTOnlineCoop.Script.Singleton
         public void ApplyChanges()
         {
             Save();
-            HasUnsavedChanges = false;
             UpdateWindow();
+            HasUnsavedChanges = false;
+            _changedDisplaySettings = false;
         }
 
         /// <summary>
@@ -157,17 +160,21 @@ namespace INTOnlineCoop.Script.Singleton
         {
             Load();
             HasUnsavedChanges = false;
+            _changedDisplaySettings = false;
         }
 
         private void UpdateWindow()
         {
-            DisplayServer.WindowMode newMode = SelectedDisplayMode switch
+            if (_changedDisplaySettings)
             {
-                DisplayMode.Window => DisplayServer.WindowMode.Windowed,
-                DisplayMode.Fullscreen => DisplayServer.WindowMode.ExclusiveFullscreen,
-                _ => DisplayServer.WindowMode.ExclusiveFullscreen
-            };
-            DisplayServer.WindowSetMode(newMode);
+                DisplayServer.WindowMode newMode = SelectedDisplayMode switch
+                {
+                    DisplayMode.Window => DisplayServer.WindowMode.Windowed,
+                    DisplayMode.Fullscreen => DisplayServer.WindowMode.ExclusiveFullscreen,
+                    _ => DisplayServer.WindowMode.ExclusiveFullscreen
+                };
+                DisplayServer.WindowSetMode(newMode);
+            }
         }
 
         private void Load()
