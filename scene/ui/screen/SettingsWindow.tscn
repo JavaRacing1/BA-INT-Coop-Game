@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
 [ext_resource type="PackedScene" uid="uid://dh3ulu14fm0k2" path="res://scene/ui/component/InputConfigItem.tscn" id="3_irfp3"]
 
-[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel", "_controlHintCheckBox")]
+[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel", "_controlHintCheckBox", "_inputContainer")]
 script = ExtResource("1_n4ifw")
 _displayModeButton = NodePath("Panel/TabContainer/Grafik/VBoxContainer/DisplayModeContainer/DisplayModeOptionButton")
 _particleCheckBox = NodePath("Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer/ParticleCheckBox")
@@ -15,6 +15,7 @@ _masterCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/Mas
 _musicCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicCurrentVolume")
 _effectCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectCurrentVolume")
 _controlHintCheckBox = NodePath("Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer/ControlHintsCheckBox")
+_inputContainer = NodePath("Panel/TabContainer/Steuerung/InputScrollContainer/InputContainer")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = -1
@@ -164,18 +165,23 @@ layout_mode = 2
 layout_mode = 2
 text = "Controller"
 
+[node name="InputConfigItem" parent="Panel/TabContainer/Steuerung" instance=ExtResource("3_irfp3")]
+layout_mode = 2
+_isHeader = true
+_inputText = "Aktion"
+_primaryText = "Taste (Primär)"
+_secondaryText = "Taste (Sekundär)"
+
 [node name="InputScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Steuerung"]
-custom_minimum_size = Vector2(0, 160)
+custom_minimum_size = Vector2(0, 135)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="InputContainer" type="VBoxContainer" parent="Panel/TabContainer/Steuerung/InputScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 1
 alignment = 1
-
-[node name="InputConfigItem" parent="Panel/TabContainer/Steuerung/InputScrollContainer/InputContainer" instance=ExtResource("3_irfp3")]
-layout_mode = 2
 
 [node name="SettingsLabel" type="Label" parent="Panel"]
 layout_mode = 1
