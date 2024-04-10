@@ -150,21 +150,6 @@ button_pressed = true
 [node name="Steuerung" type="VBoxContainer" parent="Panel/TabContainer"]
 layout_mode = 2
 
-[node name="InputTypeSelectionContainer" type="HBoxContainer" parent="Panel/TabContainer/Steuerung"]
-layout_mode = 2
-alignment = 1
-
-[node name="KeyboardLabel" type="Label" parent="Panel/TabContainer/Steuerung/InputTypeSelectionContainer"]
-layout_mode = 2
-text = "Tastatur"
-
-[node name="InputTypeButton" type="CheckButton" parent="Panel/TabContainer/Steuerung/InputTypeSelectionContainer"]
-layout_mode = 2
-
-[node name="ControllerLabel" type="Label" parent="Panel/TabContainer/Steuerung/InputTypeSelectionContainer"]
-layout_mode = 2
-text = "Controller"
-
 [node name="InputConfigItem" parent="Panel/TabContainer/Steuerung" instance=ExtResource("3_irfp3")]
 layout_mode = 2
 _isHeader = true

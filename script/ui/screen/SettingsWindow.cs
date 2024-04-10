@@ -23,13 +23,6 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private CheckBox _controlHintCheckBox;
         [Export] private VBoxContainer _inputContainer;
 
-        private static readonly string[] InputActions =
-        {
-            "walk_left", "walk_right", "jump", "aim_up", "aim_down", "pause", "open_item_inv", "use_item",
-            "modify_item_primary", "modify_item_secondary", "camera_left", "camera_up", "camera_right",
-            "camera_down"
-        };
-
         private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;
@@ -86,7 +79,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 PackedScene itemScene = GD.Load<PackedScene>("res://scene/ui/component/InputConfigItem.tscn");
 
-                foreach (string action in InputActions)
+                foreach (string action in PlayerSettingsData.InputActions)
                 {
                     InputConfigItem item = itemScene.Instantiate<InputConfigItem>();
                     item.Init(action, Key.A, Key.Alt);
