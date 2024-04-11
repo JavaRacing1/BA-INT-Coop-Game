@@ -1,5 +1,8 @@
+using System;
+
 using Godot;
 
+using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.Util;
 
 namespace INTOnlineCoop.Script.UI.Component
@@ -17,20 +20,24 @@ namespace INTOnlineCoop.Script.UI.Component
         [Export] private string _primaryText = "";
         [Export] private string _secondaryText = "";
         private string _inputAction;
-        private Key _primaryKey;
-        private Key _secondaryKey;
+        private string _primaryInput;
+        private InputType _primaryType;
+        private string _secondaryInput;
+        private InputType _secondaryType;
 
         /// <summary>
         /// Initializes the config item
         /// </summary>
         /// <param name="action">The name of the InputAction</param>
-        /// <param name="primaryKey">The primary key for the action</param>
-        /// <param name="secondaryKey">The secondary key for the action</param>
-        public void Init(string action, Key primaryKey, Key secondaryKey)
+        /// <param name="primaryInput">The primary input for the action</param>
+        /// <param name="secondaryInput">The secondary input for the action</param>
+        public void Init(string action, (string, InputType) primaryInput, (string, InputType) secondaryInput)
         {
             _inputAction = action;
-            _primaryKey = primaryKey;
-            _secondaryKey = secondaryKey;
+            _primaryInput = primaryInput.Item1;
+            _primaryType = primaryInput.Item2;
+            _secondaryInput = secondaryInput.Item1;
+            _secondaryType = secondaryInput.Item2;
             if (_inputActionLabel == null || _primaryInputLabel == null || _secondaryInputLabel == null)
             {
                 return;
@@ -71,8 +78,26 @@ namespace INTOnlineCoop.Script.UI.Component
             _inputActionLabel.AddThemeFontSizeOverride("font_size", actionFontSize);
             _inputActionLabel.Text = actionName;
 
-            _primaryInputLabel.Text = InputDisplayMapper.GetKeyName(_primaryKey);
-            _secondaryInputLabel.Text = InputDisplayMapper.GetKeyName(_secondaryKey);
+            _primaryInputLabel.Text = GetInputLabelText(_primaryInput, _primaryType);
+            _secondaryInputLabel.Text = GetInputLabelText(_secondaryInput, _secondaryType);
+        }
+
+        private static string GetInputLabelText(string input, InputType type)
+        {
+            if (type == InputType.Key)
+            {
+                Key key = Enum.Parse<Key>(input);
+                return InputDisplayMapper.GetKeyName(key);
+            }
+            if (type == InputType.JoyButton)
+            {
+                JoyButton button = Enum.Parse<JoyButton>(input);
+                return InputDisplayMapper.GetJoyButtonName(button);
+            }
+
+            float value = input[0].Equals('+') ? 1.0f : -1.0f;
+            JoyAxis axis = Enum.Parse<JoyAxis>(input[1..]);
+            return InputDisplayMapper.GetJoyAxisName(axis, value);
         }
     }
 }

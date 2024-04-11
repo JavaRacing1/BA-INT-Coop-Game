@@ -82,7 +82,9 @@ namespace INTOnlineCoop.Script.UI.Screen
                 foreach (string action in PlayerSettingsData.InputActions)
                 {
                     InputConfigItem item = itemScene.Instantiate<InputConfigItem>();
-                    item.Init(action, Key.A, Key.Alt);
+                    (string, InputType) primaryInput = _playerSettingsData.GetInput(action, InputKind.Primary);
+                    (string, InputType) secondaryInput = _playerSettingsData.GetInput(action, InputKind.Secondary);
+                    item.Init(action, primaryInput, secondaryInput);
                     _inputContainer.AddChild(item);
                 }
             }

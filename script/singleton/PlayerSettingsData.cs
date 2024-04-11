@@ -193,6 +193,10 @@ namespace INTOnlineCoop.Script.Singleton
             UpdateWindow();
             HasUnsavedChanges = false;
             _changedDisplaySettings = false;
+            if (_changedControls)
+            {
+                ApplyInputSettings();
+            }
             _changedControls = false;
         }
 
@@ -229,6 +233,24 @@ namespace INTOnlineCoop.Script.Singleton
 
             HasUnsavedChanges = true;
             _changedControls = true;
+        }
+
+        /// <summary>
+        /// Returns the configured input for an action
+        /// </summary>
+        /// <param name="action">The name of the action</param>
+        /// <param name="kind">The input kind (primary or secondary)</param>
+        /// <returns>The value and type of the input</returns>
+        public (string, InputType) GetInput(string action, InputKind kind)
+        {
+            if (!_controlSettings.ContainsKey(action))
+            {
+                GD.PrintErr($"Invalid action {action}!");
+                return (null, InputType.Key);
+            }
+
+            Godot.Collections.Dictionary<string, Variant> inputSetting = _controlSettings.GetValueOrDefault(action);
+            return ((string)inputSetting[kind.ToString()], Enum.Parse<InputType>((string)inputSetting[kind + "Type"]));
         }
 
         private static Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Variant>> CreateDefaultControls()
@@ -293,7 +315,7 @@ namespace INTOnlineCoop.Script.Singleton
         private static InputEventJoypadMotion CreateJoyMotionInput(string input)
         {
             float value = input[0].Equals('+') ? 1.0f : -1.0f;
-            JoyAxis axis = Enum.Parse<JoyAxis>(input);
+            JoyAxis axis = Enum.Parse<JoyAxis>(input[1..]);
             InputEventJoypadMotion motionEvent = new() { Axis = axis, AxisValue = value };
             return motionEvent;
         }

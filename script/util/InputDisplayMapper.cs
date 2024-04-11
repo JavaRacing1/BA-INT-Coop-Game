@@ -65,6 +65,36 @@ namespace INTOnlineCoop.Script.Util
                 KeyValuePair.Create("camera_right", "Kamera bewegen (Rechts)"), KeyValuePair.Create("camera_down", "Kamera bewegen (Runter)")
             });
 
+        private static readonly ImmutableDictionary<JoyButton, string> JoyButtonMap = ImmutableDictionary.CreateRange(
+            new[]
+            {
+                KeyValuePair.Create(JoyButton.Back, "CON-Zurück"), KeyValuePair.Create(JoyButton.Guide, "CON-Home"),
+                KeyValuePair.Create(JoyButton.LeftStick, "CON-LS"),
+                KeyValuePair.Create(JoyButton.RightStick, "CON-RS"),
+                KeyValuePair.Create(JoyButton.LeftShoulder, "CON-LB"),
+                KeyValuePair.Create(JoyButton.RightShoulder, "CON-RB"),
+                KeyValuePair.Create(JoyButton.DpadUp, "CON-DPAD: Hoch"),
+                KeyValuePair.Create(JoyButton.DpadLeft, "CON-DPAD: Links"),
+                KeyValuePair.Create(JoyButton.DpadDown, "CON-DPAD: Runter"),
+                KeyValuePair.Create(JoyButton.DpadRight, "CON-DPAD: Rechts"),
+            });
+
+        private static readonly ImmutableDictionary<(JoyAxis, float), string> JoyAxisMap =
+            ImmutableDictionary.CreateRange(
+                new[]
+                {
+                    KeyValuePair.Create((JoyAxis.LeftX, -1.0f), "CON-LS: Links"),
+                    KeyValuePair.Create((JoyAxis.LeftX, 1.0f), "CON-LS: Rechts"),
+                    KeyValuePair.Create((JoyAxis.LeftY, -1.0f), "CON-LS: Hoch"),
+                    KeyValuePair.Create((JoyAxis.LeftY, 1.0f), "CON-LS: Runter"),
+                    KeyValuePair.Create((JoyAxis.RightX, -1.0f), "CON-RS: Links"),
+                    KeyValuePair.Create((JoyAxis.RightX, 1.0f), "CON-RS: Rechts"),
+                    KeyValuePair.Create((JoyAxis.RightY, -1.0f), "CON-RS: Hoch"),
+                    KeyValuePair.Create((JoyAxis.RightY, 1.0f), "CON-RS: Runter"),
+                    KeyValuePair.Create((JoyAxis.TriggerLeft, 1.0f), "CON-LT"),
+                    KeyValuePair.Create((JoyAxis.TriggerRight, 1.0f), "CON-RT")
+                });
+
         private InputDisplayMapper() { }
 
         /// <summary>
@@ -97,6 +127,30 @@ namespace INTOnlineCoop.Script.Util
         public static string GetActionName(string action)
         {
             return InputActionMap.GetValueOrDefault(action, "");
+        }
+
+        /// <summary>
+        /// Returns the name of a JoyButton
+        /// </summary>
+        /// <param name="button">The controller button</param>
+        /// <returns>The name of the button</returns>
+        public static string GetJoyButtonName(JoyButton button)
+        {
+            string buttonName = button.ToString();
+            buttonName = JoyButtonMap.GetValueOrDefault(button, "CON-" + buttonName);
+            return buttonName;
+        }
+
+        /// <summary>
+        /// Returns the name of a JoyAxis
+        /// </summary>
+        /// <param name="axis">The controller axis</param>
+        /// <param name="value">The value of the axis</param>
+        /// <returns></returns>
+        public static string GetJoyAxisName(JoyAxis axis, float value)
+        {
+            value = value > 0 ? 1.0f : -1.0f;
+            return JoyAxisMap.GetValueOrDefault((axis, value));
         }
     }
 }
