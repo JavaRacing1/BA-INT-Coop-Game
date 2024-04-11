@@ -1,17 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dh3ulu14fm0k2"]
+[gd_scene load_steps=4 format=3 uid="uid://dh3ulu14fm0k2"]
 
 [ext_resource type="Script" path="res://script/ui/component/InputConfigItem.cs" id="1_65xqg"]
 [ext_resource type="StyleBox" uid="uid://dwmva1m8ilsq1" path="res://resource/stylebox/InputConfigStyleBox.tres" id="1_jfj46"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="3_aj3ka"]
 
-[node name="InputConfigItem" type="PanelContainer" node_paths=PackedStringArray("_inputActionLabel", "_primaryInputLabel", "_secondaryInputLabel")]
+[node name="InputConfigItem" type="PanelContainer" node_paths=PackedStringArray("_inputActionLabel", "_primaryInputButton", "_secondaryInputButton")]
 custom_minimum_size = Vector2(0, 23)
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 script = ExtResource("1_65xqg")
 _inputActionLabel = NodePath("HBoxContainer/NamePanel/CenterContainer/NameLabel")
-_primaryInputLabel = NodePath("HBoxContainer/PrimaryInputPanel/CenterContainer/PrimaryInputLabel")
-_secondaryInputLabel = NodePath("HBoxContainer/SecondaryInputPanel/CenterContainer/SecondaryInputLabel")
+_primaryInputButton = NodePath("HBoxContainer/PrimaryInputPanel/PrimaryInputButton")
+_secondaryInputButton = NodePath("HBoxContainer/SecondaryInputPanel/SecondaryInputButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -42,35 +43,29 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("1_jfj46")
 
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/PrimaryInputPanel"]
+[node name="PrimaryInputButton" type="Button" parent="HBoxContainer/PrimaryInputPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="PrimaryInputLabel" type="Label" parent="HBoxContainer/PrimaryInputPanel/CenterContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
+theme = ExtResource("3_aj3ka")
+theme_type_variation = &"TransparentButton"
 theme_override_font_sizes/font_size = 12
-horizontal_alignment = 1
 
 [node name="SecondaryInputPanel" type="Panel" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("1_jfj46")
 
-[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/SecondaryInputPanel"]
+[node name="SecondaryInputButton" type="Button" parent="HBoxContainer/SecondaryInputPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="SecondaryInputLabel" type="Label" parent="HBoxContainer/SecondaryInputPanel/CenterContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
+theme = ExtResource("3_aj3ka")
+theme_type_variation = &"TransparentButton"
 theme_override_font_sizes/font_size = 12
-horizontal_alignment = 1

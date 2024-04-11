@@ -12,9 +12,15 @@ namespace INTOnlineCoop.Script.UI.Component
     /// </summary>
     public partial class InputConfigItem : PanelContainer
     {
+        /// <summary>
+        /// Emitted when an input button was pressed
+        /// </summary>
+        [Signal]
+        public delegate void InputButtonPressedEventHandler(Button button, string inputKind);
+
         [Export] private Label _inputActionLabel;
-        [Export] private Label _primaryInputLabel;
-        [Export] private Label _secondaryInputLabel;
+        [Export] private Button _primaryInputButton;
+        [Export] private Button _secondaryInputButton;
         [Export] private bool _isHeader;
         [Export] private string _inputText = "";
         [Export] private string _primaryText = "";
@@ -38,7 +44,7 @@ namespace INTOnlineCoop.Script.UI.Component
             _primaryType = primaryInput.Item2;
             _secondaryInput = secondaryInput.Item1;
             _secondaryType = secondaryInput.Item2;
-            if (_inputActionLabel == null || _primaryInputLabel == null || _secondaryInputLabel == null)
+            if (_inputActionLabel == null || _primaryInputButton == null || _secondaryInputButton == null)
             {
                 return;
             }
@@ -50,25 +56,54 @@ namespace INTOnlineCoop.Script.UI.Component
         /// </summary>
         public override void _Ready()
         {
-            if (!_isHeader)
-            {
-                return;
-            }
-
-            if (_inputActionLabel != null)
+            if (_isHeader && _inputActionLabel != null)
             {
                 _inputActionLabel.Text = _inputText;
             }
 
-            if (_primaryInputLabel != null)
+            if (_primaryInputButton != null)
             {
-                _primaryInputLabel.Text = _primaryText;
+                if (_isHeader)
+                {
+                    _primaryInputButton.Text = _primaryText;
+                }
+                else
+                {
+                    _primaryInputButton.Pressed += OnPrimaryButtonPressed;
+                }
             }
 
-            if (_secondaryInputLabel != null)
+            if (_secondaryInputButton != null)
             {
-                _secondaryInputLabel.Text = _secondaryText;
+                if (_isHeader)
+                {
+                    _secondaryInputButton.Text = _secondaryText;
+                }
+                else
+                {
+                    _secondaryInputButton.Pressed += OnSecondaryButtonPressed;
+                }
             }
+        }
+
+        /// <summary>
+        /// Changes the input information of the item
+        /// </summary>
+        /// <param name="input">The new input</param>
+        /// <param name="inputKind">The kind of input</param>
+        public void ChangeInput((string, InputType) input, InputKind inputKind)
+        {
+            if (inputKind == InputKind.Primary)
+            {
+                _primaryInput = input.Item1;
+                _primaryType = input.Item2;
+            }
+            else
+            {
+                _secondaryInput = input.Item1;
+                _secondaryType = input.Item2;
+            }
+            UpdateDisplay();
         }
 
         private void UpdateDisplay()
@@ -78,8 +113,24 @@ namespace INTOnlineCoop.Script.UI.Component
             _inputActionLabel.AddThemeFontSizeOverride("font_size", actionFontSize);
             _inputActionLabel.Text = actionName;
 
-            _primaryInputLabel.Text = GetInputLabelText(_primaryInput, _primaryType);
-            _secondaryInputLabel.Text = GetInputLabelText(_secondaryInput, _secondaryType);
+            _primaryInputButton.Text = GetInputLabelText(_primaryInput, _primaryType);
+            _secondaryInputButton.Text = GetInputLabelText(_secondaryInput, _secondaryType);
+        }
+
+        private void OnPrimaryButtonPressed()
+        {
+            if (!_isHeader)
+            {
+                _ = EmitSignal(SignalName.InputButtonPressed, _primaryInputButton, InputKind.Primary.ToString());
+            }
+        }
+
+        private void OnSecondaryButtonPressed()
+        {
+            if (!_isHeader)
+            {
+                _ = EmitSignal(SignalName.InputButtonPressed, _secondaryInputButton, InputKind.Secondary.ToString());
+            }
         }
 
         private static string GetInputLabelText(string input, InputType type)

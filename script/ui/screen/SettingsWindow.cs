@@ -26,6 +26,11 @@ namespace INTOnlineCoop.Script.UI.Screen
         private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;
+        private InputConfigItem _selectedConfigItem;
+        private Button _selectedButton;
+        private string _selectedAction;
+        private InputKind _selectedInputKind;
+        private bool _outdatedControls;
 
         /// <summary>
         /// Initializes the settings window
@@ -75,21 +80,47 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _controlHintCheckBox.Toggled += toggled => _playerSettingsData.SetControlHintVisibility(toggled);
             }
 
-            if (_inputContainer != null)
-            {
-                PackedScene itemScene = GD.Load<PackedScene>("res://scene/ui/component/InputConfigItem.tscn");
+            _outdatedControls = true;
+            UpdateSettings();
+        }
 
-                foreach (string action in PlayerSettingsData.InputActions)
-                {
-                    InputConfigItem item = itemScene.Instantiate<InputConfigItem>();
-                    (string, InputType) primaryInput = _playerSettingsData.GetInput(action, InputKind.Primary);
-                    (string, InputType) secondaryInput = _playerSettingsData.GetInput(action, InputKind.Secondary);
-                    item.Init(action, primaryInput, secondaryInput);
-                    _inputContainer.AddChild(item);
-                }
+        /// <summary>
+        /// Listens to inputs of the player
+        /// </summary>
+        /// <param name="event">The input event</param>
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            if (_selectedButton == null)
+            {
+                return;
             }
 
-            UpdateSettings();
+            string newInput = "";
+            InputType newInputType = InputType.Key;
+
+            if (@event is InputEventKey keyEvent)
+            {
+                newInput = keyEvent.KeyLabel.ToString();
+            }
+            else if (@event is InputEventJoypadButton buttonEvent)
+            {
+                newInput = buttonEvent.ButtonIndex.ToString();
+                newInputType = InputType.JoyButton;
+            }
+            else if (@event is InputEventJoypadMotion motionEvent)
+            {
+                char prefix = motionEvent.AxisValue > 0 ? '+' : '-';
+                newInput = prefix + motionEvent.Axis.ToString();
+                newInputType = InputType.JoyAxis;
+            }
+
+            if (newInput != "")
+            {
+                _selectedConfigItem.ChangeInput((newInput, newInputType), _selectedInputKind);
+                _selectedButton.ThemeTypeVariation = "TransparentButton";
+                _selectedButton = null;
+                _playerSettingsData.SetInput(_selectedAction, _selectedInputKind, newInput, newInputType);
+            }
         }
 
         private void UpdateSettings()
@@ -126,12 +157,57 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _controlHintCheckBox.ButtonPressed = _playerSettingsData.ShowControlHints;
             }
+
+            if (_inputContainer != null && _outdatedControls)
+            {
+                foreach (Node node in _inputContainer.GetChildren())
+                {
+                    if (node is InputConfigItem)
+                    {
+                        _inputContainer.RemoveChild(node);
+                        node.QueueFree();
+                    }
+                }
+
+                PackedScene itemScene = GD.Load<PackedScene>("res://scene/ui/component/InputConfigItem.tscn");
+
+                foreach (string action in PlayerSettingsData.InputActions)
+                {
+                    InputConfigItem item = itemScene.Instantiate<InputConfigItem>();
+                    (string, InputType) primaryInput = _playerSettingsData.GetInput(action, InputKind.Primary);
+                    (string, InputType) secondaryInput = _playerSettingsData.GetInput(action, InputKind.Secondary);
+                    item.Init(action, primaryInput, secondaryInput);
+
+                    item.InputButtonPressed += (button, kind) => OnInputButtonPressed(item, button, action, Enum.Parse<InputKind>(kind));
+                    _inputContainer.AddChild(item);
+                }
+
+                _outdatedControls = false;
+            }
+        }
+
+        private void OnInputButtonPressed(InputConfigItem item, Button button, string action, InputKind inputKind)
+        {
+            if (_selectedButton != button)
+            {
+                if (_selectedButton != null)
+                {
+                    _selectedButton.ThemeTypeVariation = "TransparentButton";
+                }
+
+                _selectedConfigItem = item;
+                _selectedButton = button;
+                _selectedButton.ThemeTypeVariation = "SelectedButton";
+                _selectedAction = action;
+                _selectedInputKind = inputKind;
+            }
         }
 
         private void OnCancelButtonPressed()
         {
             void PressAction()
             {
+                _outdatedControls = _playerSettingsData.HasControlChanges;
                 _playerSettingsData.DiscardChanges();
                 UpdateSettings();
                 Visible = false;
@@ -159,6 +235,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             void PressAction()
             {
+                _outdatedControls = _playerSettingsData.HasControlChanges;
                 _playerSettingsData.DiscardChanges();
                 UpdateSettings();
             }

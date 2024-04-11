@@ -63,7 +63,6 @@ namespace INTOnlineCoop.Script.Singleton
         private const string SettingsPath = "user://settings.dat";
         private string _displayMode = "Fullscreen";
         private bool _changedDisplaySettings;
-        private bool _changedControls;
 
         private Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Variant>> _controlSettings =
             CreateDefaultControls();
@@ -104,6 +103,11 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         /// <value>true if a save to file is pending</value>
         public bool HasUnsavedChanges { get; private set; }
+
+        /// <summary>
+        /// Returns the status of changes to the control
+        /// </summary>
+        public bool HasControlChanges { get; private set; }
 
         /// <summary>
         /// Initializes the settings file
@@ -193,11 +197,11 @@ namespace INTOnlineCoop.Script.Singleton
             UpdateWindow();
             HasUnsavedChanges = false;
             _changedDisplaySettings = false;
-            if (_changedControls)
+            if (HasControlChanges)
             {
                 ApplyInputSettings();
             }
-            _changedControls = false;
+            HasControlChanges = false;
         }
 
         /// <summary>
@@ -208,7 +212,7 @@ namespace INTOnlineCoop.Script.Singleton
             Load();
             HasUnsavedChanges = false;
             _changedDisplaySettings = false;
-            _changedControls = false;
+            HasControlChanges = false;
         }
 
         /// <summary>
@@ -229,10 +233,10 @@ namespace INTOnlineCoop.Script.Singleton
             Godot.Collections.Dictionary<string, Variant> inputSetting = _controlSettings.GetValueOrDefault(action);
             inputSetting[kind.ToString()] = input;
             inputSetting[kind + "Type"] = inputType.ToString();
-            _controlSettings.Add(action, inputSetting);
+            _controlSettings[action] = inputSetting;
 
             HasUnsavedChanges = true;
-            _changedControls = true;
+            HasControlChanges = true;
         }
 
         /// <summary>
