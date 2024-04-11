@@ -1,18 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://0lx3kqmol1vv"]
+[gd_scene load_steps=4 format=3 uid="uid://0lx3kqmol1vv"]
 
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_5kdtc"]
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
+[ext_resource type="PackedScene" uid="uid://dh3ulu14fm0k2" path="res://scene/ui/component/InputConfigItem.tscn" id="3_irfp3"]
 
-[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton")]
+[node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel", "_controlHintCheckBox", "_inputContainer")]
 script = ExtResource("1_n4ifw")
 _displayModeButton = NodePath("Panel/TabContainer/Grafik/VBoxContainer/DisplayModeContainer/DisplayModeOptionButton")
+_particleCheckBox = NodePath("Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer/ParticleCheckBox")
+_masterVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer/MasterVolumeSlider")
+_musicVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicVolumeSlider")
+_effectVolumeSlider = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectVolumeSlider")
+_masterCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer/MasterCurrentVolume")
+_musicCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2/MusicCurrentVolume")
+_effectCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3/EffectCurrentVolume")
+_controlHintCheckBox = NodePath("Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer/ControlHintsCheckBox")
+_inputContainer = NodePath("Panel/TabContainer/Steuerung/InputScrollContainer/InputContainer")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = -1
-anchor_left = 0.15
-anchor_top = 0.15
-anchor_right = 0.85
-anchor_bottom = 0.85
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_5kdtc")
@@ -23,7 +33,7 @@ anchors_preset = -1
 anchor_left = 0.02
 anchor_top = 0.12
 anchor_right = 0.98
-anchor_bottom = 0.82
+anchor_bottom = 0.86
 grow_horizontal = 2
 tab_alignment = 1
 
@@ -51,13 +61,111 @@ popup/item_0/id = 0
 popup/item_1/text = "Fenster"
 popup/item_1/id = 1
 
+[node name="ParticleContainer" type="HBoxContainer" parent="Panel/TabContainer/Grafik/VBoxContainer"]
+layout_mode = 2
+
+[node name="ParticleLabel" type="Label" parent="Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer"]
+layout_mode = 2
+text = "Partikel:"
+
+[node name="ParticleCheckBox" type="CheckBox" parent="Panel/TabContainer/Grafik/VBoxContainer/ParticleContainer"]
+layout_mode = 2
+button_pressed = true
+
 [node name="Audio" type="CenterContainer" parent="Panel/TabContainer"]
 visible = false
 layout_mode = 2
 
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="MasterVolumeContainer" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+layout_mode = 2
+text = "Gesamt:"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+rounded = true
+
+[node name="MasterCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MasterVolumeContainer"]
+layout_mode = 2
+text = "100"
+
+[node name="MusicVolumeContainer2" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+layout_mode = 2
+text = "Musik:"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+rounded = true
+
+[node name="MusicCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/MusicVolumeContainer2"]
+layout_mode = 2
+text = "100"
+
+[node name="EffectVolumeContainer3" type="HBoxContainer" parent="Panel/TabContainer/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="EffectVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+layout_mode = 2
+text = "Effekte:"
+
+[node name="EffectVolumeSlider" type="HSlider" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+rounded = true
+
+[node name="EffectCurrentVolume" type="Label" parent="Panel/TabContainer/Audio/VBoxContainer/EffectVolumeContainer3"]
+layout_mode = 2
+text = "100"
+
 [node name="Gameplay" type="CenterContainer" parent="Panel/TabContainer"]
 visible = false
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Gameplay"]
+layout_mode = 2
+
+[node name="ControlHintsContainer" type="HBoxContainer" parent="Panel/TabContainer/Gameplay/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlHintsLabel" type="Label" parent="Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer"]
+layout_mode = 2
+text = "Hinweise zur Steuerung"
+
+[node name="ControlHintsCheckBox" type="CheckBox" parent="Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="Steuerung" type="VBoxContainer" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="InputConfigItem" parent="Panel/TabContainer/Steuerung" instance=ExtResource("3_irfp3")]
+layout_mode = 2
+_isHeader = true
+_inputText = "Aktion"
+_primaryText = "Taste (Primär)"
+_secondaryText = "Taste (Sekundär)"
+
+[node name="InputScrollContainer" type="ScrollContainer" parent="Panel/TabContainer/Steuerung"]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="InputContainer" type="VBoxContainer" parent="Panel/TabContainer/Steuerung/InputScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+alignment = 1
 
 [node name="SettingsLabel" type="Label" parent="Panel"]
 layout_mode = 1

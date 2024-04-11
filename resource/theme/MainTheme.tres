@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://cqi3axgr2ci8h"]
+[gd_resource type="Theme" load_steps=21 format=3 uid="uid://cqi3axgr2ci8h"]
 
 [ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/dialog/ConfirmButtonHover.png" id="1_1d3o0"]
 [ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/dialog/CancelButtonHover.png" id="1_5cqak"]
@@ -38,6 +38,14 @@ texture = ExtResource("3_1tupf")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ky1dr"]
 bg_color = Color(0.207843, 0.207843, 0.207843, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxlpg"]
+bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yegl3"]
+bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_shlnh"]
+
 [resource]
 default_font_size = 12
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_6fv5i")
@@ -54,3 +62,10 @@ OkButton/styles/hover = SubResource("StyleBoxTexture_7rvm7")
 OkButton/styles/normal = SubResource("StyleBoxTexture_v6k8k")
 OkButton/styles/pressed = SubResource("StyleBoxTexture_eg0eq")
 Panel/styles/panel = SubResource("StyleBoxFlat_ky1dr")
+SelectedButton/base_type = &"Button"
+SelectedButton/font_sizes/font_size = 12
+SelectedButton/styles/hover = SubResource("StyleBoxFlat_oxlpg")
+SelectedButton/styles/normal = SubResource("StyleBoxFlat_yegl3")
+TransparentButton/base_type = &"Button"
+TransparentButton/font_sizes/font_size = 12
+TransparentButton/styles/normal = SubResource("StyleBoxEmpty_shlnh")

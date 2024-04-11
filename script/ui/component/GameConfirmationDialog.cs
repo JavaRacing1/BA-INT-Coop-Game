@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OnlineGame
+namespace INTOnlineCoop.Script.UI.Component
 {
     /// <summary>
     /// A pre-configured variant of ConfirmationDialog
@@ -10,7 +10,7 @@ namespace OnlineGame
         private static readonly Theme DialogTheme = GD.Load<Theme>("res://resource/theme/MainTheme.tres");
 
         /// <summary>
-        /// Creates a new GameConfimationDialog with the specified texts
+        /// Creates a new GameConfirmationDialog with the specified texts
         /// </summary>
         /// <param name="title">The window title of the dialog</param>
         /// <param name="description">The description of the dialog</param>

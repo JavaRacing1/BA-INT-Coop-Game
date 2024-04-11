@@ -1,6 +1,8 @@
 using Godot;
 
-namespace OnlineGame
+using INTOnlineCoop.Script.UI.Component;
+
+namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
     /// The start scene of the game
@@ -33,6 +35,7 @@ namespace OnlineGame
             if (creditFile == null)
             {
                 GD.PrintErr($"File Error: {FileAccess.GetOpenError()}");
+                return;
             }
 
             string text = creditFile.GetAsText();
@@ -47,6 +50,7 @@ namespace OnlineGame
                 _exitDialog.GetOkButton().Pressed += () => GetTree().Quit();
                 AddChild(_exitDialog);
             }
+
             _exitDialog.Visible = true;
         }
 
@@ -54,9 +58,11 @@ namespace OnlineGame
         {
             if (_settingsWindow == null)
             {
-                _settingsWindow = GD.Load<PackedScene>("res://scene/ui/screen/SettingsWindow.tscn").Instantiate<SettingsWindow>();
+                _settingsWindow = GD.Load<PackedScene>("res://scene/ui/screen/SettingsWindow.tscn")
+                    .Instantiate<SettingsWindow>();
                 AddChild(_settingsWindow);
             }
+
             _settingsWindow.Visible = true;
         }
 
