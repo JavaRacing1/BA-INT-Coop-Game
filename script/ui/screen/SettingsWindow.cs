@@ -88,7 +88,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// Listens to inputs of the player
         /// </summary>
         /// <param name="event">The input event</param>
-        public override void _UnhandledInput(InputEvent @event)
+        public override void _Input(InputEvent @event)
         {
             if (_selectedButton == null)
             {
@@ -109,6 +109,10 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
             else if (@event is InputEventJoypadMotion motionEvent)
             {
+                if (motionEvent.AxisValue < 0.5 && motionEvent.AxisValue > -0.5)
+                {
+                    return;
+                }
                 char prefix = motionEvent.AxisValue > 0 ? '+' : '-';
                 newInput = prefix + motionEvent.Axis.ToString();
                 newInputType = InputType.JoyAxis;
@@ -118,8 +122,10 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _selectedConfigItem.ChangeInput((newInput, newInputType), _selectedInputKind);
                 _selectedButton.ThemeTypeVariation = "TransparentButton";
+                _selectedButton.FocusMode = Control.FocusModeEnum.All;
                 _selectedButton = null;
                 _playerSettingsData.SetInput(_selectedAction, _selectedInputKind, newInput, newInputType);
+                GetViewport().SetInputAsHandled();
             }
         }
 
@@ -200,6 +206,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _selectedButton.ThemeTypeVariation = "SelectedButton";
                 _selectedAction = action;
                 _selectedInputKind = inputKind;
+                _selectedButton.FocusMode = Control.FocusModeEnum.None;
             }
         }
 
