@@ -9,12 +9,12 @@ namespace INTOnlineCoop.Script.UI.Screen
     {
         private void OnBackButtonPressed()
         {
-            GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
         }
 
         private void OnPlayButtonPressed()
         {
-            GetTree().ChangeSceneToFile("res://scene/level/Level.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/level/Level.tscn");
         }
     }
 }

@@ -109,7 +109,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
             else if (@event is InputEventJoypadMotion motionEvent)
             {
-                if (motionEvent.AxisValue < 0.5 && motionEvent.AxisValue > -0.5)
+                if (motionEvent.AxisValue is < 0.5f and > -0.5f)
                 {
                     return;
                 }

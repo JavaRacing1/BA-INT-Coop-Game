@@ -78,7 +78,7 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnSandboxButtonPressed()
         {
-            GetTree().ChangeSceneToFile("res://scene/ui/screen/SandboxSettingsScreen.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/SandboxSettingsScreen.tscn");
         }
     }
 }
