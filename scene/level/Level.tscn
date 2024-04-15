@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://u76umsqvikue" path="res://scene/test/LevelTile.tscn" id="2_hp3sn"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_47lrw"]
-seed = 3
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("_camera")]
 script = ExtResource("1_da87x")
 _levelNoise = SubResource("FastNoiseLite_47lrw")
 _levelTile = ExtResource("2_hp3sn")
+_camera = NodePath("Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]

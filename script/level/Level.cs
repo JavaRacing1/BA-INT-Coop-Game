@@ -11,10 +11,12 @@ namespace INTOnlineCoop.Script.Level
     {
         [Export] private FastNoiseLite _levelNoise;
         [Export] private PackedScene _levelTile;
+        [Export] private Camera2D _camera;
         private const int TileSize = 10;
         private const float AirThreshold = 0.3f;
         private const int RenderDistanceX = 64;
         private const int RenderDistanceY = 36;
+        private const int CameraSpeed = 5;
 
         public override void _Ready()
         {
@@ -25,6 +27,28 @@ namespace INTOnlineCoop.Script.Level
                     GenerateTerrainTile(x, y);
                 }
             }
+        }
+
+        public override void _Process(double delta)
+        {
+            Vector2 moveVector = Vector2.Zero;
+            if (Input.IsActionPressed("camera_left"))
+            {
+                moveVector += Vector2.Left;
+            }
+            if (Input.IsActionPressed("camera_up"))
+            {
+                moveVector += Vector2.Up;
+            }
+            if (Input.IsActionPressed("camera_right"))
+            {
+                moveVector += Vector2.Right;
+            }
+            if (Input.IsActionPressed("camera_down"))
+            {
+                moveVector += Vector2.Down;
+            }
+            _camera.Position += moveVector * CameraSpeed;
         }
 
         private void GenerateTerrainTile(int x, int y)
@@ -38,6 +62,7 @@ namespace INTOnlineCoop.Script.Level
         private LevelTileType GetValueForTile(int x, int y)
         {
             float noise = _levelNoise.GetNoise2D(x, y);
+            GD.Print(noise);
             return noise >= AirThreshold ? LevelTileType.LAND : LevelTileType.AIR;
         }
     }
