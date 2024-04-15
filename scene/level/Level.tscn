@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://u76umsqvikue" path="res://scene/test/LevelTile.tscn" id="2_hp3sn"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_47lrw"]
+noise_type = 0
+frequency = 0.07
+fractal_type = 2
+fractal_octaves = 1
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("_camera")]
 script = ExtResource("1_da87x")

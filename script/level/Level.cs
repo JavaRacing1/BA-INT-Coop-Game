@@ -13,7 +13,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private PackedScene _levelTile;
         [Export] private Camera2D _camera;
         private const int TileSize = 2;
-        private const float AirThreshold = 0.3f;
+        private const float AirThreshold = 0.6f;
         private const int RenderDistanceX = 300;
         private const int RenderDistanceY = 150;
         private const int CameraSpeed = 5;
