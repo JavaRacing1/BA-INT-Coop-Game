@@ -12,10 +12,10 @@ namespace INTOnlineCoop.Script.Level
         [Export] private FastNoiseLite _levelNoise;
         [Export] private PackedScene _levelTile;
         [Export] private Camera2D _camera;
-        private const int TileSize = 10;
+        private const int TileSize = 2;
         private const float AirThreshold = 0.3f;
-        private const int RenderDistanceX = 64;
-        private const int RenderDistanceY = 36;
+        private const int RenderDistanceX = 300;
+        private const int RenderDistanceY = 150;
         private const int CameraSpeed = 5;
 
         public override void _Ready()
@@ -62,7 +62,6 @@ namespace INTOnlineCoop.Script.Level
         private LevelTileType GetValueForTile(int x, int y)
         {
             float noise = _levelNoise.GetNoise2D(x, y);
-            GD.Print(noise);
             return noise >= AirThreshold ? LevelTileType.LAND : LevelTileType.AIR;
         }
     }

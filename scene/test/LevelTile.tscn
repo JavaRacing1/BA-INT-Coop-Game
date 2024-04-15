@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://u76umsqvikue"]
 
 [ext_resource type="Script" path="res://script/test/LevelTile.cs" id="1_s4umx"]
-[ext_resource type="Texture2D" uid="uid://rr4wqavthsuw" path="res://assets/texture/tile/LevelTile.png" id="2_54b3g"]
+[ext_resource type="Texture2D" uid="uid://n43tl232ybvf" path="res://assets/texture/tile/LevelTile2.png" id="2_21v45"]
 
 [node name="LevelTile" type="Node2D" node_paths=PackedStringArray("_sprite")]
 script = ExtResource("1_s4umx")
 _sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(5, 5)
-texture = ExtResource("2_54b3g")
+position = Vector2(1, 1)
+texture = ExtResource("2_21v45")
