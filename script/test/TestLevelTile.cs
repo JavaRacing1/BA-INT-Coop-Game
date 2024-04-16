@@ -7,7 +7,7 @@ namespace INTOnlineCoop.Script.Test
         AIR,
         LAND
     }
-    public partial class LevelTile : Node2D
+    public partial class TestLevelTile : Node2D
     {
         [Export] private LevelTileType _tileType;
         [Export] private Sprite2D _sprite;

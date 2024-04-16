@@ -1,13 +1,11 @@
 using Godot;
 
-using INTOnlineCoop.Script.Test;
-
-namespace INTOnlineCoop.Script.Level
+namespace INTOnlineCoop.Script.Test
 {
     /// <summary>
     /// Main level scene
     /// </summary>
-    public partial class Level : Node2D
+    public partial class TestLevel : Node2D
     {
         [Export] private FastNoiseLite _levelNoise;
         [Export] private PackedScene _levelTile;
@@ -53,7 +51,7 @@ namespace INTOnlineCoop.Script.Level
 
         private void GenerateTerrainTile(int x, int y)
         {
-            LevelTile tile = _levelTile.Instantiate<LevelTile>();
+            TestLevelTile tile = _levelTile.Instantiate<TestLevelTile>();
             tile.SetTileType(GetValueForTile(x, y));
             tile.Position = new Vector2(x, y) * TileSize;
             AddChild(tile);

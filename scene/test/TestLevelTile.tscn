@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://u76umsqvikue"]
 
-[ext_resource type="Script" path="res://script/test/LevelTile.cs" id="1_s4umx"]
+[ext_resource type="Script" path="res://script/test/TestLevelTile.cs" id="1_s4umx"]
 [ext_resource type="Texture2D" uid="uid://n43tl232ybvf" path="res://assets/texture/tile/LevelTile2.png" id="2_21v45"]
 
 [node name="LevelTile" type="Node2D" node_paths=PackedStringArray("_sprite")]
