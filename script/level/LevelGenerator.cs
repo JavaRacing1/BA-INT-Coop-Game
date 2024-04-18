@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Godot;
 
@@ -11,18 +12,25 @@ namespace INTOnlineCoop.Script.Level
     {
         /// <summary>One small island</summary>
         OneIslandSmall,
+
         /// <summary>One medium island</summary>
         OneIslandMedium,
+
         /// <summary>One big island</summary>
         OneIslandBig,
+
         /// <summary>Two small islands</summary>
         TwoIslandsSmall,
+
         /// <summary>Two medium islands</summary>
         TwoIslandsMedium,
+
         /// <summary>Two big islands</summary>
         TwoIslandsBig,
+
         /// <summary>One medium island + one floating island</summary>
         OneFloatingIsland,
+
         /// <summary>One medium island + two floating islands</summary>
         TwoFloatingIslands
     }
@@ -34,7 +42,10 @@ namespace INTOnlineCoop.Script.Level
     {
         private FastNoiseLite _noiseGenerator;
         private float _noiseThreshold = 20.0f;
+
         private TerrainType _selectedTerrainType;
+        private Stack<Color> _foregroundContourPixels;
+        private Stack<Color> _backgroundBorderPixels;
 
         /// <summary>
         /// Creates a new generator with a TerrainType
@@ -56,7 +67,6 @@ namespace INTOnlineCoop.Script.Level
                 Frequency = 0.06f,
                 FractalType = FastNoiseLite.FractalTypeEnum.None
             };
-            Generate();
         }
 
         /// <summary>
@@ -68,15 +78,14 @@ namespace INTOnlineCoop.Script.Level
             _selectedTerrainType = type;
         }
 
+
         /// <summary>
         /// Generates a terrain with the settings of the generator
         /// </summary>
-        public void Generate()
+        public void Generate(int seed)
         {
-            _noiseGenerator.Seed = new Random().Next();
-            Texture2D templateTexture =
-                GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainType}.png");
-            Image templateImage = templateTexture.GetImage();
+            Image templateImage = LoadTerrainTemplate();
+            _noiseGenerator.Seed = seed;
             Image noiseImage = GenerateNoiseImage(templateImage);
             _ = noiseImage.SavePng($"res://output/{_selectedTerrainType}/noise.png");
         }
@@ -112,12 +121,52 @@ namespace INTOnlineCoop.Script.Level
                         noiseValue2 = Math.Max(0, (25 - (noiseValue2 * 256)) * 8);
                         noiseValue = (noiseValue + noiseValue2) / 2.0f;
                     }
+
                     Color terrainPixel = noiseValue > _noiseThreshold ? Colors.Green : Colors.Black;
                     noiseImage.SetPixel(x, y, terrainPixel);
                 }
             }
 
             return noiseImage;
+        }
+
+        private Image LoadTerrainTemplate()
+        {
+            Texture2D templateTexture =
+                GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainType}.png");
+            Image templateImage = templateTexture.GetImage();
+            CalculateTemplateEdges(templateImage);
+            return templateImage;
+        }
+
+        private void CalculateTemplateEdges(Image template, int colorThreshold = 100)
+        {
+            _foregroundContourPixels = new Stack<Color>();
+            _backgroundBorderPixels = new Stack<Color>();
+            int width = template.GetWidth();
+            int height = template.GetHeight();
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Color pixel = template.GetPixel(x, y);
+                    if (pixel.G8 < colorThreshold)
+                    {
+                        if (template.GetPixel(Math.Max(0, x - 1), y).G8 > colorThreshold ||
+                            template.GetPixel(Math.Min(width - 1, x + 1), y).G8 > colorThreshold ||
+                            template.GetPixel(x, Math.Max(0, y - 1)).G8 > colorThreshold ||
+                            template.GetPixel(x, Math.Min(height - 1, y + 1)).G8 > colorThreshold)
+                        {
+                            _foregroundContourPixels.Push(pixel);
+                        }
+                        else if (pixel.B8 < colorThreshold && (x == 0 || y == 0 || x == width - 1 || y == height - 1))
+                        {
+                            _backgroundBorderPixels.Push(pixel);
+                        }
+                    }
+                }
+            }
         }
     }
 }

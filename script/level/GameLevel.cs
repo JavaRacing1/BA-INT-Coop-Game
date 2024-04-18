@@ -13,7 +13,8 @@ namespace INTOnlineCoop.Script.Level
             foreach (TerrainType type in Enum.GetValues<TerrainType>())
             {
                 generator.SetTerrainType(type);
-                generator.Generate();
+                int seed = new Random().Next();
+                generator.Generate(seed);
             }
         }
     }
