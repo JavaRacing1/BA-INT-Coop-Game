@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
@@ -14,7 +16,10 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnPlayButtonPressed()
         {
-            _ = GetTree().ChangeSceneToFile("res://scene/level/Level.tscn");
+            _ = new LevelGenerator();
+            GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
+            GetTree().Root.AddChild(level);
+            QueueFree();
         }
     }
 }

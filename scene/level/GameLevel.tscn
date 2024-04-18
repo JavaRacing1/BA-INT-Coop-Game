@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://7h7m71uuto1n"]
+
+[ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
+
+[node name="GameLevel" type="Node2D"]
+script = ExtResource("1_v0801")
