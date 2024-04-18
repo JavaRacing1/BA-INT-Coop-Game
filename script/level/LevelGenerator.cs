@@ -74,7 +74,9 @@ namespace INTOnlineCoop.Script.Level
         public void Generate()
         {
             _noiseGenerator.Seed = new Random().Next();
-            Image templateImage = Image.LoadFromFile($"res://assets/texture/level/{_selectedTerrainType}.png");
+            Texture2D templateTexture =
+                GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainType}.png");
+            Image templateImage = templateTexture.GetImage();
             Image noiseImage = GenerateNoiseImage(templateImage);
             _ = noiseImage.SavePng($"res://output/{_selectedTerrainType}/noise.png");
         }
