@@ -6,7 +6,7 @@ namespace INTOnlineCoop.Script.Level
 {
     public partial class GameLevel : Node2D
     {
-        public override void _Ready()
+        private static void OnGenerationButtonPressed()
         {
             //Level generator tests
             LevelGenerator generator = new();

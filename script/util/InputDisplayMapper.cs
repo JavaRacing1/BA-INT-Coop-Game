@@ -8,7 +8,7 @@ namespace INTOnlineCoop.Script.Util
     /// <summary>
     /// Converts InputActions and Keys to user-friendly names
     /// </summary>
-    public class InputDisplayMapper
+    public static class InputDisplayMapper
     {
         private static readonly ImmutableDictionary<Key, string> KeyMap = ImmutableDictionary.CreateRange(
             new[]
@@ -94,8 +94,6 @@ namespace INTOnlineCoop.Script.Util
                     KeyValuePair.Create((JoyAxis.TriggerLeft, 1.0f), "CON-LT"),
                     KeyValuePair.Create((JoyAxis.TriggerRight, 1.0f), "CON-RT")
                 });
-
-        private InputDisplayMapper() { }
 
         /// <summary>
         /// Returns the name of a Key

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using Godot;
 
+using INTOnlineCoop.Script.Util;
+
 namespace INTOnlineCoop.Script.Level
 {
     /// <summary>
@@ -44,8 +46,8 @@ namespace INTOnlineCoop.Script.Level
         private float _noiseThreshold = 20.0f;
 
         private TerrainType _selectedTerrainType;
-        private Stack<Color> _foregroundContourPixels;
-        private Stack<Color> _backgroundBorderPixels;
+        private Stack<(int, int)> _foregroundContourPixels;
+        private Stack<(int, int)> _backgroundBorderPixels;
 
         /// <summary>
         /// Creates a new generator with a TerrainType
@@ -84,14 +86,23 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public void Generate(int seed)
         {
+            GD.Print("Generating terrain for type " + _selectedTerrainType);
             Image templateImage = LoadTerrainTemplate();
             _noiseGenerator.Seed = seed;
-            Image noiseImage = GenerateNoiseImage(templateImage);
-            _ = noiseImage.SavePng($"res://output/{_selectedTerrainType}/noise.png");
+            Image terrainImage = GenerateNoiseImage(templateImage);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/noise.png");
+
+            ImageUtils.TerrainFloodFill(terrainImage,
+                new Stack<(int, int)>(new Stack<(int, int)>(_foregroundContourPixels)),
+                Colors.Red);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/fill.png");
+
+            GD.Print("Terrain generation done!");
         }
 
         private Image GenerateNoiseImage(Image templateImage)
         {
+            GD.Print("Applying perlin noise to template");
             int width = templateImage.GetWidth();
             int height = templateImage.GetHeight();
             Image noiseImage = Image.Create(width, height, false, Image.Format.Rgb8);
@@ -122,27 +133,29 @@ namespace INTOnlineCoop.Script.Level
                         noiseValue = (noiseValue + noiseValue2) / 2.0f;
                     }
 
-                    Color terrainPixel = noiseValue > _noiseThreshold ? Colors.Green : Colors.Black;
+                    Color terrainPixel = noiseValue > _noiseThreshold ? Colors.Yellow : Colors.Black;
                     noiseImage.SetPixel(x, y, terrainPixel);
                 }
             }
-
+            GD.Print("Noise applied!");
             return noiseImage;
         }
 
         private Image LoadTerrainTemplate()
         {
+            GD.Print("Loading terrain template");
             Texture2D templateTexture =
                 GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainType}.png");
             Image templateImage = templateTexture.GetImage();
             CalculateTemplateEdges(templateImage);
+            GD.Print("Loaded!");
             return templateImage;
         }
 
         private void CalculateTemplateEdges(Image template, int colorThreshold = 100)
         {
-            _foregroundContourPixels = new Stack<Color>();
-            _backgroundBorderPixels = new Stack<Color>();
+            _foregroundContourPixels = new Stack<(int, int)>();
+            _backgroundBorderPixels = new Stack<(int, int)>();
             int width = template.GetWidth();
             int height = template.GetHeight();
 
@@ -158,11 +171,11 @@ namespace INTOnlineCoop.Script.Level
                             template.GetPixel(x, Math.Max(0, y - 1)).G8 > colorThreshold ||
                             template.GetPixel(x, Math.Min(height - 1, y + 1)).G8 > colorThreshold)
                         {
-                            _foregroundContourPixels.Push(pixel);
+                            _foregroundContourPixels.Push((x, y));
                         }
                         else if (pixel.B8 < colorThreshold && (x == 0 || y == 0 || x == width - 1 || y == height - 1))
                         {
-                            _backgroundBorderPixels.Push(pixel);
+                            _backgroundBorderPixels.Push((x, y));
                         }
                     }
                 }
