@@ -100,7 +100,7 @@ namespace INTOnlineCoop.Script.Level
             ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/3_no_bg.png");
 
-            terrainImage = ImageUtils.ApplyDilation(terrainImage);
+            terrainImage = ImageUtils.ApplyMorphologyOperation(terrainImage, MorphologyOperation.Dilation);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/4_dilation.png");
 
             GD.Print("Filling holes");
@@ -110,6 +110,9 @@ namespace INTOnlineCoop.Script.Level
             ImageUtils.ReplaceColor(terrainImage, Colors.Transparent, Colors.Red);
             ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/5_filled_holes.png");
+
+            terrainImage = ImageUtils.ApplyMorphologyOperation(terrainImage, MorphologyOperation.Erosion);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/6_erosion.png");
             GD.Print("Terrain generation done!");
         }
 

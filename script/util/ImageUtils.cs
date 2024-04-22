@@ -5,6 +5,17 @@ using Godot;
 namespace INTOnlineCoop.Script.Util
 {
     /// <summary>
+    /// Mathematical morphology operations
+    /// </summary>
+    public enum MorphologyOperation
+    {
+        /// <summary>Dilation filter</summary>
+        Dilation,
+        /// <summary>Erosion filter</summary>
+        Erosion
+    }
+
+    /// <summary>
     /// Utilities for editing images
     /// </summary>
     public static class ImageUtils
@@ -93,18 +104,45 @@ namespace INTOnlineCoop.Script.Util
         }
 
         /// <summary>
-        /// Applies dilation to an image
+        /// Applies a morthology operation to an image
         /// </summary>
         /// <param name="terrainImage">The image</param>
+        /// <param name="operation">The used operation</param>
         /// <param name="radius">Size of the dilation</param>
-        /// <returns></returns>
-        public static Image ApplyDilation(Image terrainImage, int radius = 2)
+        /// <returns>The processed image</returns>
+        public static Image ApplyMorphologyOperation(Image terrainImage, MorphologyOperation operation, int radius = 2)
         {
-            GD.Print("Applying dilation");
+            GD.Print($"Applying {operation}");
+            radius = operation == MorphologyOperation.Erosion ? -radius : radius;
             Bitmap bitmap = new();
             bitmap.CreateFromImageAlpha(terrainImage);
+
+            Bitmap pixelCache = null;
+            if (operation == MorphologyOperation.Erosion)
+            {
+                pixelCache = new Bitmap();
+                pixelCache.Create(terrainImage.GetSize());
+                for (int x = 0; x < terrainImage.GetWidth(); x++)
+                {
+                    for (int y = terrainImage.GetHeight() - 2; y < terrainImage.GetHeight(); y++)
+                    {
+                        pixelCache.SetBit(x, y, bitmap.GetBit(x, y));
+                    }
+                }
+            }
+
             Rect2I mask = new(Vector2I.Zero, terrainImage.GetSize());
             bitmap.GrowMask(radius, mask);
+            if (pixelCache != null)
+            {
+                for (int x = 0; x < terrainImage.GetWidth(); x++)
+                {
+                    for (int y = terrainImage.GetHeight() - 2; y < terrainImage.GetHeight(); y++)
+                    {
+                        bitmap.SetBit(x, y, pixelCache.GetBit(x, y) && !bitmap.GetBit(x, y));
+                    }
+                }
+            }
             return CreateImageFromBitmap(bitmap);
         }
 
