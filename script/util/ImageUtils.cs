@@ -67,5 +67,29 @@ namespace INTOnlineCoop.Script.Util
             }
             GD.Print("Terrain filled!");
         }
+
+        /// <summary>
+        /// Replaces a color in an image
+        /// </summary>
+        /// <param name="image">The image</param>
+        /// <param name="oldColor">Color which should be replaced</param>
+        /// <param name="newColor">Color used for replacement</param>
+        public static void ReplaceColor(Image image, Color oldColor, Color newColor)
+        {
+            GD.Print($"Replacing color {oldColor} with {newColor}");
+            int width = image.GetWidth();
+            int height = image.GetHeight();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    if (pixelColor.ToRgba32() == oldColor.ToRgba32())
+                    {
+                        image.SetPixel(x, y, newColor);
+                    }
+                }
+            }
+        }
     }
 }

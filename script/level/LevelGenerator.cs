@@ -97,6 +97,8 @@ namespace INTOnlineCoop.Script.Level
                 Colors.Red);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/fill.png");
 
+            ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Black);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/no_bg.png");
             GD.Print("Terrain generation done!");
         }
 
