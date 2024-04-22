@@ -91,5 +91,44 @@ namespace INTOnlineCoop.Script.Util
                 }
             }
         }
+
+        /// <summary>
+        /// Applies dilation to an image
+        /// </summary>
+        /// <param name="terrainImage">The image</param>
+        /// <param name="radius">Size of the dilation</param>
+        /// <returns></returns>
+        public static Image ApplyDilation(Image terrainImage, int radius = 2)
+        {
+            GD.Print("Applying dilation");
+            Bitmap bitmap = new();
+            bitmap.CreateFromImageAlpha(terrainImage);
+            Rect2I mask = new(Vector2I.Zero, terrainImage.GetSize());
+            bitmap.GrowMask(radius, mask);
+            return CreateImageFromBitmap(bitmap);
+        }
+
+        private static Image CreateImageFromBitmap(Bitmap bitmap)
+        {
+            Image image = bitmap.ConvertToImage();
+            image.Convert(Image.Format.Rgba8);
+            for (int x = 0; x < image.GetWidth(); x++)
+            {
+                for (int y = 0; y < image.GetHeight(); y++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    if (pixelColor.ToRgba32() == Colors.White.ToRgba32())
+                    {
+                        image.SetPixel(x, y, Colors.Red);
+                    }
+                    else if (pixelColor.ToRgba32() == Colors.Black.ToRgba32())
+                    {
+                        image.SetPixel(x, y, Colors.Transparent);
+                    }
+                }
+            }
+
+            return image;
+        }
     }
 }

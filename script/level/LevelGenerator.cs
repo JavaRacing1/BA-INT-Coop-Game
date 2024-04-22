@@ -90,15 +90,18 @@ namespace INTOnlineCoop.Script.Level
             Image templateImage = LoadTerrainTemplate();
             _noiseGenerator.Seed = seed;
             Image terrainImage = GenerateNoiseImage(templateImage);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/noise.png");
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/1_noise.png");
 
             ImageUtils.TerrainFloodFill(terrainImage,
                 new Stack<(int, int)>(new Stack<(int, int)>(_foregroundContourPixels)),
                 Colors.Red);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/fill.png");
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/2_fill.png");
 
             ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/no_bg.png");
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/3_no_bg.png");
+
+            terrainImage = ImageUtils.ApplyDilation(terrainImage);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/4_dilation.png");
             GD.Print("Terrain generation done!");
         }
 
