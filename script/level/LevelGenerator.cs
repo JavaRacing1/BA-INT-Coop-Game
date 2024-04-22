@@ -102,6 +102,14 @@ namespace INTOnlineCoop.Script.Level
 
             terrainImage = ImageUtils.ApplyDilation(terrainImage);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/4_dilation.png");
+
+            GD.Print("Filling holes");
+            ImageUtils.TerrainFloodFill(terrainImage,
+                new Stack<(int, int)>(new Stack<(int, int)>(_backgroundBorderPixels)),
+                Colors.Yellow);
+            ImageUtils.ReplaceColor(terrainImage, Colors.Transparent, Colors.Red);
+            ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
+            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/5_filled_holes.png");
             GD.Print("Terrain generation done!");
         }
 
