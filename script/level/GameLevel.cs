@@ -10,6 +10,7 @@ namespace INTOnlineCoop.Script.Level
         {
             //Level generator tests
             LevelGenerator generator = new();
+            generator.EnableDebugMode();
             foreach (TerrainType type in Enum.GetValues<TerrainType>())
             {
                 generator.SetTerrainType(type);

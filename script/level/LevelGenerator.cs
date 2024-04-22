@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Godot;
 
@@ -42,6 +43,7 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class LevelGenerator : RefCounted
     {
+        private bool _debugModeActive;
         private FastNoiseLite _noiseGenerator;
         private float _noiseThreshold = 20.0f;
 
@@ -80,6 +82,14 @@ namespace INTOnlineCoop.Script.Level
             _selectedTerrainType = type;
         }
 
+        /// <summary>
+        /// Enables the debug mode. When the debug mode is active, all generated images will be saved to
+        /// "output/{TerrainType}/"
+        /// </summary>
+        public void EnableDebugMode()
+        {
+            _debugModeActive = true;
+        }
 
         /// <summary>
         /// Generates a terrain with the settings of the generator
@@ -90,18 +100,18 @@ namespace INTOnlineCoop.Script.Level
             Image templateImage = LoadTerrainTemplate();
             _noiseGenerator.Seed = seed;
             Image terrainImage = GenerateNoiseImage(templateImage);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/1_noise.png");
+            SaveImage(terrainImage, "1_noise");
 
             ImageUtils.TerrainFloodFill(terrainImage,
                 new Stack<(int, int)>(new Stack<(int, int)>(_foregroundContourPixels)),
                 Colors.Red);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/2_fill.png");
+            SaveImage(terrainImage, "2_fill");
 
             ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/3_no_bg.png");
+            SaveImage(terrainImage, "3_no_bg");
 
             terrainImage = ImageUtils.ApplyMorphologyOperation(terrainImage, MorphologyOperation.Dilation);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/4_dilation.png");
+            SaveImage(terrainImage, "4_dilation");
 
             GD.Print("Filling holes");
             ImageUtils.TerrainFloodFill(terrainImage,
@@ -109,10 +119,10 @@ namespace INTOnlineCoop.Script.Level
                 Colors.Yellow);
             ImageUtils.ReplaceColor(terrainImage, Colors.Transparent, Colors.Red);
             ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/5_filled_holes.png");
+            SaveImage(terrainImage, "5_filled_holes");
 
             terrainImage = ImageUtils.ApplyMorphologyOperation(terrainImage, MorphologyOperation.Erosion);
-            _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/6_erosion.png");
+            SaveImage(terrainImage, "6_erosion");
             GD.Print("Terrain generation done!");
         }
 
@@ -195,6 +205,16 @@ namespace INTOnlineCoop.Script.Level
                         }
                     }
                 }
+            }
+        }
+
+        private void SaveImage(Image image, String name)
+        {
+            if (_debugModeActive)
+            {
+                string path = $"res://output/{_selectedTerrainType}/";
+                Directory.CreateDirectory(path);
+                _ = image.SavePng($"{path}/{name}.png");
             }
         }
     }
