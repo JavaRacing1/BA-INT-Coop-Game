@@ -117,6 +117,7 @@ namespace INTOnlineCoop.Script.Util
             Bitmap bitmap = new();
             bitmap.CreateFromImageAlpha(terrainImage);
 
+            //Cache lowest 2 bit rows to restore them after erosion
             Bitmap pixelCache = null;
             if (operation == MorphologyOperation.Erosion)
             {
