@@ -19,8 +19,8 @@ namespace INTOnlineCoop.Script.Util
         /// <param name="image">The image</param>
         /// <param name="stack">Stack containing all target pixels</param>
         /// <param name="fillColor">The color applied to all found pixels</param>
-        /// <param name="colorThreshold">The red color threshold for pixel comparison</param>
-        public static void TerrainFloodFill(Image image, Stack<(int, int)> stack, Color fillColor, int colorThreshold = 255)
+        /// <param name="alphaThreshold">The alpha color threshold for pixel comparison</param>
+        public static void TerrainFloodFill(Image image, Stack<(int, int)> stack, Color fillColor, int alphaThreshold = 255)
         {
             GD.Print("Filling terrain");
             int width = image.GetWidth();
@@ -31,33 +31,33 @@ namespace INTOnlineCoop.Script.Util
                 (int, int) pixel = stack.Pop();
                 int x = pixel.Item1;
                 int y = pixel.Item2;
-                while (x >= 0 && image.GetPixel(x, y).R8 < colorThreshold)
+                while (x >= 0 && image.GetPixel(x, y).A8 < alphaThreshold)
                 {
                     x--;
                 }
                 x++;
                 bool spanAboveAdded = false;
                 bool spanBelowAdded = false;
-                while (x < width && image.GetPixel(x, y).R8 < colorThreshold)
+                while (x < width && image.GetPixel(x, y).A8 < alphaThreshold)
                 {
                     image.SetPixel(x, y, fillColor);
-                    if (!spanAboveAdded && y > 0 && image.GetPixel(x, y - 1).R8 < colorThreshold)
+                    if (!spanAboveAdded && y > 0 && image.GetPixel(x, y - 1).A8 < alphaThreshold)
                     {
                         stack.Push((x, y - 1));
                         spanAboveAdded = true;
                     }
-                    else if (spanAboveAdded && y > 0 && image.GetPixel(x, y - 1).R8 >= colorThreshold)
+                    else if (spanAboveAdded && y > 0 && image.GetPixel(x, y - 1).A8 >= alphaThreshold)
                     {
                         spanAboveAdded = false;
                     }
 
                     if (!spanBelowAdded && y < height - 1 &&
-                        image.GetPixel(x, y + 1).R8 < colorThreshold)
+                        image.GetPixel(x, y + 1).A8 < alphaThreshold)
                     {
                         stack.Push((x, y + 1));
                         spanBelowAdded = true;
                     }
-                    else if (spanBelowAdded && y < height - 1 && image.GetPixel(x, y + 1).R8 >= colorThreshold)
+                    else if (spanBelowAdded && y < height - 1 && image.GetPixel(x, y + 1).A8 >= alphaThreshold)
                     {
                         spanBelowAdded = false;
                     }

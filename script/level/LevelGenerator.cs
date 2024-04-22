@@ -97,7 +97,7 @@ namespace INTOnlineCoop.Script.Level
                 Colors.Red);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/fill.png");
 
-            ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Black);
+            ImageUtils.ReplaceColor(terrainImage, Colors.Yellow, Colors.Transparent);
             _ = terrainImage.SavePng($"res://output/{_selectedTerrainType}/no_bg.png");
             GD.Print("Terrain generation done!");
         }
@@ -107,7 +107,7 @@ namespace INTOnlineCoop.Script.Level
             GD.Print("Applying perlin noise to template");
             int width = templateImage.GetWidth();
             int height = templateImage.GetHeight();
-            Image noiseImage = Image.Create(width, height, false, Image.Format.Rgb8);
+            Image noiseImage = Image.Create(width, height, false, Image.Format.Rgba8);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -135,7 +135,7 @@ namespace INTOnlineCoop.Script.Level
                         noiseValue = (noiseValue + noiseValue2) / 2.0f;
                     }
 
-                    Color terrainPixel = noiseValue > _noiseThreshold ? Colors.Yellow : Colors.Black;
+                    Color terrainPixel = noiseValue > _noiseThreshold ? Colors.Yellow : Colors.Transparent;
                     noiseImage.SetPixel(x, y, terrainPixel);
                 }
             }
