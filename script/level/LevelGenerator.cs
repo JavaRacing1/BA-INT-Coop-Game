@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 using Godot;
 
@@ -35,7 +34,10 @@ namespace INTOnlineCoop.Script.Level
         OneFloatingIsland,
 
         /// <summary>One medium island + two floating islands</summary>
-        TwoFloatingIslands
+        TwoFloatingIslands,
+
+        /// <summary>Multiple floating islands</summary>
+        MultipleFloatingIslands
     }
 
     /// <summary>
@@ -56,15 +58,6 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public LevelGenerator()
         {
-            /*
-            _noiseGenerator = new FastNoiseLite()
-            {
-                NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex,
-                Frequency = 0.05f,
-                FractalType = FastNoiseLite.FractalTypeEnum.Ridged,
-                FractalOctaves = 1
-            };
-            */
             _noiseGenerator = new FastNoiseLite()
             {
                 NoiseType = FastNoiseLite.NoiseTypeEnum.Perlin,
@@ -94,7 +87,8 @@ namespace INTOnlineCoop.Script.Level
         /// <summary>
         /// Generates a terrain with the settings of the generator
         /// </summary>
-        public void Generate(int seed)
+        /// <returns>An image containing information about the terrain</returns>
+        public Image Generate(int seed)
         {
             GD.Print("Generating terrain for type " + _selectedTerrainType);
             Image templateImage = LoadTerrainTemplate();
@@ -124,6 +118,7 @@ namespace INTOnlineCoop.Script.Level
             terrainImage = ImageUtils.ApplyMorphologyOperation(terrainImage, MorphologyOperation.Erosion);
             SaveImage(terrainImage, "6_erosion");
             GD.Print("Terrain generation done!");
+            return terrainImage;
         }
 
         private Image GenerateNoiseImage(Image templateImage)
@@ -213,8 +208,15 @@ namespace INTOnlineCoop.Script.Level
             if (_debugModeActive)
             {
                 string path = $"res://output/{_selectedTerrainType}/";
-                Directory.CreateDirectory(path);
-                _ = image.SavePng($"{path}/{name}.png");
+                using DirAccess dirAccess = DirAccess.Open("res://");
+                if (dirAccess != null)
+                {
+                    if (!dirAccess.DirExists("output") || !dirAccess.DirExists($"output/{_selectedTerrainType}"))
+                    {
+                        _ = dirAccess.MakeDirRecursive($"output/{_selectedTerrainType}");
+                    }
+                    _ = image.SavePng($"{path}/{name}.png");
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 generator.SetTerrainType(type);
                 int seed = new Random().Next();
-                generator.Generate(seed);
+                _ = generator.Generate(seed);
             }
         }
     }
