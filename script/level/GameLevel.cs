@@ -4,6 +4,9 @@ using Godot;
 
 namespace INTOnlineCoop.Script.Level
 {
+    /// <summary>
+    /// Manager class of the level
+    /// </summary>
     public partial class GameLevel : Node2D
     {
         private static void OnGenerationButtonPressed()
