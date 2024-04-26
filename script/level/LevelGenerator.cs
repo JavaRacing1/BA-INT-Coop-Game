@@ -50,6 +50,7 @@ namespace INTOnlineCoop.Script.Level
         private float _noiseThreshold = 20.0f;
 
         private TerrainType _selectedTerrainType;
+        private bool _changedTerrainType;
         private Stack<(int, int)> _foregroundContourPixels;
         private Stack<(int, int)> _backgroundBorderPixels;
 
@@ -73,6 +74,7 @@ namespace INTOnlineCoop.Script.Level
         public void SetTerrainType(TerrainType type)
         {
             _selectedTerrainType = type;
+            _changedTerrainType = true;
         }
 
         /// <summary>
@@ -90,6 +92,11 @@ namespace INTOnlineCoop.Script.Level
         /// <returns>An image containing information about the terrain</returns>
         public Image Generate(int seed)
         {
+            if (!_changedTerrainType)
+            {
+                GD.PrintErr("Terrain type of LevelGenerator was not set!");
+                return null;
+            }
             GD.Print("Generating terrain for type " + _selectedTerrainType);
             Image templateImage = LoadTerrainTemplate();
             _noiseGenerator.Seed = seed;

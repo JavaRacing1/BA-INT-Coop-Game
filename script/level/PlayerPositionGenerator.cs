@@ -51,6 +51,11 @@ namespace INTOnlineCoop.Script.Level
         /// <returns>Unscaled position of the characters center point</returns>
         public (double, double) GetSpawnPosition(double seed, int characterHeight = 4)
         {
+            if (_surfacePoints.Count == 0)
+            {
+                GD.PrintErr("PlayerPositionGenerator not initialized!");
+                return (0.0, 0.0);
+            }
             double nextRandomPoint = Halton(_haltonIndex++, 2);
             nextRandomPoint = (nextRandomPoint + seed) % 1.0;
             (int, int) surfacePoint = _surfacePoints[(int)Math.Floor(nextRandomPoint * _surfacePoints.Count)];
