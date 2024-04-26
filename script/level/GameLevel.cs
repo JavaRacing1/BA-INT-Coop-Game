@@ -23,7 +23,7 @@ namespace INTOnlineCoop.Script.Level
                 positionGenerator.Init(image, type.ToString(), true);
 
                 double positionSeed = new Random().NextDouble();
-                for (int i = 0; i < 24; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     (double, double) pos = positionGenerator.GetSpawnPosition(positionSeed);
                     GD.Print(pos);
