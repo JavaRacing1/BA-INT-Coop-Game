@@ -11,6 +11,7 @@ namespace INTOnlineCoop.Script.Util
     {
         /// <summary>Dilation filter</summary>
         Dilation,
+
         /// <summary>Erosion filter</summary>
         Erosion
     }
@@ -31,7 +32,8 @@ namespace INTOnlineCoop.Script.Util
         /// <param name="stack">Stack containing all target pixels</param>
         /// <param name="fillColor">The color applied to all found pixels</param>
         /// <param name="alphaThreshold">The alpha color threshold for pixel comparison</param>
-        public static void TerrainFloodFill(Image image, Stack<(int, int)> stack, Color fillColor, int alphaThreshold = 255)
+        public static void TerrainFloodFill(Image image, Stack<(int, int)> stack, Color fillColor,
+            int alphaThreshold = 255)
         {
             GD.Print("Filling terrain");
             int width = image.GetWidth();
@@ -46,6 +48,7 @@ namespace INTOnlineCoop.Script.Util
                 {
                     x--;
                 }
+
                 x++;
                 bool spanAboveAdded = false;
                 bool spanBelowAdded = false;
@@ -76,6 +79,7 @@ namespace INTOnlineCoop.Script.Util
                     x++;
                 }
             }
+
             GD.Print("Terrain filled!");
         }
 
@@ -144,7 +148,61 @@ namespace INTOnlineCoop.Script.Util
                     }
                 }
             }
+
             return CreateImageFromBitmap(bitmap);
+        }
+
+        /// <summary>
+        /// Computes the surface of an terrain
+        /// </summary>
+        /// <param name="image">The image of the terrain</param>
+        /// <param name="airPixelAmount">Amount of transparent pixels required to count as surface</param>
+        /// <returns></returns>
+        public static List<(int, int)> ComputeSurface(Image image, int airPixelAmount = 1)
+        {
+            List<(int, int)> surfacePoints = new();
+            for (int x = 0; x < image.GetWidth(); x++)
+            {
+                for (int y = 0; y < image.GetHeight(); y++)
+                {
+                    Color pixelColor = image.GetPixel(x, y);
+                    if (pixelColor.ToRgba32() == Colors.Transparent.ToRgba32())
+                    {
+                        continue;
+                    }
+
+                    bool pixelIsValid = true;
+                    for (int yOffset = 1; yOffset <= airPixelAmount; yOffset++)
+                    {
+                        if (PixelHasColor(image, Colors.Red, x, y - yOffset))
+                        {
+                            pixelIsValid = false;
+                            break;
+                        }
+                    }
+
+                    if (pixelIsValid)
+                    {
+                        surfacePoints.Add((x, y));
+                    }
+                }
+            }
+
+            return surfacePoints;
+        }
+
+        /// <summary>
+        /// Checks if a pixel has a specific color
+        /// </summary>
+        /// <param name="image">The image</param>
+        /// <param name="color">The color for the comparison</param>
+        /// <param name="x">The x-coordinate of the pixel</param>
+        /// <param name="y">The y-coordinate of the pixel</param>
+        /// <returns>True if the pixel is not transparent</returns>
+        public static bool PixelHasColor(Image image, Color color, int x, int y)
+        {
+            return x >= 0 && x < image.GetWidth() && y >= 0 && y < image.GetHeight() &&
+                   image.GetPixel(x, y).ToRgba32() == color.ToRgba32();
         }
 
         private static Image CreateImageFromBitmap(Bitmap bitmap)

@@ -10,12 +10,14 @@ namespace INTOnlineCoop.Script.Level
         {
             //Level generator tests
             LevelGenerator generator = new();
+            PlayerPositionGenerator positionGenerator = new();
             generator.EnableDebugMode();
             foreach (TerrainType type in Enum.GetValues<TerrainType>())
             {
                 generator.SetTerrainType(type);
                 int seed = new Random().Next();
-                _ = generator.Generate(seed);
+                Image image = generator.Generate(seed);
+                positionGenerator.Init(image, type.ToString());
             }
         }
     }
