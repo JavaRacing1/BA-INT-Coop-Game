@@ -14,6 +14,7 @@ namespace INTOnlineCoop.Script.Level
     {
         private List<(int, int)> _surfacePoints;
         private int _haltonIndex;
+        private Image _terrainImage;
 
         /// <summary>
         /// Initializes the position generator
@@ -39,18 +40,27 @@ namespace INTOnlineCoop.Script.Level
 
             _surfacePoints = SortSurfacePoints(surfacePoints, image.GetHeight());
             _haltonIndex = 0;
+            _terrainImage = image;
         }
 
         /// <summary>
         /// Calculates the spawn position for the next player
         /// </summary>
         /// <param name="seed">Seed for randomness</param>
-        /// <returns>Unscaled position of the spawn tile</returns>
-        public (int, int) GetSpawnPosition(double seed)
+        /// <param name="characterHeight">Height of the character</param>
+        /// <returns>Unscaled position of the characters center point</returns>
+        public (double, double) GetSpawnPosition(double seed, int characterHeight = 4)
         {
             double nextRandomPoint = Halton(_haltonIndex++, 2);
             nextRandomPoint = (nextRandomPoint + seed) % 1.0;
-            return _surfacePoints[(int)Math.Floor(nextRandomPoint * _surfacePoints.Count)];
+            (int, int) surfacePoint = _surfacePoints[(int)Math.Floor(nextRandomPoint * _surfacePoints.Count)];
+
+            bool pixelHasEnoughAir = ImageUtils.HasPixelEnoughAir(_terrainImage, surfacePoint.Item1, surfacePoint.Item2,
+                airAmount: 4, xOffset: -1);
+            (double, double) spawnPosition = pixelHasEnoughAir
+                ? (surfacePoint.Item1, surfacePoint.Item2 - (characterHeight / 2))
+                : (surfacePoint.Item1 + 1, surfacePoint.Item2 - (characterHeight / 2));
+            return spawnPosition;
         }
 
         private static List<(int, int)> RemoveSecludedSurfacePoints(List<(int, int)> surfacePoints, int xSize,

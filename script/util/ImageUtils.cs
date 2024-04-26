@@ -205,7 +205,16 @@ namespace INTOnlineCoop.Script.Util
                    image.GetPixel(x, y).ToRgba32() == color.ToRgba32();
         }
 
-        private static bool HasPixelEnoughAir(Image image, int x, int y, int airAmount, int xOffset = 0)
+        /// <summary>
+        /// Checks if a pixel has enough air above it
+        /// </summary>
+        /// <param name="image">The image containing the pixel</param>
+        /// <param name="x">The x-coordinate of the pixel</param>
+        /// <param name="y">The y-coordinate of the pixel</param>
+        /// <param name="airAmount">Needed amount of air</param>
+        /// <param name="xOffset">Offset to the x-coordinate</param>
+        /// <returns>True if the pixel has enough air above it</returns>
+        public static bool HasPixelEnoughAir(Image image, int x, int y, int airAmount, int xOffset = 0)
         {
             for (int yOffset = 1; yOffset <= airAmount; yOffset++)
             {

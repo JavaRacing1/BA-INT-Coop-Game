@@ -22,7 +22,7 @@ namespace INTOnlineCoop.Script.Level
                 double positionSeed = new Random().NextDouble();
                 for (int i = 0; i < 24; i++)
                 {
-                    (int, int) pos = positionGenerator.GetSpawnPosition(positionSeed);
+                    (double, double) pos = positionGenerator.GetSpawnPosition(positionSeed);
                     GD.Print(pos);
                 }
             }
