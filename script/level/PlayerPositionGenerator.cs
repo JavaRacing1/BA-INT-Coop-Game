@@ -23,7 +23,7 @@ namespace INTOnlineCoop.Script.Level
         /// <param name="debugMode">true if generated images should be saved</param>
         public void Init(Image image, string terrainName, bool debugMode = false)
         {
-            List<(int, int)> surfacePoints = ImageUtils.ComputeSurface(image, airPixelAmount: 4);
+            List<(int, int)> surfacePoints = ImageUtils.ComputeSurface(image, airPixelAmount: 4, xAirOffset: 1);
             surfacePoints = RemoveSecludedSurfacePoints(surfacePoints, image.GetWidth(), image.GetHeight());
 
             if (debugMode)
@@ -44,8 +44,8 @@ namespace INTOnlineCoop.Script.Level
         /// <summary>
         /// Calculates the spawn position for the next player
         /// </summary>
-        /// <param name="seed"></param>
-        /// <returns></returns>
+        /// <param name="seed">Seed for randomness</param>
+        /// <returns>Unscaled position of the spawn tile</returns>
         public (int, int) GetSpawnPosition(double seed)
         {
             double nextRandomPoint = Halton(_haltonIndex++, 2);

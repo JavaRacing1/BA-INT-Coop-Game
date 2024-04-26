@@ -157,8 +157,9 @@ namespace INTOnlineCoop.Script.Util
         /// </summary>
         /// <param name="image">The image of the terrain</param>
         /// <param name="airPixelAmount">Amount of transparent pixels required to count as surface</param>
+        /// <param name="xAirOffset">Amount of air pixels required left or right of a surface point</param>
         /// <returns></returns>
-        public static List<(int, int)> ComputeSurface(Image image, int airPixelAmount = 1)
+        public static List<(int, int)> ComputeSurface(Image image, int airPixelAmount = 1, int xAirOffset = 0)
         {
             List<(int, int)> surfacePoints = new();
             for (int x = 0; x < image.GetWidth(); x++)
@@ -171,14 +172,13 @@ namespace INTOnlineCoop.Script.Util
                         continue;
                     }
 
-                    bool pixelIsValid = true;
-                    for (int yOffset = 1; yOffset <= airPixelAmount; yOffset++)
+                    bool pixelIsValid = HasPixelEnoughAir(image, x, y, airPixelAmount);
+                    bool enoughSpaceLeft = HasPixelEnoughAir(image, x, y, airPixelAmount, -xAirOffset);
+                    bool enoughSpaceRight = HasPixelEnoughAir(image, x, y, airPixelAmount, xAirOffset);
+
+                    if (pixelIsValid && !enoughSpaceLeft && !enoughSpaceRight)
                     {
-                        if (PixelHasColor(image, Colors.Red, x, y - yOffset))
-                        {
-                            pixelIsValid = false;
-                            break;
-                        }
+                        pixelIsValid = false;
                     }
 
                     if (pixelIsValid)
@@ -199,10 +199,23 @@ namespace INTOnlineCoop.Script.Util
         /// <param name="x">The x-coordinate of the pixel</param>
         /// <param name="y">The y-coordinate of the pixel</param>
         /// <returns>True if the pixel is not transparent</returns>
-        public static bool PixelHasColor(Image image, Color color, int x, int y)
+        public static bool HasPixelColor(Image image, Color color, int x, int y)
         {
             return x >= 0 && x < image.GetWidth() && y >= 0 && y < image.GetHeight() &&
                    image.GetPixel(x, y).ToRgba32() == color.ToRgba32();
+        }
+
+        private static bool HasPixelEnoughAir(Image image, int x, int y, int airAmount, int xOffset = 0)
+        {
+            for (int yOffset = 1; yOffset <= airAmount; yOffset++)
+            {
+                if (HasPixelColor(image, Colors.Red, x + xOffset, y - yOffset))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static Image CreateImageFromBitmap(Bitmap bitmap)
