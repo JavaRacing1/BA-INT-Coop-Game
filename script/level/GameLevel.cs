@@ -17,7 +17,14 @@ namespace INTOnlineCoop.Script.Level
                 generator.SetTerrainType(type);
                 int seed = new Random().Next();
                 Image image = generator.Generate(seed);
-                positionGenerator.Init(image, type.ToString());
+                positionGenerator.Init(image, type.ToString(), true);
+
+                double positionSeed = new Random().NextDouble();
+                for (int i = 0; i < 24; i++)
+                {
+                    (int, int) pos = positionGenerator.GetSpawnPosition(positionSeed);
+                    GD.Print(pos);
+                }
             }
         }
     }
