@@ -195,14 +195,13 @@ namespace INTOnlineCoop.Script.Util
         /// Checks if a pixel has a specific color
         /// </summary>
         /// <param name="image">The image</param>
-        /// <param name="color">The color for the comparison</param>
         /// <param name="x">The x-coordinate of the pixel</param>
         /// <param name="y">The y-coordinate of the pixel</param>
         /// <returns>True if the pixel is not transparent</returns>
-        public static bool HasPixelColor(Image image, Color color, int x, int y)
+        public static bool HasPixelColor(Image image, int x, int y)
         {
             return x >= 0 && x < image.GetWidth() && y >= 0 && y < image.GetHeight() &&
-                   image.GetPixel(x, y).ToRgba32() == color.ToRgba32();
+                   image.GetPixel(x, y).A8 != 0;
         }
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace INTOnlineCoop.Script.Util
         {
             for (int yOffset = 1; yOffset <= airAmount; yOffset++)
             {
-                if (HasPixelColor(image, Colors.Red, x + xOffset, y - yOffset))
+                if (HasPixelColor(image, x + xOffset, y - yOffset))
                 {
                     return false;
                 }
