@@ -75,5 +75,10 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             _creditCanvas.Visible = false;
         }
+
+        private void OnSandboxButtonPressed()
+        {
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/SandboxSettingsScreen.tscn");
+        }
     }
 }
