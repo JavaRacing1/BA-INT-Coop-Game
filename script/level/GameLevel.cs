@@ -15,9 +15,9 @@ namespace INTOnlineCoop.Script.Level
             LevelGenerator generator = new();
             PlayerPositionGenerator positionGenerator = new();
             generator.EnableDebugMode();
-            foreach (TerrainType type in Enum.GetValues<TerrainType>())
+            foreach (TerrainShape type in Enum.GetValues<TerrainShape>())
             {
-                generator.SetTerrainType(type);
+                generator.SetTerrainShape(type);
                 int seed = new Random().Next();
                 Image image = generator.Generate(seed);
                 positionGenerator.Init(image, type.ToString(), true);
