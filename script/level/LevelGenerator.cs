@@ -173,7 +173,7 @@ namespace INTOnlineCoop.Script.Level
         {
             GD.Print("Loading terrain template");
             Texture2D templateTexture =
-                GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainShape}.png");
+                GD.Load<Texture2D>($"res://assets/texture/level/template/{_selectedTerrainShape}.png");
             Image templateImage = templateTexture.GetImage();
             CalculateTemplateEdges(templateImage);
             GD.Print("Loaded!");
