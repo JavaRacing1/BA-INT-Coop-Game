@@ -1,13 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=3 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
+[ext_resource type="Script" path="res://script/level/LevelTileManager.cs" id="2_l7ks5"]
 
-[node name="GameLevel" type="Node2D"]
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager")]
 script = ExtResource("1_v0801")
+_tileManager = NodePath("LevelTileManager")
 
-[node name="GenerationTestButton" type="Button" parent="."]
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Generate"
-
-[connection signal="pressed" from="GenerationTestButton" to="." method="OnGenerationButtonPressed"]
+[node name="LevelTileManager" type="Node2D" parent="."]
+script = ExtResource("2_l7ks5")
