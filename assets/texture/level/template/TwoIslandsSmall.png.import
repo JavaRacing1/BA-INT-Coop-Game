@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ttrhjwn1ugrl"
-path="res://.godot/imported/MultipleFloatingIslands.png-e47931c99b23d373f5009790711751a2.ctex"
+uid="uid://d1npiag4ty4n2"
+path="res://.godot/imported/TwoIslandsSmall.png-6b48ba109dc91bba5e772e94ae6e3c5a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/texture/level/MultipleFloatingIslands.png"
-dest_files=["res://.godot/imported/MultipleFloatingIslands.png-e47931c99b23d373f5009790711751a2.ctex"]
+source_file="res://assets/texture/level/template/TwoIslandsSmall.png"
+dest_files=["res://.godot/imported/TwoIslandsSmall.png-6b48ba109dc91bba5e772e94ae6e3c5a.ctex"]
 
 [params]
 

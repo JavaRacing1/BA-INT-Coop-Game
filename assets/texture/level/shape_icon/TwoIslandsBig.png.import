@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmdb12b1v1iry"
-path="res://.godot/imported/OneIslandSmall.png-f7cec3e30e9902f1c91a6c3328cb6120.ctex"
+uid="uid://dcg2ulg8qivyd"
+path="res://.godot/imported/TwoIslandsBig.png-1b9566a0bc143c092febd53d957f4136.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/texture/level/OneIslandSmall.png"
-dest_files=["res://.godot/imported/OneIslandSmall.png-f7cec3e30e9902f1c91a6c3328cb6120.ctex"]
+source_file="res://assets/texture/level/shape_icon/TwoIslandsBig.png"
+dest_files=["res://.godot/imported/TwoIslandsBig.png-1b9566a0bc143c092febd53d957f4136.ctex"]
 
 [params]
 

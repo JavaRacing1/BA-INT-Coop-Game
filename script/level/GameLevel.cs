@@ -9,15 +9,27 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class GameLevel : Node2D
     {
+        /// <summary>
+        /// Initializes the level instance
+        /// </summary>
+        /// <param name="terrainImage">Image containing the shape of the terrain</param>
+        public void Init(Image terrainImage)
+        {
+            //Placeholder to prevent errors -> Remove when implementing GameLevel
+            _ = terrainImage;
+
+            GD.Print("GameLevel initialized!");
+        }
+
         private static void OnGenerationButtonPressed()
         {
             //Level generator tests
             LevelGenerator generator = new();
             PlayerPositionGenerator positionGenerator = new();
             generator.EnableDebugMode();
-            foreach (TerrainType type in Enum.GetValues<TerrainType>())
+            foreach (TerrainShape type in Enum.GetValues<TerrainShape>())
             {
-                generator.SetTerrainType(type);
+                generator.SetTerrainShape(type);
                 int seed = new Random().Next();
                 Image image = generator.Generate(seed);
                 positionGenerator.Init(image, type.ToString(), true);

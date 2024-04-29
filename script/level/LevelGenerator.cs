@@ -10,7 +10,7 @@ namespace INTOnlineCoop.Script.Level
     /// <summary>
     /// Shape of the terrain
     /// </summary>
-    public enum TerrainType
+    public enum TerrainShape
     {
         /// <summary>One small island</summary>
         OneIslandSmall,
@@ -41,7 +41,7 @@ namespace INTOnlineCoop.Script.Level
     }
 
     /// <summary>
-    /// Generates a level with a given terrain type
+    /// Generates a level with a given terrain shape
     /// </summary>
     public partial class LevelGenerator : RefCounted
     {
@@ -49,13 +49,13 @@ namespace INTOnlineCoop.Script.Level
         private FastNoiseLite _noiseGenerator;
         private float _noiseThreshold = 20.0f;
 
-        private TerrainType _selectedTerrainType;
-        private bool _changedTerrainType;
+        private TerrainShape _selectedTerrainShape;
+        private bool _changedTerrainShape;
         private Stack<(int, int)> _foregroundContourPixels;
         private Stack<(int, int)> _backgroundBorderPixels;
 
         /// <summary>
-        /// Creates a new generator with a TerrainType
+        /// Creates a new generator with a TerrainShape
         /// </summary>
         public LevelGenerator()
         {
@@ -70,16 +70,16 @@ namespace INTOnlineCoop.Script.Level
         /// <summary>
         /// Changes the terrain shape
         /// </summary>
-        /// <param name="type">TerrainType which the generator should use</param>
-        public void SetTerrainType(TerrainType type)
+        /// <param name="shape">TerrainShape which the generator should use</param>
+        public void SetTerrainShape(TerrainShape shape)
         {
-            _selectedTerrainType = type;
-            _changedTerrainType = true;
+            _selectedTerrainShape = shape;
+            _changedTerrainShape = true;
         }
 
         /// <summary>
         /// Enables the debug mode. When the debug mode is active, all generated images will be saved to
-        /// "output/{TerrainType}/"
+        /// "output/{TerrainShape}/"
         /// </summary>
         public void EnableDebugMode()
         {
@@ -92,12 +92,12 @@ namespace INTOnlineCoop.Script.Level
         /// <returns>An image containing information about the terrain</returns>
         public Image Generate(int seed)
         {
-            if (!_changedTerrainType)
+            if (!_changedTerrainShape)
             {
-                GD.PrintErr("Terrain type of LevelGenerator was not set!");
+                GD.PrintErr("Terrain shape of LevelGenerator was not set!");
                 return null;
             }
-            GD.Print("Generating terrain for type " + _selectedTerrainType);
+            GD.Print("Generating terrain for shape " + _selectedTerrainShape);
             Image templateImage = LoadTerrainTemplate();
             _noiseGenerator.Seed = seed;
             Image terrainImage = GenerateNoiseImage(templateImage);
@@ -173,7 +173,7 @@ namespace INTOnlineCoop.Script.Level
         {
             GD.Print("Loading terrain template");
             Texture2D templateTexture =
-                GD.Load<Texture2D>($"res://assets/texture/level/{_selectedTerrainType}.png");
+                GD.Load<Texture2D>($"res://assets/texture/level/template/{_selectedTerrainShape}.png");
             Image templateImage = templateTexture.GetImage();
             CalculateTemplateEdges(templateImage);
             GD.Print("Loaded!");
@@ -214,13 +214,13 @@ namespace INTOnlineCoop.Script.Level
         {
             if (_debugModeActive)
             {
-                string path = $"res://output/{_selectedTerrainType}/";
+                string path = $"res://output/{_selectedTerrainShape}/";
                 using DirAccess dirAccess = DirAccess.Open("res://");
                 if (dirAccess != null)
                 {
-                    if (!dirAccess.DirExists("output") || !dirAccess.DirExists($"output/{_selectedTerrainType}"))
+                    if (!dirAccess.DirExists("output") || !dirAccess.DirExists($"output/{_selectedTerrainShape}"))
                     {
-                        _ = dirAccess.MakeDirRecursive($"output/{_selectedTerrainType}");
+                        _ = dirAccess.MakeDirRecursive($"output/{_selectedTerrainShape}");
                     }
                     _ = image.SavePng($"{path}/{name}.png");
                 }

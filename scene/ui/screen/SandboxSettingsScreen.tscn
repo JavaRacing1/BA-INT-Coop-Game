@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctc7akvhlwyrr"]
+[gd_scene load_steps=4 format=3 uid="uid://ctc7akvhlwyrr"]
 
 [ext_resource type="Script" path="res://script/ui/screen/SandboxSettingsScreen.cs" id="1_8b3xc"]
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_v0gyq"]
+[ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_jk25u"]
 
-[node name="SandboxSettingsScreen" type="Control"]
+[node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8b3xc")
+_generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1
@@ -48,6 +50,27 @@ grow_vertical = 0
 theme = ExtResource("1_v0gyq")
 theme_type_variation = &"LargeButton"
 text = "Zurück"
+
+[node name="GeneratorContainer" type="VBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.05
+offset_left = -186.0
+offset_bottom = 61.0
+grow_horizontal = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="Background/GeneratorContainer"]
+layout_mode = 2
+theme = ExtResource("1_v0gyq")
+text = "Form des Geländes"
+horizontal_alignment = 1
+
+[node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_jk25u")]
+layout_mode = 2
 
 [connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Background/BackButton" to="." method="OnBackButtonPressed"]

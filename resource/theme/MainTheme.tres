@@ -40,9 +40,17 @@ bg_color = Color(0.207843, 0.207843, 0.207843, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxlpg"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yegl3"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_shlnh"]
 

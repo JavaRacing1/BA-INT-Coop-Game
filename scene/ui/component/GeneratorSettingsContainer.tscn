@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://b731hwb4mwfjs"]
+
+[ext_resource type="Script" path="res://script/ui/component/GeneratorSettingsContainer.cs" id="1_3g3m7"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_dwxgn"]
+
+[node name="GeneratorSettingsContainer" type="VBoxContainer" node_paths=PackedStringArray("_shapeGrid", "_seedEdit")]
+custom_minimum_size = Vector2(266, 201)
+offset_right = 266.0
+offset_bottom = 201.0
+theme_override_constants/separation = 15
+script = ExtResource("1_3g3m7")
+_shapeGrid = NodePath("ShapeGrid")
+_seedEdit = NodePath("SeedContainer/SeedLineEdit")
+_buttonTheme = ExtResource("1_dwxgn")
+
+[node name="ShapeGrid" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 3
+
+[node name="SeedContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="SeedLabel" type="Label" parent="SeedContainer"]
+layout_mode = 2
+theme = ExtResource("1_dwxgn")
+text = "Seed:"
+
+[node name="SeedLineEdit" type="LineEdit" parent="SeedContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("1_dwxgn")
+placeholder_text = "Zufällig"
