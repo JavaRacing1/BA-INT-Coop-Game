@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=4 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
-[ext_resource type="Script" path="res://script/level/LevelTileManager.cs" id="2_l7ks5"]
+[ext_resource type="Script" path="res://script/level/tile/LevelTileManager.cs" id="2_l7ks5"]
+[ext_resource type="TileSet" uid="uid://m5d5tod6nelb" path="res://resource/tileset/TestTileSet.tres" id="3_g3n4h"]
 
 [node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 
-[node name="LevelTileManager" type="Node2D" parent="."]
+[node name="LevelTileManager" type="Node2D" parent="." node_paths=PackedStringArray("_tileMap")]
 script = ExtResource("2_l7ks5")
+_tileMap = NodePath("../LevelTileMap")
+
+[node name="LevelTileMap" type="TileMap" parent="."]
+tile_set = ExtResource("3_g3n4h")
+format = 2
