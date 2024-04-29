@@ -9,6 +9,18 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class GameLevel : Node2D
     {
+        /// <summary>
+        /// Initializes the level instance
+        /// </summary>
+        /// <param name="terrainImage">Image containing the shape of the terrain</param>
+        public void Init(Image terrainImage)
+        {
+            //Placeholder to prevent errors -> Remove when implementing GameLevel
+            _ = terrainImage;
+
+            GD.Print("GameLevel initialized!");
+        }
+
         private static void OnGenerationButtonPressed()
         {
             //Level generator tests

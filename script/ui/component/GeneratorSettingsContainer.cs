@@ -12,10 +12,42 @@ namespace INTOnlineCoop.Script.UI.Component
     public partial class GeneratorSettingsContainer : VBoxContainer
     {
         [Export] private GridContainer _shapeGrid;
+        [Export] private LineEdit _seedEdit;
         [Export] private Theme _buttonTheme;
 
         private Button _selectedButton;
-        private TerrainShape _selectedTerrainShape;
+        private string _seed = "";
+
+        /// <summary>
+        /// TerrainShape selected by the user
+        /// </summary>
+        public TerrainShape SelectedTerrainShape
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Seed for 
+        /// </summary>
+        public int Seed
+        {
+            get
+            {
+                if (_seed == "")
+                {
+                    return new Random().Next();
+                }
+
+                bool isNumericInput = int.TryParse(_seed, out int seed);
+                if (!isNumericInput)
+                {
+                    seed = _seed.GetHashCode();
+                }
+
+                return seed;
+            }
+        }
 
         /// <summary>
         /// Initializes the container
@@ -37,6 +69,11 @@ namespace INTOnlineCoop.Script.UI.Component
                     _shapeGrid.AddChild(button);
                 }
             }
+
+            if (_seedEdit != null)
+            {
+                _seedEdit.TextChanged += OnSeedLineEditTextChanged;
+            }
         }
 
         private void OnTerrainButtonClick(Button button, TerrainShape shape)
@@ -48,7 +85,12 @@ namespace INTOnlineCoop.Script.UI.Component
 
             _selectedButton = button;
             _selectedButton.ThemeTypeVariation = "SelectedButton";
-            _selectedTerrainShape = shape;
+            SelectedTerrainShape = shape;
+        }
+
+        private void OnSeedLineEditTextChanged(string input)
+        {
+            _seed = input;
         }
     }
 }

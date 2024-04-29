@@ -3,12 +3,14 @@
 [ext_resource type="Script" path="res://script/ui/component/GeneratorSettingsContainer.cs" id="1_3g3m7"]
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_dwxgn"]
 
-[node name="GeneratorSettingsContainer" type="VBoxContainer" node_paths=PackedStringArray("_shapeGrid")]
-offset_right = 248.0
-offset_bottom = 172.0
+[node name="GeneratorSettingsContainer" type="VBoxContainer" node_paths=PackedStringArray("_shapeGrid", "_seedEdit")]
+custom_minimum_size = Vector2(266, 201)
+offset_right = 266.0
+offset_bottom = 201.0
 theme_override_constants/separation = 15
 script = ExtResource("1_3g3m7")
 _shapeGrid = NodePath("ShapeGrid")
+_seedEdit = NodePath("SeedContainer/SeedLineEdit")
 _buttonTheme = ExtResource("1_dwxgn")
 
 [node name="ShapeGrid" type="GridContainer" parent="."]
@@ -19,12 +21,12 @@ columns = 3
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="SeedContainer"]
+[node name="SeedLabel" type="Label" parent="SeedContainer"]
 layout_mode = 2
 theme = ExtResource("1_dwxgn")
 text = "Seed:"
 
-[node name="LineEdit" type="LineEdit" parent="SeedContainer"]
+[node name="SeedLineEdit" type="LineEdit" parent="SeedContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme = ExtResource("1_dwxgn")
