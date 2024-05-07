@@ -13,8 +13,8 @@ namespace INTOnlineCoop.Script.Level
 
         [ExportGroup("Limit")]
         // Maximum pixel offsets of the camera to the terrain, used for calculating the camera limits
-        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetX = 200;
-        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 80;
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetX = 300;
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 120;
 
         [ExportGroup("Zoom")]
         [Export(PropertyHint.Range, "0,1,")] private float _zoomSize = 0.1f;
@@ -95,10 +95,6 @@ namespace INTOnlineCoop.Script.Level
         {
             float halfViewportX = GetViewportRect().Size.X / 2 * (1 / Zoom.X);
             float halfViewportY = GetViewportRect().Size.Y / 2 * (1 / Zoom.Y);
-
-            GD.Print((GetViewportRect().Size.X / 2) + " " + (GetViewportRect().Size.Y / 2));
-            GD.Print(halfViewportX + " " + halfViewportY);
-
             float limitedX = Math.Clamp(Position.X, LimitLeft + halfViewportX, LimitRight - halfViewportX);
             float limitedY = Math.Clamp(Position.Y, LimitTop + halfViewportY, LimitBottom - halfViewportY);
             Position = new Vector2(limitedX, limitedY);
