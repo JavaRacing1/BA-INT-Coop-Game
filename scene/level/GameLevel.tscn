@@ -11,6 +11,7 @@ _tileManager = NodePath("LevelTileManager")
 _camera = NodePath("PlayerCamera")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
 script = ExtResource("2_0aiww")
 
 [node name="LevelTileManager" type="Node2D" parent="." node_paths=PackedStringArray("_tileMap")]

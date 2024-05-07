@@ -7,7 +7,7 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class PlayerCamera : Camera2D
     {
-        private const int CameraSpeed = 10;
+        [Export] private int _cameraSpeed = 10;
 
         /// <summary>
         /// Called every frame
@@ -35,7 +35,7 @@ namespace INTOnlineCoop.Script.Level
                 moveVector.Y += 1;
             }
 
-            Position += moveVector * CameraSpeed;
+            Position += moveVector * _cameraSpeed;
         }
     }
 }
