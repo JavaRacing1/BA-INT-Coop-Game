@@ -10,6 +10,7 @@ namespace INTOnlineCoop.Script.Level
     public partial class PlayerCamera : Camera2D
     {
         [Export(PropertyHint.Range, "0,500,")] private int _cameraSpeed = 10;
+        [Export(PropertyHint.Range, "0,200,")] private int _mouseMoveDistance = 50;
 
         [ExportGroup("Limit")]
         // Maximum pixel offsets of the camera to the terrain, used for calculating the camera limits
@@ -40,23 +41,24 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _Process(double delta)
         {
+            Vector2 mousePosition = GetViewport().GetMousePosition();
             Vector2I moveVector = Vector2I.Zero;
-            if (Input.IsActionPressed("camera_left"))
+            if (Input.IsActionPressed("camera_left") || mousePosition.X <= _mouseMoveDistance)
             {
                 moveVector.X -= 1;
             }
 
-            if (Input.IsActionPressed("camera_up"))
+            if (Input.IsActionPressed("camera_up") || mousePosition.Y <= _mouseMoveDistance)
             {
                 moveVector.Y -= 1;
             }
 
-            if (Input.IsActionPressed("camera_right"))
+            if (Input.IsActionPressed("camera_right") || mousePosition.X >= GetViewportRect().Size.X - _mouseMoveDistance)
             {
                 moveVector.X += 1;
             }
 
-            if (Input.IsActionPressed("camera_down"))
+            if (Input.IsActionPressed("camera_down") || mousePosition.Y >= GetViewportRect().Size.Y - _mouseMoveDistance)
             {
                 moveVector.Y += 1;
             }
@@ -74,9 +76,9 @@ namespace INTOnlineCoop.Script.Level
         /// <param name="event">The input event</param>
         public override void _UnhandledInput(InputEvent @event)
         {
-            if (@event is InputEventMouseButton mouseEvent)
+            if (@event is InputEventMouseButton mouseButtonEvent)
             {
-                int zoomDirectionMultiplier = mouseEvent.ButtonIndex switch
+                int zoomDirectionMultiplier = mouseButtonEvent.ButtonIndex switch
                 {
                     MouseButton.WheelUp => 1,
                     MouseButton.WheelDown => -1,
