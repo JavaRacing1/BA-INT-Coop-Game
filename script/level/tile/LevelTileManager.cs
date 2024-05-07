@@ -19,6 +19,10 @@ namespace INTOnlineCoop.Script.Level.Tile
         /// <param name="useTerrains">If terrains should be used instead of tiles</param>
         public void InitTileMap(Image terrainImage, bool useTerrains = false)
         {
+            if (terrainImage == null)
+            {
+                return;
+            }
             System.Collections.Generic.Dictionary<Color, Array<Vector2I>> pixelCache = new();
             for (int x = 0; x < terrainImage.GetWidth(); x++)
             {
@@ -74,6 +78,15 @@ namespace INTOnlineCoop.Script.Level.Tile
                     _tileMap.SetCellsTerrainConnect(0, cachedCells, terrainInformation.Item1, terrainInformation.Item2);
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns the tile size of the TileMap
+        /// </summary>
+        /// <returns>Current tile size</returns>
+        public Vector2I GetTileSize()
+        {
+            return _tileMap == null ? Vector2I.Zero : _tileMap.TileSet.TileSize;
         }
     }
 }
