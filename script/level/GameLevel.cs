@@ -15,8 +15,8 @@ namespace INTOnlineCoop.Script.Level
 
         [ExportGroup("CameraSettings")]
         // Maximum pixel offsets of the camera to the terrain, used for calculating the horizontal camera limits
-        [Export] private int _cameraLimitOffsetX = 200;
-        [Export] private int _cameraLimitOffsetY = 80;
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetX = 200;
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 80;
 
         private Image _terrainImage;
 

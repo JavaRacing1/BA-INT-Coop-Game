@@ -7,7 +7,7 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class PlayerCamera : Camera2D
     {
-        [Export] private int _cameraSpeed = 10;
+        [Export(PropertyHint.Range, "0,500,")] private int _cameraSpeed = 10;
 
         /// <summary>
         /// Called every frame
