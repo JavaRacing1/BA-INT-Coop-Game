@@ -1,6 +1,6 @@
-using System;
-
 using Godot;
+
+using INTOnlineCoop.Script.Level.Tile;
 
 namespace INTOnlineCoop.Script.Level
 {
@@ -9,39 +9,29 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class GameLevel : Node2D
     {
+        [Export] private LevelTileManager _tileManager;
+
+        private Image _terrainImage;
+
         /// <summary>
         /// Initializes the level instance
         /// </summary>
         /// <param name="terrainImage">Image containing the shape of the terrain</param>
         public void Init(Image terrainImage)
         {
-            //Placeholder to prevent errors -> Remove when implementing GameLevel
-            _ = terrainImage;
-
+            _terrainImage = terrainImage;
             GD.Print("GameLevel initialized!");
         }
 
-        private static void OnGenerationButtonPressed()
+        /// <summary>
+        /// Called when the node enters the scene tree
+        /// </summary>
+        public override void _Ready()
         {
-            //Level generator tests
-            LevelGenerator generator = new();
-            PlayerPositionGenerator positionGenerator = new();
-            generator.EnableDebugMode();
-            foreach (TerrainShape type in Enum.GetValues<TerrainShape>())
+            if (_tileManager != null)
             {
-                generator.SetTerrainShape(type);
-                int seed = new Random().Next();
-                Image image = generator.Generate(seed);
-                positionGenerator.Init(image, type.ToString(), true);
-
-                double positionSeed = new Random().NextDouble();
-                for (int i = 0; i < 5; i++)
-                {
-                    (double, double) pos = positionGenerator.GetSpawnPosition(positionSeed);
-                    GD.Print(pos);
-                }
+                _tileManager.InitTileMap(_terrainImage);
             }
         }
     }
 }
-
