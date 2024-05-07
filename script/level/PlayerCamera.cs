@@ -10,10 +10,30 @@ namespace INTOnlineCoop.Script.Level
     public partial class PlayerCamera : Camera2D
     {
         [Export(PropertyHint.Range, "0,500,")] private int _cameraSpeed = 10;
+
+        [ExportGroup("Limit")]
+        // Maximum pixel offsets of the camera to the terrain, used for calculating the camera limits
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetX = 200;
+        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 80;
+
         [ExportGroup("Zoom")]
         [Export(PropertyHint.Range, "0,1,")] private float _zoomSize = 0.1f;
         [Export(PropertyHint.Range, "0.01,2,")] private float _minZoom = 0.1f;
         [Export(PropertyHint.Range, "0.01,2,")] private float _maxZoom = 2f;
+
+        /// <summary>
+        /// Initializes the camera
+        /// </summary>
+        /// <param name="terrainSize">Size of the terrain</param>
+        public void Init(Vector2I terrainSize)
+        {
+            LimitLeft = -_cameraLimitOffsetX;
+            LimitTop = -_cameraLimitOffsetY * 2;
+            LimitRight = terrainSize.X + _cameraLimitOffsetX;
+            LimitBottom = terrainSize.Y + _cameraLimitOffsetY;
+
+            Position = new Vector2(terrainSize.X / 2f, terrainSize.Y / 2f);
+        }
 
         /// <summary>
         /// Called every frame
@@ -42,6 +62,10 @@ namespace INTOnlineCoop.Script.Level
             }
 
             Position += moveVector * _cameraSpeed;
+            if (moveVector != Vector2I.Zero)
+            {
+                LimitPosition();
+            }
         }
 
         /// <summary>
@@ -65,6 +89,19 @@ namespace INTOnlineCoop.Script.Level
                     Zoom = new Vector2(newZoom, newZoom);
                 }
             }
+        }
+
+        private void LimitPosition()
+        {
+            float halfViewportX = GetViewportRect().Size.X / 2 * (1 / Zoom.X);
+            float halfViewportY = GetViewportRect().Size.Y / 2 * (1 / Zoom.Y);
+
+            GD.Print((GetViewportRect().Size.X / 2) + " " + (GetViewportRect().Size.Y / 2));
+            GD.Print(halfViewportX + " " + halfViewportY);
+
+            float limitedX = Math.Clamp(Position.X, LimitLeft + halfViewportX, LimitRight - halfViewportX);
+            float limitedY = Math.Clamp(Position.Y, LimitTop + halfViewportY, LimitBottom - halfViewportY);
+            Position = new Vector2(limitedX, limitedY);
         }
     }
 }

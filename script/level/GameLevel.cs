@@ -9,14 +9,8 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class GameLevel : Node2D
     {
-        [ExportGroup("Nodes")]
         [Export] private LevelTileManager _tileManager;
-        [Export] private Camera2D _camera;
-
-        [ExportGroup("CameraSettings")]
-        // Maximum pixel offsets of the camera to the terrain, used for calculating the horizontal camera limits
-        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetX = 200;
-        [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 80;
+        [Export] private PlayerCamera _camera;
 
         private Image _terrainImage;
 
@@ -30,13 +24,8 @@ namespace INTOnlineCoop.Script.Level
             if (_camera != null)
             {
                 Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
-                _camera.LimitLeft = -_cameraLimitOffsetX;
-                _camera.LimitTop = -_cameraLimitOffsetY * 2;
-                _camera.LimitRight = (terrainImage.GetWidth() * tileSize.X) + _cameraLimitOffsetX;
-                _camera.LimitBottom = (terrainImage.GetHeight() * tileSize.Y) + _cameraLimitOffsetY;
-
-                _camera.Position = new Vector2(terrainImage.GetWidth() * tileSize.X / 2f,
-                    terrainImage.GetHeight() * tileSize.Y / 2f);
+                Vector2I terrainSize = new(terrainImage.GetWidth() * tileSize.X, terrainImage.GetHeight() * tileSize.Y);
+                _camera.Init(terrainSize);
             }
 
             GD.Print("GameLevel initialized!");
