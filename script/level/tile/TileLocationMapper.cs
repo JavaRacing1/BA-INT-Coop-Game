@@ -20,18 +20,19 @@ namespace INTOnlineCoop.Script.Level.Tile
     public static class TileLocationMapper
     {
         private static readonly ImmutableDictionary<Color, LevelTile> ColorMap = ImmutableDictionary.CreateRange(
-            new[]
-            {
-                KeyValuePair.Create(Colors.Red, LevelTile.Test)
-            }
+            new[] { KeyValuePair.Create(Colors.Red, LevelTile.Test) }
         );
+
+        /// <summary>
+        /// Contains colors and its related terrain set id and terrain id
+        /// </summary>
+        private static readonly ImmutableDictionary<Color, (int, int)> ColorTerrainMap =
+            ImmutableDictionary.CreateRange(
+                new[] { KeyValuePair.Create(Colors.Red, (0, 0)) });
 
         private static readonly ImmutableDictionary<LevelTile, TileLocationData> TypeMap =
             ImmutableDictionary.CreateRange(
-                new[]
-                {
-                    KeyValuePair.Create(LevelTile.Test, new TileLocationData(0, 0, 0, 0))
-                });
+                new[] { KeyValuePair.Create(LevelTile.Test, new TileLocationData(0, 0, 0)) });
 
         /// <summary>
         /// Returns the location of the tile by a color
@@ -45,6 +46,7 @@ namespace INTOnlineCoop.Script.Level.Tile
                 GD.PrintErr($"No tile found for color {color}!");
                 return null;
             }
+
             LevelTile levelTile = ColorMap.GetValueOrDefault(color);
             return GetTileByType(levelTile);
         }
@@ -63,6 +65,22 @@ namespace INTOnlineCoop.Script.Level.Tile
             }
 
             return TypeMap.GetValueOrDefault(levelTile);
+        }
+
+        /// <summary>
+        /// Returns terrain data by a color
+        /// </summary>
+        /// <param name="color">Image color</param>
+        /// <returns>Id of the terrain set and terrain id</returns>
+        public static (int, int) GetTerrainByColor(Color color)
+        {
+            if (!ColorTerrainMap.ContainsKey(color))
+            {
+                GD.PrintErr($"No terrain found for color {color}!");
+                return (-1, -1);
+            }
+
+            return ColorTerrainMap.GetValueOrDefault(color);
         }
     }
 }
