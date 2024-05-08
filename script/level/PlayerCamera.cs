@@ -42,6 +42,26 @@ namespace INTOnlineCoop.Script.Level
         }
 
         /// <summary>
+        /// Moves the camera to a position
+        /// </summary>
+        /// <param name="newPosition">New position of the camera</param>
+        public void MoveCamera(Vector2 newPosition)
+        {
+            Position = newPosition;
+            LimitPosition();
+        }
+
+        /// <summary>
+        /// Changes the zoom level of the camera
+        /// </summary>
+        /// <param name="newZoomLevel">New zoom level</param>
+        public void ChangeCameraZoom(float newZoomLevel)
+        {
+            float clampedZoom = Math.Clamp(newZoomLevel, _minZoom, _maxZoom);
+            Zoom = new Vector2(clampedZoom, clampedZoom);
+        }
+
+        /// <summary>
         /// Called every frame
         /// </summary>
         public override async void _Process(double delta)
