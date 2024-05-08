@@ -42,7 +42,7 @@ namespace INTOnlineCoop.Script.UI.Component
                 bool isNumericInput = int.TryParse(_seed, out int seed);
                 if (!isNumericInput)
                 {
-                    seed = _seed.GetHashCode();
+                    seed = unchecked((int)_seed.Hash());
                 }
 
                 return seed;
