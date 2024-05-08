@@ -66,6 +66,11 @@ namespace INTOnlineCoop.Script.UI.Component
                         Icon = GD.Load<Texture2D>($"res://assets/texture/level/shape_icon/{shape}.png")
                     };
                     button.Pressed += () => OnTerrainButtonClick(button, shape);
+                    if (shape == TerrainShape.OneIslandSmall)
+                    {
+                        _selectedButton = button;
+                        _selectedButton.ThemeTypeVariation = "SelectedButton";
+                    }
                     _shapeGrid.AddChild(button);
                 }
             }
