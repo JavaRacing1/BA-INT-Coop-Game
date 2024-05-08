@@ -10,6 +10,7 @@ namespace INTOnlineCoop.Script.Level
     public partial class GameLevel : Node2D
     {
         [Export] private LevelTileManager _tileManager;
+        [Export] private PlayerCamera _camera;
 
         private Image _terrainImage;
 
@@ -20,6 +21,13 @@ namespace INTOnlineCoop.Script.Level
         public void Init(Image terrainImage)
         {
             _terrainImage = terrainImage;
+            if (_camera != null)
+            {
+                Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
+                Vector2I terrainSize = new(terrainImage.GetWidth() * tileSize.X, terrainImage.GetHeight() * tileSize.Y);
+                _camera.Init(terrainSize);
+            }
+
             GD.Print("GameLevel initialized!");
         }
 
