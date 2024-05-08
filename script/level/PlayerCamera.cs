@@ -18,9 +18,13 @@ namespace INTOnlineCoop.Script.Level
         [Export(PropertyHint.Range, "0,10000,")] private int _cameraLimitOffsetY = 120;
 
         [ExportGroup("Zoom")]
-        [Export(PropertyHint.Range, "0,1,")] private float _zoomSize = 0.1f;
+        [Export(PropertyHint.Range, "0,1,")] private float _zoomSize = 0.3f;
         [Export(PropertyHint.Range, "0.01,2,")] private float _minZoom = 0.1f;
         [Export(PropertyHint.Range, "0.01,2,")] private float _maxZoom = 2f;
+
+        private const float ZoomInterpolationWeight = 0.1f;
+        private bool _isZoomingOut;
+        private bool _isZoomingIn;
 
         /// <summary>
         /// Initializes the camera
@@ -40,7 +44,7 @@ namespace INTOnlineCoop.Script.Level
         /// <summary>
         /// Called every frame
         /// </summary>
-        public override void _Process(double delta)
+        public override async void _Process(double delta)
         {
             Vector2 mousePosition = GetViewport().GetMousePosition();
             Vector2I moveVector = Vector2I.Zero;
@@ -73,6 +77,23 @@ namespace INTOnlineCoop.Script.Level
                 PositionSmoothingEnabled = true;
                 LimitPosition();
             }
+
+            if (_isZoomingIn || _isZoomingOut)
+            {
+                float newZoom = _isZoomingIn ? Zoom.X + _zoomSize : Zoom.X - _zoomSize;
+                float interpolatedZoom = Mathf.Lerp(Zoom.X, Math.Clamp(newZoom, _minZoom, _maxZoom), ZoomInterpolationWeight);
+                Zoom = new Vector2(interpolatedZoom, interpolatedZoom);
+                _ = await ToSignal(GetTree().CreateTimer(0.05), Timer.SignalName.Timeout);
+                if (_isZoomingIn)
+                {
+                    _isZoomingIn = false;
+                }
+
+                if (_isZoomingOut)
+                {
+                    _isZoomingOut = false;
+                }
+            }
         }
 
         /// <summary>
@@ -83,18 +104,11 @@ namespace INTOnlineCoop.Script.Level
         {
             if (@event is InputEventMouseButton mouseButtonEvent)
             {
-                int zoomDirectionMultiplier = mouseButtonEvent.ButtonIndex switch
+                PositionSmoothingEnabled = false;
+                switch (mouseButtonEvent.ButtonIndex)
                 {
-                    MouseButton.WheelUp => 1,
-                    MouseButton.WheelDown => -1,
-                    _ => 0
-                };
-
-                if (zoomDirectionMultiplier != 0)
-                {
-                    PositionSmoothingEnabled = false;
-                    float newZoom = Math.Clamp(Zoom.X + (_zoomSize * zoomDirectionMultiplier), _minZoom, _maxZoom);
-                    Zoom = new Vector2(newZoom, newZoom);
+                    case MouseButton.WheelUp: _isZoomingIn = true; break;
+                    case MouseButton.WheelDown: _isZoomingOut = true; break;
                 }
             }
         }

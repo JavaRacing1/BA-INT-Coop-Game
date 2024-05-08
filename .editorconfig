@@ -18,6 +18,7 @@ dotnet_analyzer_diagnostic.category-Maintainability.severity = warning
 dotnet_analyzer_diagnostic.category-Performance.severity = warning
 dotnet_analyzer_diagnostic.category-Usage.severity = warning
 dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.IDE0010.severity = none
 
 #### Core EditorConfig Options ####
 
