@@ -10,7 +10,7 @@ namespace INTOnlineCoop.Script.Level
     public partial class PlayerCamera : Camera2D
     {
         [Export(PropertyHint.Range, "0,500,")] private int _cameraSpeed = 10;
-        [Export(PropertyHint.Range, "0,200,")] private int _mouseMoveDistance = 50;
+        [Export(PropertyHint.Range, "0,200,")] private int _mouseMoveDistance = 20;
 
         [ExportGroup("Limit")]
         // Maximum pixel offsets of the camera to the terrain, used for calculating the camera limits
@@ -34,6 +34,7 @@ namespace INTOnlineCoop.Script.Level
             LimitBottom = terrainSize.Y + _cameraLimitOffsetY;
 
             Position = new Vector2(terrainSize.X / 2f, terrainSize.Y / 2f);
+            Zoom = new Vector2(0.1f, 0.1f);
         }
 
         /// <summary>
@@ -43,29 +44,33 @@ namespace INTOnlineCoop.Script.Level
         {
             Vector2 mousePosition = GetViewport().GetMousePosition();
             Vector2I moveVector = Vector2I.Zero;
-            if (Input.IsActionPressed("camera_left") || mousePosition.X <= _mouseMoveDistance)
+            if (Input.IsActionPressed("camera_left") ||
+                (mousePosition.X <= _mouseMoveDistance && IsMouseInsideWindow()))
             {
                 moveVector.X -= 1;
             }
 
-            if (Input.IsActionPressed("camera_up") || mousePosition.Y <= _mouseMoveDistance)
+            if (Input.IsActionPressed("camera_up") || (mousePosition.Y <= _mouseMoveDistance && IsMouseInsideWindow()))
             {
                 moveVector.Y -= 1;
             }
 
-            if (Input.IsActionPressed("camera_right") || mousePosition.X >= GetViewportRect().Size.X - _mouseMoveDistance)
+            if (Input.IsActionPressed("camera_right") ||
+                (mousePosition.X >= GetViewportRect().Size.X - _mouseMoveDistance && IsMouseInsideWindow()))
             {
                 moveVector.X += 1;
             }
 
-            if (Input.IsActionPressed("camera_down") || mousePosition.Y >= GetViewportRect().Size.Y - _mouseMoveDistance)
+            if (Input.IsActionPressed("camera_down") ||
+                (mousePosition.Y >= GetViewportRect().Size.Y - _mouseMoveDistance && IsMouseInsideWindow()))
             {
                 moveVector.Y += 1;
             }
 
-            Position += moveVector * _cameraSpeed;
+            Position += moveVector * (int)(_cameraSpeed * (1 / Zoom.X));
             if (moveVector != Vector2I.Zero)
             {
+                PositionSmoothingEnabled = true;
                 LimitPosition();
             }
         }
@@ -87,6 +92,7 @@ namespace INTOnlineCoop.Script.Level
 
                 if (zoomDirectionMultiplier != 0)
                 {
+                    PositionSmoothingEnabled = false;
                     float newZoom = Math.Clamp(Zoom.X + (_zoomSize * zoomDirectionMultiplier), _minZoom, _maxZoom);
                     Zoom = new Vector2(newZoom, newZoom);
                 }
@@ -100,6 +106,14 @@ namespace INTOnlineCoop.Script.Level
             float limitedX = Math.Clamp(Position.X, LimitLeft + halfViewportX, LimitRight - halfViewportX);
             float limitedY = Math.Clamp(Position.Y, LimitTop + halfViewportY, LimitBottom - halfViewportY);
             Position = new Vector2(limitedX, limitedY);
+        }
+
+        private bool IsMouseInsideWindow()
+        {
+            Vector2 mousePosition = GetViewport().GetMousePosition();
+            Vector2 windowSize = GetViewportRect().Size;
+            return 0 <= mousePosition.X && mousePosition.X <= windowSize.X && 0 <= mousePosition.Y &&
+                   mousePosition.Y <= windowSize.Y;
         }
     }
 }
