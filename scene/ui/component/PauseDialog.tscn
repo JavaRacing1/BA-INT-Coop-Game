@@ -53,3 +53,4 @@ text = "Beenden"
 
 [connection signal="pressed" from="MarginContainer/NodeContainer/ResumeButton" to="." method="OnResumeButtonPressed"]
 [connection signal="pressed" from="MarginContainer/NodeContainer/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="MarginContainer/NodeContainer/ExitButton" to="." method="OnExitButtonPressed"]

@@ -10,6 +10,13 @@ namespace INTOnlineCoop.Script.UI.Component
     /// </summary>
     public partial class PauseDialog : Control
     {
+        /// <summary>
+        /// Emitted when the exit button is pressed + confirmed
+        /// </summary>
+        [Signal]
+        public delegate void ExitConfirmedEventHandler();
+
+        private GameConfirmationDialog _exitDialog;
         private SettingsWindow _settingsWindow;
 
         private void OnResumeButtonPressed()
@@ -29,6 +36,18 @@ namespace INTOnlineCoop.Script.UI.Component
 
             _settingsWindow.Layer = 2;
             _settingsWindow.Visible = true;
+        }
+
+        private void OnExitButtonPressed()
+        {
+            if (_exitDialog == null)
+            {
+                _exitDialog = new("Level verlassen", "Möchtest du wirklich das Level verlassen?");
+                _exitDialog.GetOkButton().Pressed += () => EmitSignal(SignalName.ExitConfirmed);
+                AddChild(_exitDialog);
+            }
+
+            _exitDialog.Visible = true;
         }
     }
 }

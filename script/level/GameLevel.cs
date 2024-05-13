@@ -2,6 +2,7 @@ using Godot;
 
 using INTOnlineCoop.Script.Level.Tile;
 using INTOnlineCoop.Script.UI.Component;
+using INTOnlineCoop.Script.UI.Screen;
 
 namespace INTOnlineCoop.Script.Level
 {
@@ -70,12 +71,22 @@ namespace INTOnlineCoop.Script.Level
                 {
                     pauseDialog = GD.Load<PackedScene>("res://scene/ui/component/PauseDialog.tscn")
                         .Instantiate<PauseDialog>();
+                    pauseDialog.ExitConfirmed += OnExit;
                     _userInterfaceLayer.AddChild(pauseDialog);
                 }
 
                 IsInputBlocked = true;
                 pauseDialog.Visible = true;
             }
+        }
+
+        private void OnExit()
+        {
+            IsInputBlocked = false;
+            MainMenu menu = GD.Load<PackedScene>("res://scene/ui/screen/MainMenu.tscn").Instantiate<MainMenu>();
+            GetTree().Root.AddChild(menu);
+            GetTree().CurrentScene = menu;
+            QueueFree();
         }
     }
 }
