@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.UI.Component
 {
     /// <summary>
@@ -10,6 +12,7 @@ namespace INTOnlineCoop.Script.UI.Component
         private void OnResumeButtonPressed()
         {
             Visible = false;
+            GameLevel.IsInputBlocked = false;
         }
     }
 }

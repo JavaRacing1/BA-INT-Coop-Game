@@ -66,6 +66,10 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override async void _Process(double delta)
         {
+            if (GameLevel.IsInputBlocked)
+            {
+                return;
+            }
             Vector2 mousePosition = GetViewport().GetMousePosition();
             Vector2I moveVector = Vector2I.Zero;
             if (Input.IsActionPressed("camera_left") ||
@@ -122,6 +126,10 @@ namespace INTOnlineCoop.Script.Level
         /// <param name="event">The input event</param>
         public override void _UnhandledInput(InputEvent @event)
         {
+            if (GameLevel.IsInputBlocked)
+            {
+                return;
+            }
             if (@event is InputEventMouseButton mouseButtonEvent)
             {
                 PositionSmoothingEnabled = false;

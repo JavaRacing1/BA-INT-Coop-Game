@@ -17,6 +17,15 @@ namespace INTOnlineCoop.Script.Level
         private Image _terrainImage;
 
         /// <summary>
+        /// Flag variable for blocking the game inputs
+        /// </summary>
+        public static bool IsInputBlocked
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Initializes the level instance
         /// </summary>
         /// <param name="terrainImage">Image containing the shape of the terrain</param>
@@ -50,6 +59,10 @@ namespace INTOnlineCoop.Script.Level
         /// <param name="event">The input event</param>
         public override void _UnhandledInput(InputEvent @event)
         {
+            if (IsInputBlocked)
+            {
+                return;
+            }
             if (@event is InputEventKey { Keycode: Key.Escape } && _userInterfaceLayer != null)
             {
                 PauseDialog pauseDialog = _userInterfaceLayer.GetNodeOrNull<PauseDialog>("PauseDialog");
@@ -60,6 +73,7 @@ namespace INTOnlineCoop.Script.Level
                     _userInterfaceLayer.AddChild(pauseDialog);
                 }
 
+                IsInputBlocked = true;
                 pauseDialog.Visible = true;
             }
         }
