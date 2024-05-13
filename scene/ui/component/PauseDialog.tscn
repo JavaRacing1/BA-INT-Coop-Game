@@ -39,3 +39,5 @@ text = "Einstellungen"
 layout_mode = 2
 theme = ExtResource("2_brlu7")
 text = "Beenden"
+
+[connection signal="pressed" from="MarginContainer/NodeContainer/ResumeButton" to="." method="OnResumeButtonPressed"]

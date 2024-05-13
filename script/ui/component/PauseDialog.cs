@@ -7,5 +7,9 @@ namespace INTOnlineCoop.Script.UI.Component
     /// </summary>
     public partial class PauseDialog : Control
     {
+        private void OnResumeButtonPressed()
+        {
+            Visible = false;
+        }
     }
 }
