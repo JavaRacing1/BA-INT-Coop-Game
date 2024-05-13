@@ -5,10 +5,11 @@
 [ext_resource type="Script" path="res://script/level/tile/LevelTileManager.cs" id="2_l7ks5"]
 [ext_resource type="TileSet" uid="uid://m5d5tod6nelb" path="res://resource/tileset/TestTileSet.tres" id="3_g3n4h"]
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera")]
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera", "_userInterfaceLayer")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 _camera = NodePath("PlayerCamera")
+_userInterfaceLayer = NodePath("UserInterfaceLayer")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -22,3 +23,5 @@ _tileMap = NodePath("../LevelTileMap")
 [node name="LevelTileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_g3n4h")
 format = 2
+
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="."]

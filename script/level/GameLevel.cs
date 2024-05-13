@@ -1,6 +1,8 @@
 using Godot;
 
 using INTOnlineCoop.Script.Level.Tile;
+using INTOnlineCoop.Script.UI.Component;
+using INTOnlineCoop.Script.UI.Screen;
 
 namespace INTOnlineCoop.Script.Level
 {
@@ -11,8 +13,18 @@ namespace INTOnlineCoop.Script.Level
     {
         [Export] private LevelTileManager _tileManager;
         [Export] private PlayerCamera _camera;
+        [Export] private CanvasLayer _userInterfaceLayer;
 
         private Image _terrainImage;
+
+        /// <summary>
+        /// Flag variable for blocking the game inputs
+        /// </summary>
+        public static bool IsInputBlocked
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Initializes the level instance
@@ -40,6 +52,41 @@ namespace INTOnlineCoop.Script.Level
             {
                 _tileManager.InitTileMap(_terrainImage);
             }
+        }
+
+        /// <summary>
+        /// Called when an InputEvent occurs
+        /// </summary>
+        /// <param name="event">The input event</param>
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            if (IsInputBlocked)
+            {
+                return;
+            }
+            if (@event is InputEventKey { Keycode: Key.Escape } && _userInterfaceLayer != null)
+            {
+                PauseDialog pauseDialog = _userInterfaceLayer.GetNodeOrNull<PauseDialog>("PauseDialog");
+                if (pauseDialog == null)
+                {
+                    pauseDialog = GD.Load<PackedScene>("res://scene/ui/component/PauseDialog.tscn")
+                        .Instantiate<PauseDialog>();
+                    pauseDialog.ExitConfirmed += OnExit;
+                    _userInterfaceLayer.AddChild(pauseDialog);
+                }
+
+                IsInputBlocked = true;
+                pauseDialog.Visible = true;
+            }
+        }
+
+        private void OnExit()
+        {
+            IsInputBlocked = false;
+            MainMenu menu = GD.Load<PackedScene>("res://scene/ui/screen/MainMenu.tscn").Instantiate<MainMenu>();
+            GetTree().Root.AddChild(menu);
+            GetTree().CurrentScene = menu;
+            QueueFree();
         }
     }
 }
