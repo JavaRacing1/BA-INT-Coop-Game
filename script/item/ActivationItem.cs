@@ -10,13 +10,12 @@ namespace INTOnlineCoop.Script.Item
     public abstract class ActivationItem : IItem
     {
         /// <summary>
-        /// Handles the input for the activation item
+        /// Handles the input for the activation item. Should be called every frame
         /// </summary>
-        /// <param name="inputEvent">Input event</param>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(InputEvent inputEvent, Vector2 playerPosition)
+        public void HandleInput(Vector2 playerPosition)
         {
-            if (!GameLevel.IsInputBlocked && inputEvent.IsAction("use_item"))
+            if (!GameLevel.IsInputBlocked && Input.IsActionJustPressed("use_item"))
             {
                 UseItem(playerPosition);
             }

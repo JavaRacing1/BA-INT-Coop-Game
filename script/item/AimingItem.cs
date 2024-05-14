@@ -12,18 +12,17 @@ namespace INTOnlineCoop.Script.Item
         private int _rotation;
 
         /// <summary>
-        /// Handles the input for the aiming item
+        /// Handles the input for the aiming item. Should be called every frame
         /// </summary>
-        /// <param name="inputEvent">Input event</param>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(InputEvent inputEvent, Vector2 playerPosition)
+        public void HandleInput(Vector2 playerPosition)
         {
             if (GameLevel.IsInputBlocked)
             {
                 return;
             }
 
-            if (inputEvent.IsAction("use_item"))
+            if (Input.IsActionJustPressed("use_item"))
             {
                 UseItem(playerPosition, _rotation);
             }
