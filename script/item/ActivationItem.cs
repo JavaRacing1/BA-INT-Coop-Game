@@ -23,8 +23,9 @@ namespace INTOnlineCoop.Script.Item
         }
 
         /// <summary>
-        /// Activates the item
+        /// Activates the item at the given position
         /// </summary>
+        /// <param name="targetPosition">Target position for usage</param>
         protected abstract void UseItem(Vector2 targetPosition);
     }
 }
