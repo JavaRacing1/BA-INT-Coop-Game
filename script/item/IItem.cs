@@ -11,6 +11,7 @@ namespace INTOnlineCoop.Script.Item
         /// Handles the input for the item
         /// </summary>
         /// <param name="inputEvent">Input event</param>
-        void HandleInput(InputEvent inputEvent);
+        /// <param name="playerPosition">Current position of the player</param>
+        void HandleInput(InputEvent inputEvent, Vector2 playerPosition);
     }
 }

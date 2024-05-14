@@ -13,17 +13,18 @@ namespace INTOnlineCoop.Script.Item
         /// Handles the input for the activation item
         /// </summary>
         /// <param name="inputEvent">Input event</param>
-        public void HandleInput(InputEvent inputEvent)
+        /// <param name="playerPosition">Current position of the player</param>
+        public void HandleInput(InputEvent inputEvent, Vector2 playerPosition)
         {
             if (!GameLevel.IsInputBlocked && inputEvent.IsAction("use_item"))
             {
-                UseItem();
+                UseItem(playerPosition);
             }
         }
 
         /// <summary>
         /// Activates the item
         /// </summary>
-        protected abstract void UseItem();
+        protected abstract void UseItem(Vector2 targetPosition);
     }
 }
