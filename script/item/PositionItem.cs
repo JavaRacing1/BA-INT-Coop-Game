@@ -7,16 +7,16 @@ namespace INTOnlineCoop.Script.Item
     /// <summary>
     /// Item for which the exact target position needs to be specified
     /// </summary>
-    public abstract class PositionItem : IItem
+    public abstract class PositionItem : Node, IItem
     {
+        private const int AimSpeed = 4;
         private Vector2 _initialPosition = Vector2.Zero;
 
         /// <summary>
-        /// Handles the input for the position item
+        /// Handles the input for the position item. Should be called every frame
         /// </summary>
-        /// <param name="inputEvent">Input event</param>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(InputEvent inputEvent, Vector2 playerPosition)
+        public void HandleInput(Vector2 playerPosition)
         {
             if (GameLevel.IsInputBlocked)
             {
@@ -28,12 +28,44 @@ namespace INTOnlineCoop.Script.Item
                 _initialPosition = playerPosition;
             }
 
-            if (inputEvent.IsAction("use_item"))
+            if (Input.IsActionJustPressed("use_item"))
             {
                 UseItem(_initialPosition);
+                return;
             }
 
-            //TODO: Add position movement (input actions + mouse)
+            Vector2 movement = Vector2.Zero;
+            if (Input.IsActionPressed("walk_left"))
+            {
+                movement += Vector2.Left;
+            }
+
+            if (Input.IsActionPressed("walk_right"))
+            {
+                movement += Vector2.Right;
+            }
+
+            if (Input.IsActionPressed("aim_up"))
+            {
+                movement += Vector2.Up;
+            }
+
+            if (Input.IsActionPressed("aim_down"))
+            {
+                movement += Vector2.Down;
+            }
+
+            //TODO: Limit position to level area
+            _initialPosition += movement * AimSpeed;
+
+            if (Input.IsMouseButtonPressed(MouseButton.Left))
+            {
+                Camera2D activeCamera = GetViewport().GetCamera2D();
+                if (activeCamera != null)
+                {
+                    _initialPosition = activeCamera.GetGlobalMousePosition();
+                }
+            }
         }
 
         /// <summary>
