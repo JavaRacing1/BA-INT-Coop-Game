@@ -1,3 +1,5 @@
+using System;
+
 using Godot;
 
 using INTOnlineCoop.Script.Level;
@@ -55,16 +57,19 @@ namespace INTOnlineCoop.Script.Item
                 movement += Vector2.Down;
             }
 
-            //TODO: Limit position to level area
             _initialPosition += movement * AimSpeed;
 
-            if (Input.IsMouseButtonPressed(MouseButton.Left))
+            Camera2D activeCamera = GetViewport().GetCamera2D();
+            if (activeCamera != null)
             {
-                Camera2D activeCamera = GetViewport().GetCamera2D();
-                if (activeCamera != null)
+                if (Input.IsMouseButtonPressed(MouseButton.Left))
                 {
                     _initialPosition = activeCamera.GetGlobalMousePosition();
                 }
+
+                float limitedX = Math.Clamp(_initialPosition.X, activeCamera.LimitLeft, activeCamera.LimitRight);
+                float limitedY = Math.Clamp(_initialPosition.Y, activeCamera.LimitTop, activeCamera.LimitBottom);
+                _initialPosition = new Vector2(limitedX, limitedY);
             }
         }
 
