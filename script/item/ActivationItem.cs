@@ -7,13 +7,14 @@ namespace INTOnlineCoop.Script.Item
     /// <summary>
     /// Item without any aiming
     /// </summary>
-    public abstract class ActivationItem : IItem
+    public abstract partial class ActivationItem : Node, IItem
     {
         /// <summary>
         /// Handles the input for the activation item. Should be called every frame
         /// </summary>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(Vector2 playerPosition)
+        /// <param name="direction">Direction in which the character looks</param>
+        public void HandleInput(Vector2 playerPosition, CharacterFacingDirection direction)
         {
             if (!GameLevel.IsInputBlocked && Input.IsActionJustPressed("use_item"))
             {

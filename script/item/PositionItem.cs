@@ -9,7 +9,7 @@ namespace INTOnlineCoop.Script.Item
     /// <summary>
     /// Item for which the exact target position needs to be specified
     /// </summary>
-    public abstract class PositionItem : Node, IItem
+    public abstract partial class PositionItem : Node, IItem
     {
         private const int AimSpeed = 4;
         private Vector2 _initialPosition = Vector2.Zero;
@@ -18,7 +18,8 @@ namespace INTOnlineCoop.Script.Item
         /// Handles the input for the position item. Should be called every frame
         /// </summary>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(Vector2 playerPosition)
+        /// <param name="direction">Direction in which the character looks</param>
+        public void HandleInput(Vector2 playerPosition, CharacterFacingDirection direction)
         {
             if (GameLevel.IsInputBlocked)
             {

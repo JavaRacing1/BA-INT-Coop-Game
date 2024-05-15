@@ -7,7 +7,7 @@ namespace INTOnlineCoop.Script.Item
     /// <summary>
     /// Item with aiming -> Only direction is required
     /// </summary>
-    public abstract class AimingItem : IItem
+    public abstract partial class AimingItem : Node, IItem
     {
         private int _rotation;
 
@@ -15,7 +15,8 @@ namespace INTOnlineCoop.Script.Item
         /// Handles the input for the aiming item. Should be called every frame
         /// </summary>
         /// <param name="playerPosition">Current position of the player</param>
-        public void HandleInput(Vector2 playerPosition)
+        /// <param name="direction">Direction in which the character looks</param>
+        public void HandleInput(Vector2 playerPosition, CharacterFacingDirection direction)
         {
             if (GameLevel.IsInputBlocked)
             {
