@@ -1,3 +1,5 @@
+using System;
+
 using Godot;
 
 using INTOnlineCoop.Script.Level;
@@ -10,6 +12,7 @@ namespace INTOnlineCoop.Script.Item
     public abstract partial class AimingItem : Node, IItem
     {
         private int _rotation;
+        private CharacterFacingDirection _lastFacingDirection;
 
         /// <summary>
         /// Handles the input for the aiming item. Should be called every frame
@@ -28,8 +31,25 @@ namespace INTOnlineCoop.Script.Item
                 UseItem(playerPosition, _rotation);
             }
 
-            //TODO: Add rotation change
-            _rotation = _rotation;
+            if (direction != _lastFacingDirection)
+            {
+                _rotation += direction == CharacterFacingDirection.Left ? 180 : -180;
+                _lastFacingDirection = direction;
+            }
+
+            int rotationModifier = 0;
+            if (Input.IsActionPressed("aim_up"))
+            {
+                rotationModifier += direction == CharacterFacingDirection.Left ? 1 : -1;
+            }
+            if (Input.IsActionPressed("aim_down"))
+            {
+                rotationModifier += direction == CharacterFacingDirection.Left ? -1 : 1;
+            }
+
+            _rotation = direction == CharacterFacingDirection.Left
+                ? Math.Clamp(_rotation + rotationModifier, 180, 360)
+                : Math.Clamp(_rotation + rotationModifier, 0, 180);
         }
 
         /// <summary>
