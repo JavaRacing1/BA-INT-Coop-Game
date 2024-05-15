@@ -13,15 +13,15 @@ namespace INTOnlineCoop.Script.Item
         Right
     }
     /// <summary>
-    /// Interface for a player item
+    /// Interface for a character item
     /// </summary>
     public interface IItem
     {
         /// <summary>
         /// Handles the input for the item
         /// </summary>
-        /// <param name="playerPosition">Current position of the player</param>
+        /// <param name="characterPosition">Current position of the character</param>
         /// <param name="direction">Direction in which the character looks</param>
-        void HandleInput(Vector2 playerPosition, CharacterFacingDirection direction);
+        void HandleInput(Vector2 characterPosition, CharacterFacingDirection direction);
     }
 }

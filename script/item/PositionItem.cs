@@ -17,9 +17,9 @@ namespace INTOnlineCoop.Script.Item
         /// <summary>
         /// Handles the input for the position item. Should be called every frame
         /// </summary>
-        /// <param name="playerPosition">Current position of the player</param>
+        /// <param name="characterPosition">Current position of the character</param>
         /// <param name="direction">Direction in which the character looks</param>
-        public void HandleInput(Vector2 playerPosition, CharacterFacingDirection direction)
+        public void HandleInput(Vector2 characterPosition, CharacterFacingDirection direction)
         {
             if (GameLevel.IsInputBlocked)
             {
@@ -28,7 +28,7 @@ namespace INTOnlineCoop.Script.Item
 
             if (_initialPosition == Vector2.Zero)
             {
-                _initialPosition = playerPosition;
+                _initialPosition = characterPosition;
             }
 
             if (Input.IsActionJustPressed("use_item"))
