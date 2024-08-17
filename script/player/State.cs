@@ -1,22 +1,15 @@
 using Godot;
 
-public abstract partial class State : Node
+public abstract class State : Node
 {
-    public StateMachine StateMachine { set; }
-    public virtual void HandleInput(InputEvent @event) 
+    protected PlayerCharacter player;
+    public virtual void Enter(PlayerCharacter player)
     {
-        // Implement this method in derived classes
+        this.player = player;
     }
-    public virtual void Update(float delta) 
-    {
-        // Implement this method in derived classes
-    }
-    public virtual void PhysicsUpdate(float delta) 
-    {
-        // Implement this method in derived classes
-    }
-    public virtual void Exit() 
-    {
-        // Implement this method in derived classes
-    }
+    public virtual void Exit() {}
+
+    public virtual void Update(float delta) {}
+
+    public virtual void HandleInput(InputEvent inputEvent) {}
 }

@@ -1,6 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://d0fj285k46j7r"]
+[gd_scene load_steps=13 format=3 uid="uid://d0fj285k46j7r"]
 
 [ext_resource type="Texture2D" uid="uid://b0garldouxdvj" path="res://icon.svg" id="1_uvum2"]
+[ext_resource type="Script" path="res://script/player/StateMashine.cs" id="2_jywyc"]
+[ext_resource type="Script" path="res://script/player/States/Idle.cs" id="3_idfjx"]
+[ext_resource type="Script" path="res://script/player/States/Inair.cs" id="4_wuv2g"]
+[ext_resource type="Script" path="res://script/player/States/Walk.cs" id="5_oo4e5"]
+[ext_resource type="Script" path="res://script/player/States/Inactive.cs" id="6_i6bn6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wwoxf"]
 atlas = ExtResource("1_uvum2")
@@ -51,11 +56,16 @@ position = Vector2(-2, 2)
 shape = SubResource("RectangleShape2D_5aihb")
 
 [node name="StateMashineCharacter" type="Node" parent="."]
+script = ExtResource("2_jywyc")
 
-[node name="idle" type="Node" parent="StateMashineCharacter"]
+[node name="Idle" type="Node" parent="StateMashineCharacter"]
+script = ExtResource("3_idfjx")
 
-[node name="inair" type="Node" parent="StateMashineCharacter"]
+[node name="Inair" type="Node" parent="StateMashineCharacter"]
+script = ExtResource("4_wuv2g")
 
-[node name="walk" type="Node" parent="StateMashineCharacter"]
+[node name="Walk" type="Node" parent="StateMashineCharacter"]
+script = ExtResource("5_oo4e5")
 
-[node name="inactive" type="Node" parent="StateMashineCharacter"]
+[node name="Inactive" type="Node" parent="StateMashineCharacter"]
+script = ExtResource("6_i6bn6")
