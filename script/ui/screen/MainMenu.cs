@@ -5,9 +5,9 @@ using INTOnlineCoop.Script.UI.Component;
 namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
-    /// The start scene of the game
-    /// </summary>
-    public partial class MainMenu : Control
+	/// The start scene of the game
+	/// </summary>
+	public partial class MainMenu : Control
     {
         private const string CreditFilePath = "res://config/credits.txt";
         private GameConfirmationDialog _exitDialog;

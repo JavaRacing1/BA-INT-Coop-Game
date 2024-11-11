@@ -2,14 +2,15 @@ using Godot;
 
 public abstract class State : Node
 {
-    protected PlayerCharacter player;
-    public virtual void Enter(PlayerCharacter player)
+    public Player Spieler;
+    public virtual void Enter(Player player)
     {
-        this.player = player;
+        this.Spieler = player;
     }
-    public virtual void Exit() {}
 
-    public virtual void Update(float delta) {}
+    /// public virtual void Exit(){}
 
-    public virtual void HandleInput(InputEvent inputEvent) {}
+    public virtual void Update(double delta) { }
+
+    public virtual void HandleInput(InputEvent inputEvent) { }
 }

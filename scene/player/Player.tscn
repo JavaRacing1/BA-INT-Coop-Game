@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://d0fj285k46j7r"]
+[gd_scene load_steps=14 format=3 uid="uid://d0fj285k46j7r"]
 
+[ext_resource type="Script" path="res://script/player/Player.cs" id="1_cc308"]
 [ext_resource type="Texture2D" uid="uid://b0garldouxdvj" path="res://icon.svg" id="1_uvum2"]
 [ext_resource type="Script" path="res://script/player/StateMashine.cs" id="2_jywyc"]
 [ext_resource type="Script" path="res://script/player/States/Idle.cs" id="3_idfjx"]
@@ -46,6 +47,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_cc308")
 
 [node name="CharacterAnimations" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ctjak")

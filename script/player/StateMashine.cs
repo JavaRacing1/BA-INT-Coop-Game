@@ -1,9 +1,10 @@
 using Godot;
+
 using System.Collections.Generic;
 
 public class StateMachine : Node
 {
-    private Dictionary<string, State> states = new Dictionary<string, State>();
+    private Dictionary<string, State> _states = new();
     public State CurrentState { get; private set; }
 
     public override void _Ready()
@@ -12,7 +13,7 @@ public class StateMachine : Node
         {
             if (node is State state)
             {
-                states.Add(node.Name.ToLower(), state);
+                _states.Add(node.Name.ToString().ToLower(), state);
             }
         }
     }
@@ -21,13 +22,13 @@ public class StateMachine : Node
     {
         if (CurrentState != null)
         {
-            CurrentState.Exit();
+            ///CurrentState.Exit();
         }
 
-        if (states.TryGetValue(stateName.ToLower(), out State newState))
+        if (_states.TryGetValue(stateName.ToLower(), out State newState))
         {
             CurrentState = newState;
-            CurrentState.Enter(GetParent<PlayerCharacter>());
+            CurrentState.Enter(GetParent<Player>());
         }
         else
         {
