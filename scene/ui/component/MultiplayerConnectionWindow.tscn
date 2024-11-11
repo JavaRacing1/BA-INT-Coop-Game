@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwvcati2vu0ry"]
+
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_7d0ay"]
+[ext_resource type="Script" path="res://script/ui/component/MultiplayerConnectionWindow.cs" id="1_h6yex"]
+
+[node name="MultiplayerConnectionWindow" type="Window"]
+initial_position = 2
+size = Vector2i(270, 160)
+wrap_controls = true
+exclusive = true
+unresizable = true
+theme = ExtResource("1_7d0ay")
+script = ExtResource("1_h6yex")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 10
+
+[node name="ControlContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="UsernameContainer" type="HBoxContainer" parent="MarginContainer/ControlContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="UsernameLabel" type="Label" parent="MarginContainer/ControlContainer/UsernameContainer"]
+layout_mode = 2
+theme = ExtResource("1_7d0ay")
+text = "Benutzername:"
+
+[node name="UsernameInput" type="LineEdit" parent="MarginContainer/ControlContainer/UsernameContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = ExtResource("1_7d0ay")
+placeholder_text = "Name"
+max_length = 16
+
+[node name="ServerContainer" type="HBoxContainer" parent="MarginContainer/ControlContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ServerLabel" type="Label" parent="MarginContainer/ControlContainer/ServerContainer"]
+layout_mode = 2
+text = "Serveradresse:"
+
+[node name="ServerInput" type="LineEdit" parent="MarginContainer/ControlContainer/ServerContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "XXX.XXX.XXX.XXX"
+
+[node name="PortContainer" type="HBoxContainer" parent="MarginContainer/ControlContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PortLabel" type="Label" parent="MarginContainer/ControlContainer/PortContainer"]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortInput" type="LineEdit" parent="MarginContainer/ControlContainer/PortContainer"]
+layout_mode = 2
+text = "7070"
+max_length = 6
+
+[node name="ConnectButton" type="Button" parent="MarginContainer/ControlContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Verbinden"
+
+[connection signal="close_requested" from="." to="." method="OnCloseRequested"]

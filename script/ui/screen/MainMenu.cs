@@ -13,6 +13,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         private GameConfirmationDialog _exitDialog;
         private SettingsWindow _settingsWindow;
         private CanvasLayer _creditCanvas;
+        private MultiplayerConnectionWindow _connectionWindow;
 
         /// <summary>
         /// Receives node references and loads the credit file
@@ -79,6 +80,18 @@ namespace INTOnlineCoop.Script.UI.Screen
         private void OnSandboxButtonPressed()
         {
             _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/SandboxSettingsScreen.tscn");
+        }
+
+        private void OnMultiplayerButtonPressed()
+        {
+            if (_connectionWindow == null)
+            {
+                _connectionWindow = GD.Load<PackedScene>("res://scene/ui/component/MultiplayerConnectionWindow.tscn")
+                    .Instantiate<MultiplayerConnectionWindow>();
+                AddChild(_connectionWindow);
+            }
+
+            _connectionWindow.Visible = true;
         }
     }
 }
