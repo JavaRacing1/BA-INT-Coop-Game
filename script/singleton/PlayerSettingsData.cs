@@ -123,7 +123,7 @@ namespace INTOnlineCoop.Script.Singleton
                 Load();
             }
 
-            UpdateWindow();
+            UpdateWindow(true);
             ApplyInputSettings();
         }
 
@@ -194,7 +194,7 @@ namespace INTOnlineCoop.Script.Singleton
         public void ApplyChanges()
         {
             Save();
-            UpdateWindow();
+            UpdateWindow(false);
             HasUnsavedChanges = false;
             _changedDisplaySettings = false;
             if (HasControlChanges)
@@ -347,9 +347,9 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
-        private void UpdateWindow()
+        private void UpdateWindow(bool forceUpdate)
         {
-            if (_changedDisplaySettings)
+            if (_changedDisplaySettings || forceUpdate)
             {
                 DisplayServer.WindowMode newMode = SelectedDisplayMode switch
                 {
