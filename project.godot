@@ -46,6 +46,10 @@ folder_colors={
 "res://script/": "pink"
 }
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 walk_left={
@@ -136,3 +140,7 @@ camera_down={
 [layer_names]
 
 2d_physics/layer_1="Terrain"
+
+[rendering]
+
+2d/snap/snap_2d_transforms_to_pixel=true
