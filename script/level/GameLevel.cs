@@ -48,10 +48,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _Ready()
         {
-            if (_tileManager != null)
-            {
-                _tileManager.InitTileMap(_terrainImage);
-            }
+            _tileManager?.InitTileMap(_terrainImage);
         }
 
         /// <summary>

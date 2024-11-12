@@ -68,6 +68,11 @@ namespace INTOnlineCoop.Script.Singleton
             CreateDefaultControls();
 
         /// <summary>
+        /// Active PlayerSettingsData instance
+        /// </summary>
+        public static PlayerSettingsData Instance { get; private set; }
+
+        /// <summary>
         /// The currently selected display mode
         /// </summary>
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
@@ -114,6 +119,7 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         public override void _Ready()
         {
+            Instance = this;
             if (!FileAccess.FileExists(SettingsPath))
             {
                 Save();
