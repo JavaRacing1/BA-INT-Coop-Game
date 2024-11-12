@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 namespace INTOnlineCoop.Script.Singleton
 {
@@ -7,14 +8,32 @@ namespace INTOnlineCoop.Script.Singleton
     /// </summary>
     public partial class MultiplayerLobby : Node
     {
-        private const string DEFAULT_IP = "127.0.0.1";
-        private const int DEFAULT_PORT = 7070;
-        private const int MAX_PLAYERS = 2;
+        private const string DefaultIp = "127.0.0.1";
+        private const int DefaultPort = 7070;
+        private const int MaxPlayers = 2;
 
         /// <summary>
         /// Current MultiplayerLobby instance
         /// </summary>
         public static MultiplayerLobby Instance { get; private set; }
+
+        /// <summary>
+        /// Signal emitted after a successful player connection
+        /// </summary>
+        [Signal]
+        public delegate void PlayerConnectedEventHandler(int peerId, Dictionary<string, string> playerInfo);
+
+        /// <summary>
+        /// Signal emitted after a player disconnects
+        /// </summary>
+        [Signal]
+        public delegate void PlayerDisconnectedEventHandler(int peerId);
+
+        /// <summary>
+        /// Signal emitted after the server disconnected
+        /// </summary>
+        [Signal]
+        public delegate void ServerDisconnectedEventHandler();
 
         /// <summary>
         /// Initializes the lobby node + starts the server
@@ -26,15 +45,21 @@ namespace INTOnlineCoop.Script.Singleton
             if (DisplayServer.GetName() == "headless" || OS.HasFeature("dedicated_server"))
             {
                 //TODO: Make port configurable 
-                CreateServer(DEFAULT_PORT);
+                CreateServer(DefaultPort);
             }
+
+            Multiplayer.PeerConnected += OnPlayerConnected;
+            Multiplayer.PeerDisconnected += OnPlayerDisconnected;
+            Multiplayer.ConnectedToServer += OnConnectOk;
+            Multiplayer.ConnectionFailed += OnConnectionFail;
+            Multiplayer.ServerDisconnected += OnServerDisconnected;
         }
 
-        public Error JoinGame(string address = "", int port = DEFAULT_PORT)
+        public Error JoinGame(string address = "", int port = DefaultPort)
         {
             if (string.IsNullOrEmpty(address))
             {
-                address = DEFAULT_IP;
+                address = DefaultIp;
             }
 
             ENetMultiplayerPeer clientPeer = new();
@@ -53,7 +78,7 @@ namespace INTOnlineCoop.Script.Singleton
         private void CreateServer(int port)
         {
             ENetMultiplayerPeer serverPeer = new();
-            Error error = serverPeer.CreateServer(port, MAX_PLAYERS);
+            Error error = serverPeer.CreateServer(port, MaxPlayers);
 
             if (error != Error.Ok)
             {
@@ -63,6 +88,26 @@ namespace INTOnlineCoop.Script.Singleton
 
             Multiplayer.MultiplayerPeer = serverPeer;
         }
+
+        private void OnPlayerConnected(long peerId)
+        {
+        }
+
+        private void OnPlayerDisconnected(long peerId)
+        {
+        }
+
+        private void OnConnectOk()
+        {
+        }
+
+        private void OnConnectionFail()
+        {
+            Multiplayer.MultiplayerPeer = null;
+        }
+
+        private void OnServerDisconnected()
+        {
+        }
     }
 }
-
