@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://d12k52tjocegj"
+path="res://.godot/imported/Moze Idle 1.aseprite-5a4ccc33226cb88d6dc456fbee14da78.res"
+
+[deps]
+
+source_file="res://assets/sprites/game_figure/moze/Moze Idle 1.aseprite"
+dest_files=["res://.godot/imported/Moze Idle 1.aseprite-5a4ccc33226cb88d6dc456fbee14da78.res"]
+
+[params]
+

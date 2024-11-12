@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctc7akvhlwyrr"]
+[gd_scene load_steps=4 format=3 uid="uid://b30mk3fd1pf23"]
 
-[ext_resource type="Script" path="res://script/ui/screen/SandboxSettingsScreen.cs" id="1_8b3xc"]
-[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_v0gyq"]
-[ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_jk25u"]
+[ext_resource type="Script" path="res://script/ui/screen/SandboxSettingsScreen.cs" id="1_vmss3"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_xubts"]
+[ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_daxfu"]
 
 [node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
 layout_mode = 3
@@ -11,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8b3xc")
+script = ExtResource("1_vmss3")
 _generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
 
 [node name="Background" type="Panel" parent="."]
@@ -33,7 +33,7 @@ offset_left = -61.0
 offset_top = -30.0
 grow_horizontal = 0
 grow_vertical = 0
-theme = ExtResource("1_v0gyq")
+theme = ExtResource("2_xubts")
 theme_type_variation = &"LargeButton"
 text = "Spielen"
 
@@ -47,7 +47,7 @@ anchor_bottom = 0.95
 offset_top = -25.0
 offset_right = 49.0
 grow_vertical = 0
-theme = ExtResource("1_v0gyq")
+theme = ExtResource("2_xubts")
 theme_type_variation = &"LargeButton"
 text = "Zurück"
 
@@ -65,30 +65,12 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Background/GeneratorContainer"]
 layout_mode = 2
-theme = ExtResource("1_v0gyq")
+theme = ExtResource("2_xubts")
 text = "Form des Geländes"
 horizontal_alignment = 1
 
-[node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_jk25u")]
+[node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_daxfu")]
 layout_mode = 2
-
-[node name="Panel" type="Panel" parent="Background"]
-layout_mode = 0
-offset_right = 315.0
-offset_bottom = 210.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Background/Panel/VBoxContainer"]
-layout_mode = 2
-text = "Wähle 4 Spielfiguren aus!"
-horizontal_alignment = 1
 
 [connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Background/BackButton" to="." method="OnBackButtonPressed"]
