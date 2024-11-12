@@ -3,6 +3,7 @@ using System;
 using Godot;
 
 using INTOnlineCoop.Script.Singleton;
+using INTOnlineCoop.Script.Util;
 
 namespace INTOnlineCoop.Script.UI.Component
 {
@@ -17,6 +18,14 @@ namespace INTOnlineCoop.Script.UI.Component
         [Export] private Button _connectionButton;
         [Export] private Label _errorLabel;
 
+        /// <summary>
+        /// Adds handler method when connection was successfull
+        /// </summary>
+        public override void _Ready()
+        {
+            MultiplayerLobby.Instance.PlayerConnected += OnPlayerConnected;
+        }
+
         private void OnCloseRequested()
         {
             Visible = false;
@@ -28,6 +37,7 @@ namespace INTOnlineCoop.Script.UI.Component
             {
                 return;
             }
+            //Reset error display
             DisplayError("");
 
             string username = _usernameInput.Text;
@@ -68,6 +78,7 @@ namespace INTOnlineCoop.Script.UI.Component
             }
             else if (_connectionButton != null)
             {
+                // Disable button to prevent new connections during waiting
                 _connectionButton.Disabled = true;
             }
         }
@@ -88,6 +99,20 @@ namespace INTOnlineCoop.Script.UI.Component
             if (_errorLabel != null)
             {
                 _errorLabel.Text = message;
+            }
+        }
+
+        private void OnPlayerConnected(int peerId, PlayerData playerData)
+        {
+            if (MultiplayerLobby.Instance.CurrentPlayerData != playerData)
+            {
+                return;
+            }
+
+            Error error = GetTree().ChangeSceneToFile("res://scene/ui/screen/LobbyScreen.tscn");
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Error during loading of LobbyScreen: " + error);
             }
         }
 

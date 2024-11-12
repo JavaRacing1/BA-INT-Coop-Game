@@ -4,13 +4,14 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_m1xud"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_8rmen"]
 
-[node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
+[node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_m1xud")
 script = ExtResource("1_kxm2y")
 _generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
 
@@ -63,13 +64,43 @@ offset_bottom = 61.0
 grow_horizontal = 0
 alignment = 1
 
-[node name="Label" type="Label" parent="Background/GeneratorContainer"]
+[node name="GeneratorLabel" type="Label" parent="Background/GeneratorContainer"]
 layout_mode = 2
 theme = ExtResource("2_m1xud")
 text = "Form des Geländes"
 horizontal_alignment = 1
 
 [node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_8rmen")]
+layout_mode = 2
+
+[node name="PlayerContainer" type="VBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.05
+anchor_bottom = 0.05
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerOneContainer" type="HBoxContainer" parent="Background/PlayerContainer"]
+layout_mode = 2
+
+[node name="PlayerOneLabel" type="Label" parent="Background/PlayerContainer/PlayerOneContainer"]
+layout_mode = 2
+text = "Spieler 1:"
+
+[node name="PlayerOneName" type="Label" parent="Background/PlayerContainer/PlayerOneContainer"]
+layout_mode = 2
+
+[node name="PlayerTwoContainer" type="HBoxContainer" parent="Background/PlayerContainer"]
+layout_mode = 2
+
+[node name="PlayerTwoLabel" type="Label" parent="Background/PlayerContainer/PlayerTwoContainer"]
+layout_mode = 2
+text = "Spieler 2:"
+
+[node name="PlayerTwoName" type="Label" parent="Background/PlayerContainer/PlayerTwoContainer"]
 layout_mode = 2
 
 [connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
