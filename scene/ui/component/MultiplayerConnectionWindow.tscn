@@ -3,14 +3,19 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_7d0ay"]
 [ext_resource type="Script" path="res://script/ui/component/MultiplayerConnectionWindow.cs" id="1_h6yex"]
 
-[node name="MultiplayerConnectionWindow" type="Window"]
+[node name="MultiplayerConnectionWindow" type="Window" node_paths=PackedStringArray("_usernameInput", "_serverAddressInput", "_portInput", "_connectionButton", "_errorLabel")]
 initial_position = 2
-size = Vector2i(270, 160)
+size = Vector2i(270, 175)
 wrap_controls = true
 exclusive = true
 unresizable = true
 theme = ExtResource("1_7d0ay")
 script = ExtResource("1_h6yex")
+_usernameInput = NodePath("MarginContainer/ControlContainer/UsernameContainer/UsernameInput")
+_serverAddressInput = NodePath("MarginContainer/ControlContainer/ServerContainer/ServerInput")
+_portInput = NodePath("MarginContainer/ControlContainer/PortContainer/PortInput")
+_connectionButton = NodePath("MarginContainer/ControlContainer/ConnectButton")
+_errorLabel = NodePath("MarginContainer/ControlContainer/ErrorLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -66,9 +71,16 @@ layout_mode = 2
 text = "7070"
 max_length = 6
 
+[node name="ErrorLabel" type="Label" parent="MarginContainer/ControlContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.407246, 0.338652, 1)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
 [node name="ConnectButton" type="Button" parent="MarginContainer/ControlContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Verbinden"
 
 [connection signal="close_requested" from="." to="." method="OnCloseRequested"]
+[connection signal="pressed" from="MarginContainer/ControlContainer/ConnectButton" to="." method="OnConnectButtonPressed"]
