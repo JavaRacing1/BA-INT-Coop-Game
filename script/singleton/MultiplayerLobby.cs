@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using Godot;
 using Godot.Collections;
@@ -55,8 +56,28 @@ namespace INTOnlineCoop.Script.Singleton
 
             if (DisplayServer.GetName() == "headless" || OS.HasFeature("dedicated_server"))
             {
-                //TODO: Make port configurable 
-                CreateServer(DefaultPort);
+                int serverPort = DefaultPort;
+                //Use custom port from CMD if available
+                string[] cmdArgs = OS.GetCmdlineArgs();
+                foreach (string arg in cmdArgs)
+                {
+                    if (!arg.Contains('=') || !arg.Contains("port"))
+                    {
+                        continue;
+                    }
+
+                    string inputPort = arg.Split('=').Last();
+                    try
+                    {
+                        serverPort = Convert.ToInt32(inputPort);
+                    }
+                    catch (Exception e)
+                    {
+                        GD.PrintErr("Invalid server port: " + inputPort);
+                    }
+                }
+
+                CreateServer(serverPort);
             }
 
             Multiplayer.PeerConnected += OnPlayerConnected;
@@ -97,6 +118,7 @@ namespace INTOnlineCoop.Script.Singleton
                 return error;
             }
 
+            //Reduce timeout for server connections
             clientPeer.GetPeer(1).SetTimeout(0, 0, 5000);
 
             Multiplayer.MultiplayerPeer = clientPeer;
@@ -113,6 +135,10 @@ namespace INTOnlineCoop.Script.Singleton
             CurrentPlayerData = new PlayerData(username);
         }
 
+        /// <summary>
+        /// Creates a new server
+        /// </summary>
+        /// <param name="port">Port of the server</param>
         private void CreateServer(int port)
         {
             ENetMultiplayerPeer serverPeer = new();
@@ -124,10 +150,14 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.PrintErr(error.ToString());
             }
 
-            GD.Print("Server successfully created!");
+            GD.Print($"Server successfully created on port {port}");
             Multiplayer.MultiplayerPeer = serverPeer;
         }
 
+        /// <summary>
+        /// Called on server + clients when a new player connects to the server
+        /// </summary>
+        /// <param name="peerId">ID of the new peer</param>
         private void OnPlayerConnected(long peerId)
         {
             if (!Multiplayer.IsServer())
@@ -138,7 +168,9 @@ namespace INTOnlineCoop.Script.Singleton
                     return;
                 }
 
-                GD.Print($"{Multiplayer.GetUniqueId()} received PlayerConnected from {peerId}");
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected from {peerId}");
+
+                //Send local PlayerData to new player
                 Error error = RpcId(peerId, MethodName.RegisterPlayer, PlayerData.Serialize(CurrentPlayerData));
                 if (error != Error.Ok)
                 {
@@ -147,10 +179,14 @@ namespace INTOnlineCoop.Script.Singleton
             }
             else
             {
-                GD.Print("Received PlayerConnected on server");
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected on server");
             }
         }
 
+        /// <summary>
+        /// Called from other players with their PlayerData
+        /// </summary>
+        /// <param name="newPlayerInfo">Serialized data of the sender</param>
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         private void RegisterPlayer(Dictionary<string, Variant> newPlayerInfo)
         {
@@ -158,7 +194,7 @@ namespace INTOnlineCoop.Script.Singleton
             PlayerData playerData = PlayerData.Deserialize(newPlayerInfo);
             _playerData[playerId] = playerData;
 
-            GD.Print($"{Multiplayer.GetUniqueId()} received PlayerData from {playerId}");
+            GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerData from {playerId}");
             GD.Print($"{Multiplayer.GetUniqueId()}: {playerId} is {playerData.Name}");
 
             Error error = EmitSignal(SignalName.PlayerConnected, playerId, playerData);
@@ -168,11 +204,15 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
+        /// <summary>
+        /// Called on server + clients when a player disconnects
+        /// </summary>
+        /// <param name="peerId">ID of the disconnected player</param>
         private void OnPlayerDisconnected(long peerId)
         {
             if (!Multiplayer.IsServer())
             {
-                GD.Print($"{Multiplayer.GetUniqueId()} received PlayerDisconnected from {peerId}");
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected from {peerId}");
                 _ = _playerData.Remove(peerId);
                 Error error = EmitSignal(SignalName.PlayerDisconnected, peerId);
                 if (error != Error.Ok)
@@ -182,18 +222,21 @@ namespace INTOnlineCoop.Script.Singleton
             }
             else
             {
-                GD.Print("Received PlayerDisconnected on server");
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
             }
         }
 
+        /// <summary>
+        /// Called when local client connection to the server was successful
+        /// </summary>
         private void OnConnectOk()
         {
             int peerId = Multiplayer.GetUniqueId();
             _playerData[peerId] = CurrentPlayerData;
-            GD.Print($"{peerId} connected to server!");
+            GD.Print($"{peerId}: Connected to server!");
             if (CurrentPlayerData == null)
             {
-                GD.PrintErr("Failed to send PlayerConnectedEvent: Data is null!");
+                GD.PrintErr("Failed to send PlayerConnected signal: Data is null!");
                 return;
             }
 
@@ -204,12 +247,18 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
+        /// <summary>
+        /// Called when local client connection to the server failed
+        /// </summary>
         private void OnConnectionFail()
         {
             GD.Print("Connection failed");
             Multiplayer.MultiplayerPeer = null;
         }
 
+        /// <summary>
+        /// Called on client when server closed the connection
+        /// </summary>
         private void OnServerDisconnected()
         {
             GD.Print("Server disconnected");
