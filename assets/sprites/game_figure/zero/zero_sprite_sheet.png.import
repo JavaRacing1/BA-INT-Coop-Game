@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhf0jv4foqidd"
-path="res://.godot/imported/WarZone1.webp-d7e8708e8d8be5b521d753338e6c46e6.ctex"
+uid="uid://d3ant8woohn6a"
+path="res://.godot/imported/zero_sprite_sheet.png-8c0a97b0a876b76fd4279fd1113271f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/background/WarZone1.webp"
-dest_files=["res://.godot/imported/WarZone1.webp-d7e8708e8d8be5b521d753338e6c46e6.ctex"]
+source_file="res://assets/sprites/game_figure/zero/zero_sprite_sheet.png"
+dest_files=["res://.godot/imported/zero_sprite_sheet.png-8c0a97b0a876b76fd4279fd1113271f7.ctex"]
 
 [params]
 
