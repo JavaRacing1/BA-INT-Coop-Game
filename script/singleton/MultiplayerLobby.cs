@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 using Godot;
-using Godot.Collections;
 
 using INTOnlineCoop.Script.Util;
 
@@ -18,7 +19,7 @@ namespace INTOnlineCoop.Script.Singleton
         private const int MaxPlayers = 2;
 
         private readonly Dictionary<long, PlayerData> _playerData = new();
-        private readonly System.Collections.Generic.SortedSet<int> _freePlayerNumbers = new() { 1, 2 };
+        private readonly SortedSet<int> _freePlayerNumbers = new() { 1, 2 };
 
         /// <summary>
         /// Current MultiplayerLobby instance
@@ -53,6 +54,12 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         [Signal]
         public delegate void PlayerReceivedNumberEventHandler(int peerId, int playerNumber);
+
+        /// <summary>
+        /// Signal emitted after saved player data changed
+        /// </summary>
+        [Signal]
+        public delegate void PlayerDataChangedEventHandler();
 
         /// <summary>
         /// Initializes the lobby node + starts the server
@@ -92,6 +99,15 @@ namespace INTOnlineCoop.Script.Singleton
             Multiplayer.ConnectedToServer += OnConnectOk;
             Multiplayer.ConnectionFailed += OnConnectionFail;
             Multiplayer.ServerDisconnected += OnServerDisconnected;
+        }
+
+        /**
+         * Returns an immutable set of PlayerData
+         */
+        public ImmutableSortedSet<PlayerData> GetPlayerData()
+        {
+            return _playerData.Values.ToImmutableSortedSet(Comparer<PlayerData>
+                .Create((p1, p2) => p1.PlayerNumber - p2.PlayerNumber));
         }
 
         /// <summary>
@@ -139,10 +155,7 @@ namespace INTOnlineCoop.Script.Singleton
         /// <param name="username">Username of the player</param>
         public void CreatePlayerData(string username)
         {
-            CurrentPlayerData = new PlayerData
-            {
-                Name = username
-            };
+            CurrentPlayerData = new PlayerData { Name = username };
         }
 
         /// <summary>
@@ -198,7 +211,7 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         /// <param name="newPlayerInfo">Serialized data of the sender</param>
         [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-        private void RegisterPlayer(Dictionary<string, Variant> newPlayerInfo)
+        private void RegisterPlayer(Godot.Collections.Dictionary<string, Variant> newPlayerInfo)
         {
             int playerId = Multiplayer.GetRemoteSenderId();
             PlayerData playerData = PlayerData.Deserialize(newPlayerInfo);
@@ -209,6 +222,12 @@ namespace INTOnlineCoop.Script.Singleton
             else
             {
                 _playerData[playerId] = playerData;
+            }
+
+            Error changedError = EmitSignal(SignalName.PlayerDataChanged);
+            if (changedError != Error.Ok)
+            {
+                GD.PrintErr("Failed to send PlayerDataChanged signal: " + changedError);
             }
 
             GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerData from {playerId}");
@@ -249,6 +268,13 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 _playerData[peerId] = new PlayerData { PlayerNumber = playerNumber };
             }
+
+            Error changedError = EmitSignal(SignalName.PlayerDataChanged);
+            if (changedError != Error.Ok)
+            {
+                GD.PrintErr("Failed to send PlayerDataChanged signal: " + changedError);
+            }
+
             GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerNumber for {peerId}: {playerNumber}");
         }
 
@@ -261,6 +287,13 @@ namespace INTOnlineCoop.Script.Singleton
             GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected from {peerId}");
             int oldPlayerNumber = _playerData[peerId].PlayerNumber;
             _ = _playerData.Remove(peerId);
+
+            Error changedError = EmitSignal(SignalName.PlayerDataChanged);
+            if (changedError != Error.Ok)
+            {
+                GD.PrintErr("Failed to send PlayerDataChanged signal: " + changedError);
+            }
+
             Error error = EmitSignal(SignalName.PlayerDisconnected, peerId);
             if (error != Error.Ok)
             {
@@ -286,6 +319,12 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 GD.PrintErr("Failed to send PlayerConnected signal: Data is null!");
                 return;
+            }
+
+            Error changedError = EmitSignal(SignalName.PlayerDataChanged);
+            if (changedError != Error.Ok)
+            {
+                GD.PrintErr("Failed to send PlayerDataChanged signal: " + changedError);
             }
 
             Error error = EmitSignal(SignalName.PlayerConnected, peerId, CurrentPlayerData);

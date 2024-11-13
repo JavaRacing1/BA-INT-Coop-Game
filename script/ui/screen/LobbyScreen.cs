@@ -1,7 +1,9 @@
 using Godot;
 
 using INTOnlineCoop.Script.Level;
+using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.UI.Component;
+using INTOnlineCoop.Script.Util;
 
 namespace INTOnlineCoop.Script.UI.Screen
 {
@@ -11,6 +13,41 @@ namespace INTOnlineCoop.Script.UI.Screen
     public partial class LobbyScreen : Control
     {
         [Export] private GeneratorSettingsContainer _generatorSettings;
+        [Export] private Container _playerInformationContainer;
+
+        /// <summary>
+        /// Generate player information UI
+        /// </summary>
+        public override void _Ready()
+        {
+            RebuildPlayerInformation();
+            MultiplayerLobby.Instance.PlayerDataChanged += RebuildPlayerInformation;
+        }
+
+        private void RebuildPlayerInformation()
+        {
+            if (_playerInformationContainer == null)
+            {
+                return;
+            }
+            foreach (Node child in _playerInformationContainer.GetChildren())
+            {
+                child.QueueFree();
+            }
+
+            PackedScene informationItemScene = (PackedScene)ResourceLoader.Load("res://scene/ui/component/PlayerInformationItem.tscn");
+            foreach (PlayerData data in MultiplayerLobby.Instance.GetPlayerData())
+            {
+                if (data.PlayerNumber == -1)
+                {
+                    continue;
+                }
+                PlayerInformationItem item = informationItemScene.Instantiate<PlayerInformationItem>();
+                item.SetPlayerNumber(data.PlayerNumber);
+                item.SetPlayerName(data.Name);
+                _playerInformationContainer.AddChild(item);
+            }
+        }
 
         private void OnBackButtonPressed()
         {
