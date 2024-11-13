@@ -5,6 +5,7 @@ using System.Linq;
 
 using Godot;
 
+using INTOnlineCoop.Script.Level;
 using INTOnlineCoop.Script.Util;
 
 namespace INTOnlineCoop.Script.Singleton
@@ -18,6 +19,7 @@ namespace INTOnlineCoop.Script.Singleton
         /// Maximum player amount
         /// </summary>
         public const int MaxPlayers = 2;
+
         private const string DefaultIp = "127.0.0.1";
         private const int DefaultPort = 7070;
 
@@ -63,6 +65,12 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         [Signal]
         public delegate void PlayerDataChangedEventHandler();
+
+        /// <summary>
+        /// Signal emitted after client received level image from server
+        /// </summary>
+        [Signal]
+        public delegate void LevelDataReceivedEventHandler(Image levelImage);
 
         /// <summary>
         /// Initializes the lobby node + starts the server
@@ -319,7 +327,7 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.PrintErr("Failed to send PlayerDisconnected signal: " + error);
             }
 
-            if (Multiplayer.IsServer())
+            if (Multiplayer.MultiplayerPeer != null && Multiplayer.IsServer())
             {
                 _ = _freePlayerNumbers.Add(oldPlayerNumber);
                 GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
@@ -374,6 +382,66 @@ namespace INTOnlineCoop.Script.Singleton
             if (error != Error.Ok)
             {
                 GD.PrintErr("Failed to send ServerDisconnected signal: " + error);
+            }
+        }
+
+        /// <summary>
+        /// Sends the selected generator settings to the server
+        /// </summary>
+        /// <param name="terrainShape">Shape of the server</param>
+        /// <param name="seed">Used seed</param>
+        public void SendGeneratorSettingsToServer(TerrainShape terrainShape, int seed)
+        {
+            Error error = Rpc(MethodName.GenerateLevel, terrainShape.ToString(), seed);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Failed to send GenerateLevel RPC: " + error);
+            }
+        }
+
+        /// <summary>
+        /// Initiates the image generation
+        /// </summary>
+        /// <param name="terrainShapeString">Selected terrain shape</param>
+        /// <param name="seed">Used seed</param>
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void GenerateLevel(string terrainShapeString, int seed)
+        {
+            if (!Multiplayer.IsServer())
+            {
+                return;
+            }
+
+            bool parseOk = Enum.TryParse(terrainShapeString, out TerrainShape terrainShape);
+            if (!parseOk)
+            {
+                GD.PrintErr("Failed to parse TerrainShape: " + terrainShapeString);
+                return;
+            }
+
+            LevelGenerator levelGenerator = new();
+            levelGenerator.SetTerrainShape(terrainShape);
+            Image image = levelGenerator.Generate(seed);
+            Error error = Rpc(MethodName.SendLevelToClient, image.GetWidth(), image.GetHeight(), image.GetData());
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Failed to send SendLevelToClient RPC: " + error);
+            }
+        }
+
+        [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void SendLevelToClient(int width, int height, byte[] levelImageData)
+        {
+            if (Multiplayer.IsServer())
+            {
+                return;
+            }
+
+            Image levelImage = Image.CreateFromData(width, height, false, Image.Format.Rgba8, levelImageData);
+            Error error = EmitSignal(SignalName.LevelDataReceived, levelImage);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Failed to send LevelDataReceived signal: " + error);
             }
         }
     }

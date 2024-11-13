@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_m1xud"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_8rmen"]
 
-[node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_generatorSettings", "_generatorContainer", "_playerInformationContainer")]
+[node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_generatorSettings", "_generatorContainer", "_playerInformationContainer", "_playButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +16,7 @@ script = ExtResource("1_kxm2y")
 _generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
 _generatorContainer = NodePath("Background/GeneratorContainer")
 _playerInformationContainer = NodePath("Background/PlayerContainer")
+_playButton = NodePath("Background/PlayButton")
 
 [node name="Background" type="Panel" parent="."]
 layout_mode = 1

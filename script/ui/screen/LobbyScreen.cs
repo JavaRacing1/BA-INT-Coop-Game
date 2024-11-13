@@ -17,6 +17,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private GeneratorSettingsContainer _generatorSettings;
         [Export] private Container _generatorContainer;
         [Export] private Container _playerInformationContainer;
+        [Export] private Button _playButton;
 
         private GameConfirmationDialog _quitDialog;
         private int _currentPlayerIndex;
@@ -26,13 +27,15 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         public override void _Ready()
         {
-            if (_generatorContainer != null)
+            if (_generatorContainer != null && _playButton != null)
             {
                 _generatorContainer.Visible = false;
+                _playButton.Disabled = true;
             }
 
             RebuildUserInterface();
             MultiplayerLobby.Instance.PlayerDataChanged += RebuildUserInterface;
+            MultiplayerLobby.Instance.LevelDataReceived += OnLevelImageReceived;
         }
 
         /// <summary>
@@ -41,6 +44,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         public override void _ExitTree()
         {
             MultiplayerLobby.Instance.PlayerDataChanged -= RebuildUserInterface;
+            MultiplayerLobby.Instance.LevelDataReceived -= OnLevelImageReceived;
         }
 
         private void RebuildUserInterface()
@@ -56,6 +60,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             _generatorContainer.Visible = _currentPlayerIndex == 1 ||
                                           (_currentPlayerIndex == 2 &&
                                            MultiplayerLobby.Instance.GetPlayerData().Count == 1);
+            _playButton.Disabled = _currentPlayerIndex != 1 || MultiplayerLobby.Instance.GetPlayerData().Count == 1;
         }
 
         private void RebuildPlayerInformation()
@@ -115,18 +120,22 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnPlayButtonPressed()
         {
-            if (_generatorSettings != null)
+            if (_generatorSettings == null || _playButton == null)
             {
-                LevelGenerator levelGenerator = new();
-                levelGenerator.SetTerrainShape(_generatorSettings.SelectedTerrainShape);
-                Image image = levelGenerator.Generate(_generatorSettings.Seed);
-
-                GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
-                level.Init(image);
-                GetTree().Root.AddChild(level);
-                GetTree().CurrentScene = level;
-                QueueFree();
+                return;
             }
+            MultiplayerLobby.Instance.SendGeneratorSettingsToServer(_generatorSettings.SelectedTerrainShape,
+                _generatorSettings.Seed);
+            _playButton.Disabled = true;
+        }
+
+        private void OnLevelImageReceived(Image levelImage)
+        {
+            GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
+            level.Init(levelImage);
+            GetTree().Root.AddChild(level);
+            GetTree().CurrentScene = level;
+            QueueFree();
         }
     }
 }
