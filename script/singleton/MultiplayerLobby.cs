@@ -17,7 +17,8 @@ namespace INTOnlineCoop.Script.Singleton
         private const int DefaultPort = 7070;
         private const int MaxPlayers = 2;
 
-        private Dictionary<long, PlayerData> _playerData = new();
+        private readonly Dictionary<long, PlayerData> _playerData = new();
+        private readonly System.Collections.Generic.SortedSet<int> _freePlayerNumbers = new() { 1, 2 };
 
         /// <summary>
         /// Current MultiplayerLobby instance
@@ -46,6 +47,12 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         [Signal]
         public delegate void ServerDisconnectedEventHandler();
+
+        /// <summary>
+        /// Signal emitted after the player received its player number
+        /// </summary>
+        [Signal]
+        public delegate void PlayerReceivedNumberEventHandler(int peerId, int playerNumber);
 
         /// <summary>
         /// Initializes the lobby node + starts the server
@@ -132,7 +139,10 @@ namespace INTOnlineCoop.Script.Singleton
         /// <param name="username">Username of the player</param>
         public void CreatePlayerData(string username)
         {
-            CurrentPlayerData = new PlayerData(username);
+            CurrentPlayerData = new PlayerData
+            {
+                Name = username
+            };
         }
 
         /// <summary>
@@ -192,7 +202,14 @@ namespace INTOnlineCoop.Script.Singleton
         {
             int playerId = Multiplayer.GetRemoteSenderId();
             PlayerData playerData = PlayerData.Deserialize(newPlayerInfo);
-            _playerData[playerId] = playerData;
+            if (_playerData.TryGetValue(playerId, out PlayerData savedPlayerData))
+            {
+                savedPlayerData.UpdateInstance(playerData);
+            }
+            else
+            {
+                _playerData[playerId] = playerData;
+            }
 
             GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerData from {playerId}");
             GD.Print($"{Multiplayer.GetUniqueId()}: {playerId} is {playerData.Name}");
@@ -202,6 +219,37 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 GD.PrintErr("Failed to send PlayerConnected signal: " + error);
             }
+
+            if (Multiplayer.IsServer())
+            {
+                int playerNumber = _freePlayerNumbers.First();
+                _ = _freePlayerNumbers.Remove(playerNumber);
+                //Send new player number to all peers
+                Error rpcError = Rpc(MethodName.SetPlayerNumber, playerId, playerNumber);
+                if (rpcError != Error.Ok)
+                {
+                    GD.PrintErr("Failed to send SetPlayerNumber RPC: " + rpcError);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the player number for a peer
+        /// </summary>
+        /// <param name="peerId">ID of the player peer</param>
+        /// <param name="playerNumber">New number of the player</param>
+        [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void SetPlayerNumber(int peerId, int playerNumber)
+        {
+            if (_playerData.TryGetValue(peerId, out PlayerData savedPlayerData))
+            {
+                savedPlayerData.PlayerNumber = playerNumber;
+            }
+            else
+            {
+                _playerData[peerId] = new PlayerData { PlayerNumber = playerNumber };
+            }
+            GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerNumber for {peerId}: {playerNumber}");
         }
 
         /// <summary>
@@ -210,18 +258,18 @@ namespace INTOnlineCoop.Script.Singleton
         /// <param name="peerId">ID of the disconnected player</param>
         private void OnPlayerDisconnected(long peerId)
         {
-            if (!Multiplayer.IsServer())
+            GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected from {peerId}");
+            int oldPlayerNumber = _playerData[peerId].PlayerNumber;
+            _ = _playerData.Remove(peerId);
+            Error error = EmitSignal(SignalName.PlayerDisconnected, peerId);
+            if (error != Error.Ok)
             {
-                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected from {peerId}");
-                _ = _playerData.Remove(peerId);
-                Error error = EmitSignal(SignalName.PlayerDisconnected, peerId);
-                if (error != Error.Ok)
-                {
-                    GD.PrintErr("Failed to send PlayerDisconnected signal: " + error);
-                }
+                GD.PrintErr("Failed to send PlayerDisconnected signal: " + error);
             }
-            else
+
+            if (Multiplayer.IsServer())
             {
+                _ = _freePlayerNumbers.Add(oldPlayerNumber);
                 GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
             }
         }

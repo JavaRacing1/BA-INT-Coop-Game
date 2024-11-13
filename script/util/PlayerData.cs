@@ -12,22 +12,31 @@ namespace INTOnlineCoop.Script.Util
     {
         /// <summary> No character selected </summary>
         None,
+
         /// <summary>Axton (Borderlands 2)</summary>
         Axton,
+
         /// <summary>Zane (Borderlands 3)</summary>
         Zane,
+
         /// <summary>Zero (Borderlands 2)</summary>
         Zero,
+
         /// <summary>Krieg (Borderlands 2)</summary>
         Krieg,
+
         /// <summary>Wilhelm (Borderlands Pre-Sequel)</summary>
         Wilhelm,
+
         /// <summary>Maya (Borderlands 2)</summary>
         Maja,
+
         /// <summary>Nisha (Borderlands Pre-Sequel)</summary>
         Nisha,
+
         /// <summary>Gaige (Borderlands 2)</summary>
         Gaige,
+
         /// <summary>Athena (Borderlands Pre-Sequel)</summary>
         Athena
     }
@@ -40,7 +49,12 @@ namespace INTOnlineCoop.Script.Util
         /// <summary>
         /// Username of the player
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; } = "";
+
+        /// <summary>
+        /// Number of the player
+        /// </summary>
+        public int PlayerNumber { get; set; } = -1;
 
         /// <summary>
         /// Characters selected by the player
@@ -50,10 +64,8 @@ namespace INTOnlineCoop.Script.Util
         /// <summary>
         /// Creates new player data
         /// </summary>
-        /// <param name="playerName">Username of the player</param>
-        public PlayerData(string playerName)
+        public PlayerData()
         {
-            Name = playerName;
             Characters = new[] { CharacterType.None, CharacterType.None, CharacterType.None, CharacterType.None };
         }
 
@@ -78,15 +90,37 @@ namespace INTOnlineCoop.Script.Util
         }
 
         /// <summary>
+        /// Updates the current instance with data from another instance
+        /// </summary>
+        /// <param name="newPlayerData"></param>
+        public void UpdateInstance(PlayerData newPlayerData)
+        {
+            if (Name == "")
+            {
+                Name = newPlayerData.Name;
+            }
+
+            if (PlayerNumber == -1)
+            {
+                PlayerNumber = newPlayerData.PlayerNumber;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (Characters[i] == CharacterType.None)
+                {
+                    Characters[i] = newPlayerData.Characters[i];
+                }
+            }
+        }
+
+        /// <summary>
         /// Serializes the object into a dictionary
         /// </summary>
         /// <returns></returns>
         public static Godot.Collections.Dictionary<string, Variant> Serialize(PlayerData data)
         {
-            Godot.Collections.Dictionary<string, Variant> dict = new()
-            {
-                { "Name", data.Name }
-            };
+            Godot.Collections.Dictionary<string, Variant> dict = new() { { "Name", data.Name }, { "PlayerNumber", data.PlayerNumber } };
             for (int i = 0; i < 4; i++)
             {
                 dict["Character" + i] = data.Characters[i].ToString();
@@ -102,7 +136,12 @@ namespace INTOnlineCoop.Script.Util
         public static PlayerData Deserialize(Godot.Collections.Dictionary<string, Variant> serializedDict)
         {
             string name = (string)serializedDict.GetValueOrDefault("Name", "");
-            PlayerData data = new(name);
+            int playerNumber = (int)serializedDict.GetValueOrDefault("PlayerNumber", -1);
+            PlayerData data = new()
+            {
+                Name = name,
+                PlayerNumber = playerNumber
+            };
             for (int i = 0; i < 4; i++)
             {
                 string characterValue = (string)serializedDict.GetValueOrDefault("Character" + i, "None");
@@ -111,6 +150,7 @@ namespace INTOnlineCoop.Script.Util
                 {
                     GD.PrintErr($"Couldn't convert Character {characterValue} to CharacterType!");
                 }
+
                 data.SetCharacterByIndex(i, type);
             }
 
