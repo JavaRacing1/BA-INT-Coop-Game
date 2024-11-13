@@ -56,7 +56,8 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_shlnh"]
 
 [resource]
-default_font_size = 12
+default_font = ExtResource("1_3aihi")
+default_font_size = 15
 AcceptDialog/fonts/title_font = ExtResource("1_3aihi")
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_6fv5i")
 CancelButton/base_type = &"Button"

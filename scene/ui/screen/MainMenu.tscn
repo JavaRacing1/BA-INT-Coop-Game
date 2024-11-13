@@ -71,6 +71,11 @@ theme = ExtResource("2_558lk")
 theme_type_variation = &"LargeButton"
 text = "Einstellungen"
 
+[node name="IntroductionButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
+layout_mode = 2
+theme = ExtResource("2_558lk")
+text = "Spielanleitung"
+
 [node name="CreditsButton" type="Button" parent="Background/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(130, 30)
 layout_mode = 2

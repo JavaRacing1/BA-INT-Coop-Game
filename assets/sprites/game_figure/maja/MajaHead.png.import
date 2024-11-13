@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dytgrbvvqbdhx"
-path="res://.godot/imported/Helios 1.jpg-aa811c01b086b9760de2245caae0b07c.ctex"
+uid="uid://b58n3uq1ajldo"
+path="res://.godot/imported/MajaHead.png-a007613677ceb38cebce089fef62ef90.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/background/Helios 1.jpg"
-dest_files=["res://.godot/imported/Helios 1.jpg-aa811c01b086b9760de2245caae0b07c.ctex"]
+source_file="res://assets/sprites/game_figure/maja/MajaHead.png"
+dest_files=["res://.godot/imported/MajaHead.png-a007613677ceb38cebce089fef62ef90.ctex"]
 
 [params]
 

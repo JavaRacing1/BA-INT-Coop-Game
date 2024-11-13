@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgv28x5hbqfcg"
-path="res://.godot/imported/Athenas 1.jpg-127b3a3eb7c6af3e803e43e6653336d7.ctex"
+uid="uid://fknilx3whkp4"
+path="res://.godot/imported/GaigeHead.png-75d57c42657f362206a52d1ce54f094e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/background/Athenas 1.jpg"
-dest_files=["res://.godot/imported/Athenas 1.jpg-127b3a3eb7c6af3e803e43e6653336d7.ctex"]
+source_file="res://assets/sprites/game_figure/gaige/GaigeHead.png"
+dest_files=["res://.godot/imported/GaigeHead.png-75d57c42657f362206a52d1ce54f094e.ctex"]
 
 [params]
 

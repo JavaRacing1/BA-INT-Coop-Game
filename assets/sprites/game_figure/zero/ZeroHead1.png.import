@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw3xfl50sdrkn"
-path="res://.godot/imported/Pandora 1.jpg-2de311598fa55f8057cbeb5f6dd079db.ctex"
+uid="uid://dd72h6d4w0bgv"
+path="res://.godot/imported/ZeroHead1.png-259eb1a22f6016edd2b6c9d55cecaaa8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/background/Pandora 1.jpg"
-dest_files=["res://.godot/imported/Pandora 1.jpg-2de311598fa55f8057cbeb5f6dd079db.ctex"]
+source_file="res://assets/sprites/game_figure/zero/ZeroHead1.png"
+dest_files=["res://.godot/imported/ZeroHead1.png-259eb1a22f6016edd2b6c9d55cecaaa8.ctex"]
 
 [params]
 
