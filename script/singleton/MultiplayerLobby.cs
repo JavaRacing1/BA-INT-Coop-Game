@@ -112,14 +112,11 @@ namespace INTOnlineCoop.Script.Singleton
             Multiplayer.ServerDisconnected += OnServerDisconnected;
         }
 
-        /**
-         * Returns an immutable set of PlayerData
+        /*
+         * =====================================================================================================
+         *                                         CONNECTION CREATION
+         * =====================================================================================================
          */
-        public ImmutableSortedSet<PlayerData> GetPlayerData()
-        {
-            return _playerData.Values.ToImmutableSortedSet(Comparer<PlayerData>
-                .Create((p1, p2) => p1.PlayerNumber - p2.PlayerNumber));
-        }
 
         /// <summary>
         /// Creates a connection to the specified server
@@ -172,15 +169,6 @@ namespace INTOnlineCoop.Script.Singleton
         }
 
         /// <summary>
-        /// Creates a new local player data instance
-        /// </summary>
-        /// <param name="username">Username of the player</param>
-        public void CreatePlayerData(string username)
-        {
-            CurrentPlayerData = new PlayerData { Name = username };
-        }
-
-        /// <summary>
         /// Creates a new server
         /// </summary>
         /// <param name="port">Port of the server</param>
@@ -199,34 +187,40 @@ namespace INTOnlineCoop.Script.Singleton
             Multiplayer.MultiplayerPeer = serverPeer;
         }
 
+        /*
+         * =====================================================================================================
+         *                                      PLAYER DATA SYNC
+         * =====================================================================================================
+         */
+
         /// <summary>
-        /// Called on server + clients when a new player connects to the server
+        /// Creates a new local player data instance
         /// </summary>
-        /// <param name="peerId">ID of the new peer</param>
-        private void OnPlayerConnected(long peerId)
+        /// <param name="username">Username of the player</param>
+        public void CreatePlayerData(string username)
         {
-            if (!Multiplayer.IsServer())
-            {
-                if (CurrentPlayerData == null)
-                {
-                    GD.PrintErr("Failed to send PlayerData: Data is null!");
-                    return;
-                }
-
-                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected from {peerId}");
-
-                //Send local PlayerData to new player
-                Error error = RpcId(peerId, MethodName.RegisterPlayer, PlayerData.Serialize(CurrentPlayerData));
-                if (error != Error.Ok)
-                {
-                    GD.PrintErr("Failed to send RPC: " + error);
-                }
-            }
-            else
-            {
-                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected on server");
-            }
+            CurrentPlayerData = new PlayerData { Name = username };
         }
+
+        /// <summary>
+        /// Returns an immutable set of PlayerData
+        /// </summary>
+        /// <returns>Immutable sorted set with PlayerData</returns>
+        public ImmutableSortedSet<PlayerData> GetPlayerData()
+        {
+            return _playerData.Values.ToImmutableSortedSet(Comparer<PlayerData>
+                .Create((p1, p2) => p1.PlayerNumber - p2.PlayerNumber));
+        }
+
+        /// <summary>
+        /// Returns the count of PlayerData
+        /// </summary>
+        /// <returns>PlayerData count</returns>
+        public int GetPlayerDataCount()
+        {
+            return _playerData.Count;
+        }
+
 
         /// <summary>
         /// Called from other players with their PlayerData
@@ -305,6 +299,41 @@ namespace INTOnlineCoop.Script.Singleton
             GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerNumber for {peerId}: {playerNumber}");
         }
 
+        /*
+         * =====================================================================================================
+         *                                      CLIENT + SERVER SIGNALS
+         * =====================================================================================================
+         */
+
+        /// <summary>
+        /// Called on server + clients when a new player connects to the server
+        /// </summary>
+        /// <param name="peerId">ID of the new peer</param>
+        private void OnPlayerConnected(long peerId)
+        {
+            if (!Multiplayer.IsServer())
+            {
+                if (CurrentPlayerData == null)
+                {
+                    GD.PrintErr("Failed to send PlayerData: Data is null!");
+                    return;
+                }
+
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected from {peerId}");
+
+                //Send local PlayerData to new player
+                Error error = RpcId(peerId, MethodName.RegisterPlayer, PlayerData.Serialize(CurrentPlayerData));
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr("Failed to send RPC: " + error);
+                }
+            }
+            else
+            {
+                GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerConnected on server");
+            }
+        }
+
         /// <summary>
         /// Called on server + clients when a player disconnects
         /// </summary>
@@ -333,6 +362,13 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
             }
         }
+
+
+        /*
+         * =====================================================================================================
+         *                                        CLIENT ONLY SIGNALS
+         * =====================================================================================================
+         */
 
         /// <summary>
         /// Called when local client connection to the server was successful
@@ -385,6 +421,12 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
+        /*
+         * =====================================================================================================
+         *                                              LEVEL SYNC
+         * =====================================================================================================
+         */
+
         /// <summary>
         /// Sends the selected generator settings to the server
         /// </summary>
@@ -429,6 +471,12 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
+        /// <summary>
+        /// Emits a client signal with the level image data
+        /// </summary>
+        /// <param name="width">Width of the image</param>
+        /// <param name="height">Height of the image</param>
+        /// <param name="levelImageData">Image data</param>
         [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         private void SendLevelToClient(int width, int height, byte[] levelImageData)
         {

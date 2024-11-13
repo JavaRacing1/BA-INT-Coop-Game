@@ -57,10 +57,10 @@ namespace INTOnlineCoop.Script.UI.Screen
 
             RebuildPlayerInformation();
 
+            int playerDataCount = MultiplayerLobby.Instance.GetPlayerDataCount();
             _generatorContainer.Visible = _currentPlayerIndex == 1 ||
-                                          (_currentPlayerIndex == 2 &&
-                                           MultiplayerLobby.Instance.GetPlayerData().Count == 1);
-            _playButton.Disabled = _currentPlayerIndex != 1 || MultiplayerLobby.Instance.GetPlayerData().Count == 1;
+                                          (_currentPlayerIndex == 2 && playerDataCount == 1);
+            _playButton.Disabled = _currentPlayerIndex != 1 || playerDataCount == 1;
         }
 
         private void RebuildPlayerInformation()
