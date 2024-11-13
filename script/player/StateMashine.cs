@@ -2,9 +2,9 @@ using Godot;
 
 using System.Collections.Generic;
 
-public class StateMachine : Node
+public partial class StateMashine : Node
 {
-    private Dictionary<string, State> _states = new();
+    private readonly Dictionary<string, State> _states = new();
     public State CurrentState { get; private set; }
 
     public override void _Ready()
@@ -14,18 +14,16 @@ public class StateMachine : Node
             if (node is State state)
             {
                 _states.Add(node.Name.ToString().ToLower(), state);
+                GD.Print($"State registered: {node.Name}");
             }
         }
     }
 
     public void TransitionTo(string stateName)
     {
-        if (CurrentState != null)
-        {
-            ///CurrentState.Exit();
-        }
+        CurrentState?.Quit();
 
-        if (_states.TryGetValue(stateName.ToLower(), out State newState))
+        if (_states.TryGetValue(stateName, out State newState))
         {
             CurrentState = newState;
             CurrentState.Enter(GetParent<Player>());

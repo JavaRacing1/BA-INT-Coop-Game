@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://script/player/Player.cs" id="1_cc308"]
 [ext_resource type="Texture2D" uid="uid://b0garldouxdvj" path="res://icon.svg" id="1_uvum2"]
-[ext_resource type="Script" path="res://script/player/StateMashine.cs" id="2_jywyc"]
+[ext_resource type="Script" path="res://script/player/StateMashine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/States/Idle.cs" id="3_idfjx"]
 [ext_resource type="Script" path="res://script/player/States/Inair.cs" id="4_wuv2g"]
 [ext_resource type="Script" path="res://script/player/States/Walk.cs" id="5_oo4e5"]
@@ -57,17 +57,17 @@ animation = &"idle"
 position = Vector2(-2, 2)
 shape = SubResource("RectangleShape2D_5aihb")
 
-[node name="StateMashineCharacter" type="Node" parent="."]
-script = ExtResource("2_jywyc")
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_68vnu")
 
-[node name="Idle" type="Node" parent="StateMashineCharacter"]
+[node name="idle" type="Node" parent="StateMachine"]
 script = ExtResource("3_idfjx")
 
-[node name="Inair" type="Node" parent="StateMashineCharacter"]
+[node name="inair" type="Node" parent="StateMachine"]
 script = ExtResource("4_wuv2g")
 
-[node name="Walk" type="Node" parent="StateMashineCharacter"]
+[node name="walk" type="Node" parent="StateMachine"]
 script = ExtResource("5_oo4e5")
 
-[node name="Inactive" type="Node" parent="StateMashineCharacter"]
+[node name="inactive" type="Node" parent="StateMachine"]
 script = ExtResource("6_i6bn6")

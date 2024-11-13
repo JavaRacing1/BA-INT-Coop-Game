@@ -1,17 +1,26 @@
-public class InAirState : PlayerState
+using Godot;
+
+public partial class Inair : PlayerState
 {
     public override void Enter(Player player)
     {
         base.Enter(player);
-        // Sprunglogik und andere InAir-spezifische Sachen
+        GD.Print("Entering InAir State");
     }
 
     public override void Update(double delta)
     {
-        // Logik für den Zustand "in der Luft"
-        if (Spieler.IsOnFloor()) // Method aus Godot für das Prüfen, ob der Charakter den Boden berührt
+        // Wenn der Spieler auf dem Boden ist, wechsle in den Idle-Status
+        if (Spieler.IsOnFloor())
         {
             Spieler.StateMachine.TransitionTo("idle");
+            return;
         }
+
+        // Schwerkraft anwenden
+        Spieler.Velocity += new Vector2(0, Gravity * (float)delta);
+
+        // Bewegung aktualisieren
+        _ = Spieler.MoveAndSlide();
     }
 }

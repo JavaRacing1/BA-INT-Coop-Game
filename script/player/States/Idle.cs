@@ -1,19 +1,23 @@
 using Godot;
 
-public class IdleState : PlayerState
+public partial class Idle : PlayerState
 {
     public override void Enter(Player player)
     {
         base.Enter(player);
-        // Hier könnten Animationen oder andere Zustands-spezifische Logik hinzugefügt werden
+        GD.Print("Entering idle State");
     }
 
     public override void Update(double delta)
     {
-        // Logik für den idle-Zustand, z.B. Übergang zu Walking bei Bewegungseingabe
-        if (Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left"))
+        //Übergang in den Walking-Zustand, sobald die nötige Eingabe erfolgt
+        if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
         {
-            Spieler.StateMachine.TransitionTo("walking");
+            Spieler.StateMachine.TransitionTo("walk");
+        }
+        else if (Input.IsActionJustPressed("jump") || !Spieler.IsOnFloor())
+        {
+            Spieler.StateMachine.TransitionTo("inair");
         }
     }
 }

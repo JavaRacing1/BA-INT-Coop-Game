@@ -1,14 +1,16 @@
 using Godot;
 
-public abstract class State : Node
+public abstract partial class State : Node
 {
     public Player Spieler;
+    protected const float Speed = 300f;
+    protected const float Gravity = 800f;
     public virtual void Enter(Player player)
     {
-        this.Spieler = player;
+        Spieler = player;
     }
 
-    /// public virtual void Exit(){}
+    public virtual void Quit() { }
 
     public virtual void Update(double delta) { }
 
