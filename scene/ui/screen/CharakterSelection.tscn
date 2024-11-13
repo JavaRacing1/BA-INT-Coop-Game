@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://8l6r2sjad6tf"]
+[gd_scene load_steps=23 format=3 uid="uid://8l6r2sjad6tf"]
 
+[ext_resource type="Script" path="res://scene/ui/screen/CharacterSelection.cs" id="1_mm8oj"]
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="1_oydd5"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkk0b"]
 [ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/AmaraHead.png" id="2_ugdev"]
@@ -12,7 +13,14 @@
 [ext_resource type="Texture2D" uid="uid://cokulnrj4x5oa" path="res://assets/sprites/game_figure/moze/MozeHead.png" id="10_ep8rw"]
 [ext_resource type="Texture2D" uid="uid://bu0b4iwr6s70h" path="res://assets/sprites/game_figure/nisha/NishaHead.png" id="11_bdd20"]
 [ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/dialog/CancelButtonNormal.png" id="12_f45xe"]
+[ext_resource type="Texture2D" uid="uid://bpdsh0i5163d4" path="res://assets/sprites/game_figure/salvador/SalvadorHead.png" id="13_7j6bu"]
 [ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/dialog/CancelButtonHover.png" id="13_ftk78"]
+[ext_resource type="Texture2D" uid="uid://hqutx654d6o5" path="res://assets/texture/button/dialog/CancelButtonPressed.png" id="13_komb6"]
+[ext_resource type="Texture2D" uid="uid://j5eq2ticglwh" path="res://assets/sprites/game_figure/wilhelm/WilhelmHead.png" id="14_06fb6"]
+[ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/dialog/ConfirmButtonHover.png" id="15_42o74"]
+[ext_resource type="Texture2D" uid="uid://dd72h6d4w0bgv" path="res://assets/sprites/game_figure/zero/ZeroHead1.png" id="15_nvfm8"]
+[ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/dialog/ConfirmButtonPressed.png" id="16_me0yd"]
+[ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/dialog/ConfirmButtonNormal.png" id="17_cg8kt"]
 
 [sub_resource type="Theme" id="Theme_ujvug"]
 default_font = ExtResource("2_kkk0b")
@@ -24,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mm8oj")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -53,233 +62,307 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 theme = SubResource("Theme_ujvug")
-text = "Wähle 4 Figuren aus"
+text = "Wähle 4 Figuren durch Klicken auf deren Köpfe aus!"
 label_settings = ExtResource("3_coh1l")
 horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
+[node name="Set1" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Figur1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Amara" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 layout_mode = 2
 text = "Amara"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Platzhalter1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AmaraHeas" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 60)
+[node name="AmaraHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("2_ugdev")
+texture_normal = ExtResource("2_ugdev")
+stretch_mode = 5
 
-[node name="Platzhalter2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Athena" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 layout_mode = 2
 text = "Athena"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AthenaHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 60)
+[node name="AthenaHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("5_o8j6v")
+texture_normal = ExtResource("5_o8j6v")
+stretch_mode = 5
 
-[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Axton" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 layout_mode = 2
 text = "Axton"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AxtonHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 60)
+[node name="AxtonHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("6_kircx")
+texture_normal = ExtResource("6_kircx")
+stretch_mode = 5
 
-[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Gaige" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 layout_mode = 2
 text = "Gaige"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter7" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Platzhalter7" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="GaigeHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 60)
+[node name="GaigeHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set1"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("7_hk705")
+texture_normal = ExtResource("7_hk705")
+stretch_mode = 5
 
 [node name="Label2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
+[node name="Set2" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Figur1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Figur1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 layout_mode = 2
 text = "Krieg"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Platzhalter1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AmaraHeas" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 60)
+[node name="Krieg" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("8_yiabi")
+texture_normal = ExtResource("8_yiabi")
+stretch_mode = 5
 
-[node name="Platzhalter2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Maja" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 layout_mode = 2
 text = "Maja"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AthenaHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 60)
+[node name="MajaHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("9_23b6g")
+texture_normal = ExtResource("9_23b6g")
+stretch_mode = 5
 
-[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Moze" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 layout_mode = 2
 text = "Moze"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AxtonHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 60)
+[node name="MozeHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("10_ep8rw")
+texture_normal = ExtResource("10_ep8rw")
+stretch_mode = 5
 
-[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Nisha" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 layout_mode = 2
 text = "Nisha"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter7" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Platzhalter7" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="GaigeHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 60)
+[node name="NishaHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("11_bdd20")
+texture_normal = ExtResource("11_bdd20")
+stretch_mode = 5
 
 [node name="Label3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
+[node name="Set3" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Salvador" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 layout_mode = 2
-texture_normal = ExtResource("12_f45xe")
-texture_hover = ExtResource("13_ftk78")
-
-[node name="Platzhalter2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(15, 0)
-layout_mode = 2
-
-[node name="Figur2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "Maja"
+text = "Salvador"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Platzhalter3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AthenaHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(40, 60)
+[node name="SalvadorHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("9_23b6g")
+texture_normal = ExtResource("13_7j6bu")
+stretch_mode = 5
 
-[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur3" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Whihelm" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 layout_mode = 2
 text = "Moze"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Platzhalter5" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="AxtonHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(40, 60)
+[node name="WilhelmHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_horizontal = 0
-texture = ExtResource("10_ep8rw")
+texture_normal = ExtResource("14_06fb6")
+stretch_mode = 5
 
-[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(15, 0)
+[node name="Platzhalter6" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Figur4" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Zero" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
-text = "Nisha"
+text = "Zero
+"
 label_settings = ExtResource("3_coh1l")
 
-[node name="Platzhalter7" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(5, 0)
+[node name="ZeroHead" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
+texture_normal = ExtResource("15_nvfm8")
+stretch_mode = 5
 
-[node name="GaigeHead" type="TextureRect" parent="TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(40, 60)
+[node name="ConfirmSelectionButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 layout_mode = 2
-size_flags_horizontal = 0
-texture = ExtResource("11_bdd20")
+size_flags_horizontal = 4
+texture_normal = ExtResource("17_cg8kt")
+texture_pressed = ExtResource("16_me0yd")
+texture_hover = ExtResource("15_42o74")
+stretch_mode = 5
+
+[node name="ReturnButton2" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("12_f45xe")
+texture_pressed = ExtResource("13_komb6")
+texture_hover = ExtResource("13_ftk78")
+stretch_mode = 5
+
+[node name="Popup" type="Window" parent="."]
+title = "Charakterauswahl abbrechen"
+initial_position = 1
+size = Vector2i(376, 200)
+visible = false
+
+[node name="Label" type="Label" parent="Popup"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -96.0
+offset_right = 184.0
+offset_bottom = 96.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_kkk0b")
+text = "Möchtest du die Charakterauswahl abbrechen"
+horizontal_alignment = 1
+
+[node name="ReturnButton" type="TextureButton" parent="Popup"]
+custom_minimum_size = Vector2(0, 100)
+offset_left = 15.0
+offset_top = 150.0
+offset_right = 383.0
+offset_bottom = 342.0
+texture_normal = ExtResource("12_f45xe")
+texture_pressed = ExtResource("13_komb6")
+texture_hover = ExtResource("13_ftk78")
+
+[node name="ConfirmButton" type="TextureButton" parent="Popup"]
+offset_left = 300.0
+offset_top = 150.0
+offset_right = 668.0
+offset_bottom = 342.0
+texture_normal = ExtResource("17_cg8kt")
+texture_pressed = ExtResource("16_me0yd")
+texture_hover = ExtResource("15_42o74")
+
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AmaraHead" to="." method="OnAmaraHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AthenaHead" to="." method="OnAthenaHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AxtonHead" to="." method="OnAxtonHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/GaigeHead" to="." method="OnGaigeHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/Krieg" to="." method="OnKriegHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/MajaHead" to="." method="OnMajaHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/MozeHead" to="." method="OnMozeHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/NishaHead" to="." method="OnNishaHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/SalvadorHead" to="." method="OnSalavdorHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/WilhelmHead" to="." method="OnWilhelmHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ZeroHead" to="." method="OnZeroHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton" to="." method="OnCharacterSelectionConfirmPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnButton2" to="." method="OnCharacterSelectReturnPressed"]
+[connection signal="pressed" from="Popup/ReturnButton" to="." method="OnReturnToMenuPressed"]
+[connection signal="pressed" from="Popup/ConfirmButton" to="." method="OnCharacterSelectConfirmPressed"]
