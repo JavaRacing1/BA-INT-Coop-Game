@@ -14,9 +14,12 @@ namespace INTOnlineCoop.Script.Singleton
     /// </summary>
     public partial class MultiplayerLobby : Node
     {
+        /// <summary>
+        /// Maximum player amount
+        /// </summary>
+        public const int MaxPlayers = 2;
         private const string DefaultIp = "127.0.0.1";
         private const int DefaultPort = 7070;
-        private const int MaxPlayers = 2;
 
         private readonly Dictionary<long, PlayerData> _playerData = new();
         private readonly SortedSet<int> _freePlayerNumbers = new() { 1, 2 };
@@ -85,7 +88,7 @@ namespace INTOnlineCoop.Script.Singleton
                     {
                         serverPort = Convert.ToInt32(inputPort);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         GD.PrintErr("Invalid server port: " + inputPort);
                     }
@@ -147,6 +150,17 @@ namespace INTOnlineCoop.Script.Singleton
             Multiplayer.MultiplayerPeer = clientPeer;
             Multiplayer.ConnectionFailed += () => errorFunc.Invoke();
             return Error.Ok;
+        }
+
+        /// <summary>
+        /// Closes the current multiplayer connection
+        /// </summary>
+        public void CloseConnection()
+        {
+            Multiplayer.MultiplayerPeer.DisconnectPeer(1);
+            Multiplayer.MultiplayerPeer = null;
+            _playerData.Clear();
+            CurrentPlayerData = null;
         }
 
         /// <summary>

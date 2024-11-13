@@ -19,11 +19,19 @@ namespace INTOnlineCoop.Script.UI.Component
         [Export] private Label _errorLabel;
 
         /// <summary>
-        /// Adds handler method when connection was successfull
+        /// Connects to PlayerConnected signal
         /// </summary>
         public override void _Ready()
         {
             MultiplayerLobby.Instance.PlayerConnected += OnPlayerConnected;
+        }
+
+        /// <summary>
+        /// Disconnects from PlayerConnected signal
+        /// </summary>
+        public override void _ExitTree()
+        {
+            MultiplayerLobby.Instance.PlayerConnected -= OnPlayerConnected;
         }
 
         private void OnCloseRequested()
