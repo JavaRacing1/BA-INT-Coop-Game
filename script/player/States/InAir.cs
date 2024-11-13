@@ -5,7 +5,7 @@ public partial class Inair : PlayerState
     public override void Enter(Player player)
     {
         base.Enter(player);
-        GD.Print("Entering InAir State");
+        GD.Print("Entering inair State");
     }
 
     public override void Update(double delta)

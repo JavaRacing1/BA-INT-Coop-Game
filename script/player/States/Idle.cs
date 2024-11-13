@@ -17,7 +17,7 @@ public partial class Idle : PlayerState
         }
         else if (Input.IsActionJustPressed("jump") || !Spieler.IsOnFloor())
         {
-            Spieler.StateMachine.TransitionTo("inair");
+            //Spieler.StateMachine.TransitionTo("inair");
         }
     }
 }

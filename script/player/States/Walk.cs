@@ -19,6 +19,7 @@ public partial class Walk : PlayerState
             GD.Print("Move Left");
             velocity.X = -Speed;
             //Spieler.FlipH = true; // Spieler nach links drehen
+            Spieler.Velocity = velocity;
             _ = Spieler.MoveAndSlide();
         }
         // Bewegung nach rechts
@@ -27,6 +28,7 @@ public partial class Walk : PlayerState
             GD.Print("Move Right");
             velocity.X = Speed;
             //Spieler.FlipH = false; // Spieler nach rechts drehen
+            Spieler.Velocity = velocity;
             _ = Spieler.MoveAndSlide();
         }
         else if (!Input.IsActionPressed("walk_right") && !Input.IsActionPressed("walk_left"))
