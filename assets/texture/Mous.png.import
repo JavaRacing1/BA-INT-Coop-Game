@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://57sci5b6750p"
-path="res://.godot/imported/MauscourserV1.png-c3c6706cc2c80555fcea543dc77cde19.ctex"
+uid="uid://ciqdd5f203afj"
+path="res://.godot/imported/Mous.png-439be4fad39fe7d06dd9a4a988e1e86b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/texture/MauscourserV1.png"
-dest_files=["res://.godot/imported/MauscourserV1.png-c3c6706cc2c80555fcea543dc77cde19.ctex"]
+source_file="res://assets/texture/Mous.png"
+dest_files=["res://.godot/imported/Mous.png-439be4fad39fe7d06dd9a4a988e1e86b.ctex"]
 
 [params]
 
