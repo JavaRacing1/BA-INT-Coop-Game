@@ -1,26 +1,24 @@
 using Godot;
 
-public partial class Inair : PlayerState
+public partial class Inair : State
 {
     public override void Enter(Player player)
     {
         base.Enter(player);
-        GD.Print("Entering inair State");
+        GD.Print("Entering inair State");        //Debugger-Code
     }
 
     public override void Update(double delta)
     {
-        // Wenn der Spieler auf dem Boden ist, wechsle in den Idle-Status
+        //Spieler in Idle-Zustand versetzen, wenn Boden erreicht
         if (Spieler.IsOnFloor())
         {
             Spieler.StateMachine.TransitionTo("idle");
-            return;
         }
-
-        // Schwerkraft anwenden
-        Spieler.Velocity += new Vector2(0, Gravity * (float)delta);
-
-        // Bewegung aktualisieren
-        _ = Spieler.MoveAndSlide();
+        else
+        {
+            Spieler.Velocity += new Vector2(0, Gravity * (float)delta);     //Schwerkraft anwenden
+            _ = Spieler.MoveAndSlide();                                     //Bewegung aktualisieren
+        }
     }
 }
