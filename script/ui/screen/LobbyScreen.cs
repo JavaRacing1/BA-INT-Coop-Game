@@ -15,17 +15,24 @@ namespace INTOnlineCoop.Script.UI.Screen
     public partial class LobbyScreen : Control
     {
         [Export] private GeneratorSettingsContainer _generatorSettings;
+        [Export] private Container _generatorContainer;
         [Export] private Container _playerInformationContainer;
 
         private GameConfirmationDialog _quitDialog;
+        private int _currentPlayerIndex;
 
         /// <summary>
         /// Generate player information UI
         /// </summary>
         public override void _Ready()
         {
-            RebuildPlayerInformation();
-            MultiplayerLobby.Instance.PlayerDataChanged += RebuildPlayerInformation;
+            if (_generatorContainer != null)
+            {
+                _generatorContainer.Visible = false;
+            }
+
+            RebuildUserInterface();
+            MultiplayerLobby.Instance.PlayerDataChanged += RebuildUserInterface;
         }
 
         /// <summary>
@@ -33,16 +40,26 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         public override void _ExitTree()
         {
-            MultiplayerLobby.Instance.PlayerDataChanged -= RebuildPlayerInformation;
+            MultiplayerLobby.Instance.PlayerDataChanged -= RebuildUserInterface;
         }
 
-        private void RebuildPlayerInformation()
+        private void RebuildUserInterface()
         {
-            if (_playerInformationContainer == null || !IsInstanceValid(_playerInformationContainer))
+            if (_playerInformationContainer == null || !IsInstanceValid(_playerInformationContainer) ||
+                _generatorContainer == null || !IsInstanceValid(_generatorContainer))
             {
                 return;
             }
 
+            RebuildPlayerInformation();
+
+            _generatorContainer.Visible = _currentPlayerIndex == 1 ||
+                                          (_currentPlayerIndex == 2 &&
+                                           MultiplayerLobby.Instance.GetPlayerData().Count == 1);
+        }
+
+        private void RebuildPlayerInformation()
+        {
             foreach (Node child in _playerInformationContainer.GetChildren())
             {
                 child.QueueFree();
@@ -59,6 +76,11 @@ namespace INTOnlineCoop.Script.UI.Screen
                 if (data.PlayerNumber == -1)
                 {
                     continue;
+                }
+
+                if (data == MultiplayerLobby.Instance.CurrentPlayerData)
+                {
+                    _currentPlayerIndex = data.PlayerNumber;
                 }
 
                 playerDataDictionary[data.PlayerNumber] = data;

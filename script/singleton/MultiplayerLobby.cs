@@ -277,6 +277,11 @@ namespace INTOnlineCoop.Script.Singleton
             if (_playerData.TryGetValue(peerId, out PlayerData savedPlayerData))
             {
                 savedPlayerData.PlayerNumber = playerNumber;
+
+                if (Multiplayer.GetUniqueId() == peerId)
+                {
+                    CurrentPlayerData = savedPlayerData;
+                }
             }
             else
             {
