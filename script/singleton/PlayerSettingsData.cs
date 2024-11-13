@@ -68,6 +68,11 @@ namespace INTOnlineCoop.Script.Singleton
             CreateDefaultControls();
 
         /// <summary>
+        /// Active PlayerSettingsData instance
+        /// </summary>
+        public static PlayerSettingsData Instance { get; private set; }
+
+        /// <summary>
         /// The currently selected display mode
         /// </summary>
         public DisplayMode SelectedDisplayMode => Enum.Parse<DisplayMode>(_displayMode);
@@ -114,6 +119,7 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         public override void _Ready()
         {
+            Instance = this;
             if (!FileAccess.FileExists(SettingsPath))
             {
                 Save();
@@ -123,7 +129,7 @@ namespace INTOnlineCoop.Script.Singleton
                 Load();
             }
 
-            UpdateWindow();
+            UpdateWindow(true);
             ApplyInputSettings();
         }
 
@@ -194,7 +200,7 @@ namespace INTOnlineCoop.Script.Singleton
         public void ApplyChanges()
         {
             Save();
-            UpdateWindow();
+            UpdateWindow(false);
             HasUnsavedChanges = false;
             _changedDisplaySettings = false;
             if (HasControlChanges)
@@ -347,9 +353,9 @@ namespace INTOnlineCoop.Script.Singleton
             }
         }
 
-        private void UpdateWindow()
+        private void UpdateWindow(bool forceUpdate)
         {
-            if (_changedDisplaySettings)
+            if (_changedDisplaySettings || forceUpdate)
             {
                 DisplayServer.WindowMode newMode = SelectedDisplayMode switch
                 {

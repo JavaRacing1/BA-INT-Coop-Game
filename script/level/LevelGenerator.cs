@@ -133,7 +133,7 @@ namespace INTOnlineCoop.Script.Level
             GD.Print("Applying perlin noise to template");
             int width = templateImage.GetWidth();
             int height = templateImage.GetHeight();
-            Image noiseImage = Image.Create(width, height, false, Image.Format.Rgba8);
+            Image noiseImage = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)

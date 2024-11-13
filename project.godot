@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerSettingsData="*res://script/singleton/PlayerSettingsData.cs"
+MultiplayerLobby="*res://script/singleton/MultiplayerLobby.cs"
 
 [display]
 
@@ -45,6 +46,10 @@ folder_colors={
 "res://scene/": "blue",
 "res://script/": "pink"
 }
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
@@ -136,3 +141,7 @@ camera_down={
 [layer_names]
 
 2d_physics/layer_1="Terrain"
+
+[rendering]
+
+2d/snap/snap_2d_transforms_to_pixel=true

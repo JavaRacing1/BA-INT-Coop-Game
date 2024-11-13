@@ -33,8 +33,9 @@ namespace INTOnlineCoop.Script.UI.Component
 
         private static void SetButtonProperties(Button button, string themeTypeVariation)
         {
-            button.Text = "";
-            button.CustomMinimumSize = new(40, 20);
+            //TODO: Whitespaces used as workaround since Godot 4.3 seems to ignore CustomMinimumSize
+            button.Text = "           ";
+            button.SetCustomMinimumSize(new(40, 20));
             button.Theme = DialogTheme;
             button.ThemeTypeVariation = themeTypeVariation;
         }

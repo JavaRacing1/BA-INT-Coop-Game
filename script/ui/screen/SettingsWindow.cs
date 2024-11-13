@@ -23,7 +23,6 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private CheckBox _controlHintCheckBox;
         [Export] private VBoxContainer _inputContainer;
 
-        private PlayerSettingsData _playerSettingsData;
         private GameConfirmationDialog _cancelDialog;
         private GameConfirmationDialog _discardDialog;
         private InputConfigItem _selectedConfigItem;
@@ -37,22 +36,21 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         public override void _Ready()
         {
-            _playerSettingsData = GetNode<PlayerSettingsData>("/root/PlayerSettingsData");
             if (_displayModeButton != null)
             {
-                _displayModeButton.ItemSelected += index => _playerSettingsData.SetDisplayMode((DisplayMode)index);
+                _displayModeButton.ItemSelected += index => PlayerSettingsData.Instance.SetDisplayMode((DisplayMode)index);
             }
 
             if (_particleCheckBox != null)
             {
-                _particleCheckBox.Toggled += toggled => _playerSettingsData.SetParticlesEnabled(toggled);
+                _particleCheckBox.Toggled += toggled => PlayerSettingsData.Instance.SetParticlesEnabled(toggled);
             }
 
             if (_masterVolumeSlider != null && _masterCurrentVolumeLabel != null)
             {
                 _masterVolumeSlider.ValueChanged += volume =>
                 {
-                    _playerSettingsData.SetMasterVolume((int)volume);
+                    PlayerSettingsData.Instance.SetMasterVolume((int)volume);
                     _masterCurrentVolumeLabel.Text = Convert.ToString((int)volume);
                 };
             }
@@ -61,7 +59,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _musicVolumeSlider.ValueChanged += volume =>
                 {
-                    _playerSettingsData.SetMusicVolume((int)volume);
+                    PlayerSettingsData.Instance.SetMusicVolume((int)volume);
                     _musicCurrentVolumeLabel.Text = Convert.ToString((int)volume);
                 };
             }
@@ -70,14 +68,14 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 _effectVolumeSlider.ValueChanged += volume =>
                 {
-                    _playerSettingsData.SetEffectVolume((int)volume);
+                    PlayerSettingsData.Instance.SetEffectVolume((int)volume);
                     _effectCurrentVolumeLabel.Text = Convert.ToString((int)volume);
                 };
             }
 
             if (_controlHintCheckBox != null)
             {
-                _controlHintCheckBox.Toggled += toggled => _playerSettingsData.SetControlHintVisibility(toggled);
+                _controlHintCheckBox.Toggled += toggled => PlayerSettingsData.Instance.SetControlHintVisibility(toggled);
             }
 
             _outdatedControls = true;
@@ -124,7 +122,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _selectedButton.ThemeTypeVariation = "TransparentButton";
                 _selectedButton.FocusMode = Control.FocusModeEnum.All;
                 _selectedButton = null;
-                _playerSettingsData.SetInput(_selectedAction, _selectedInputKind, newInput, newInputType);
+                PlayerSettingsData.Instance.SetInput(_selectedAction, _selectedInputKind, newInput, newInputType);
                 GetViewport().SetInputAsHandled();
             }
         }
@@ -133,35 +131,35 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             if (_displayModeButton != null)
             {
-                _displayModeButton.Selected = (int)_playerSettingsData.SelectedDisplayMode;
+                _displayModeButton.Selected = (int)PlayerSettingsData.Instance.SelectedDisplayMode;
             }
 
             if (_particleCheckBox != null)
             {
-                _particleCheckBox.ButtonPressed = _playerSettingsData.AreParticlesEnabled;
+                _particleCheckBox.ButtonPressed = PlayerSettingsData.Instance.AreParticlesEnabled;
             }
 
             if (_masterVolumeSlider != null && _masterCurrentVolumeLabel != null)
             {
-                _masterVolumeSlider.Value = _playerSettingsData.MasterVolume;
-                _masterCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.MasterVolume);
+                _masterVolumeSlider.Value = PlayerSettingsData.Instance.MasterVolume;
+                _masterCurrentVolumeLabel.Text = Convert.ToString(PlayerSettingsData.Instance.MasterVolume);
             }
 
             if (_musicVolumeSlider != null && _musicCurrentVolumeLabel != null)
             {
-                _musicVolumeSlider.Value = _playerSettingsData.MusicVolume;
-                _musicCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.MusicVolume);
+                _musicVolumeSlider.Value = PlayerSettingsData.Instance.MusicVolume;
+                _musicCurrentVolumeLabel.Text = Convert.ToString(PlayerSettingsData.Instance.MusicVolume);
             }
 
             if (_effectVolumeSlider != null && _effectCurrentVolumeLabel != null)
             {
-                _effectVolumeSlider.Value = _playerSettingsData.EffectVolume;
-                _effectCurrentVolumeLabel.Text = Convert.ToString(_playerSettingsData.EffectVolume);
+                _effectVolumeSlider.Value = PlayerSettingsData.Instance.EffectVolume;
+                _effectCurrentVolumeLabel.Text = Convert.ToString(PlayerSettingsData.Instance.EffectVolume);
             }
 
             if (_controlHintCheckBox != null)
             {
-                _controlHintCheckBox.ButtonPressed = _playerSettingsData.ShowControlHints;
+                _controlHintCheckBox.ButtonPressed = PlayerSettingsData.Instance.ShowControlHints;
             }
 
             if (_inputContainer != null && _outdatedControls)
@@ -180,8 +178,8 @@ namespace INTOnlineCoop.Script.UI.Screen
                 foreach (string action in PlayerSettingsData.InputActions)
                 {
                     InputConfigItem item = itemScene.Instantiate<InputConfigItem>();
-                    (string, InputType) primaryInput = _playerSettingsData.GetInput(action, InputKind.Primary);
-                    (string, InputType) secondaryInput = _playerSettingsData.GetInput(action, InputKind.Secondary);
+                    (string, InputType) primaryInput = PlayerSettingsData.Instance.GetInput(action, InputKind.Primary);
+                    (string, InputType) secondaryInput = PlayerSettingsData.Instance.GetInput(action, InputKind.Secondary);
                     item.Init(action, primaryInput, secondaryInput);
 
                     item.InputButtonPressed += (button, kind) => OnInputButtonPressed(item, button, action, Enum.Parse<InputKind>(kind));
@@ -214,8 +212,8 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             void PressAction()
             {
-                _outdatedControls = _playerSettingsData.HasControlChanges;
-                _playerSettingsData.DiscardChanges();
+                _outdatedControls = PlayerSettingsData.Instance.HasControlChanges;
+                PlayerSettingsData.Instance.DiscardChanges();
                 UpdateSettings();
                 Visible = false;
             }
@@ -228,7 +226,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 AddChild(_cancelDialog);
             }
 
-            if (_playerSettingsData.HasUnsavedChanges)
+            if (PlayerSettingsData.Instance.HasUnsavedChanges)
             {
                 _cancelDialog.Visible = true;
             }
@@ -242,8 +240,8 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             void PressAction()
             {
-                _outdatedControls = _playerSettingsData.HasControlChanges;
-                _playerSettingsData.DiscardChanges();
+                _outdatedControls = PlayerSettingsData.Instance.HasControlChanges;
+                PlayerSettingsData.Instance.DiscardChanges();
                 UpdateSettings();
             }
 
@@ -255,7 +253,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 AddChild(_discardDialog);
             }
 
-            if (_playerSettingsData.HasUnsavedChanges)
+            if (PlayerSettingsData.Instance.HasUnsavedChanges)
             {
                 _discardDialog.Visible = true;
             }
@@ -267,7 +265,7 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnApplyButtonPressed()
         {
-            _playerSettingsData.ApplyChanges();
+            PlayerSettingsData.Instance.ApplyChanges();
             Visible = false;
         }
     }

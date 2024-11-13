@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7lnnklj7nfp0"]
+
+[ext_resource type="Script" path="res://script/ui/screen/LobbyScreen.cs" id="1_kxm2y"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_m1xud"]
+[ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_8rmen"]
+
+[node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_generatorSettings", "_generatorContainer", "_playerInformationContainer", "_playButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_m1xud")
+script = ExtResource("1_kxm2y")
+_generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
+_generatorContainer = NodePath("Background/GeneratorContainer")
+_playerInformationContainer = NodePath("Background/PlayerContainer")
+_playButton = NodePath("Background/PlayButton")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayButton" type="Button" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.95
+anchor_right = 0.95
+anchor_bottom = 0.95
+offset_left = -61.0
+offset_top = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_m1xud")
+theme_type_variation = &"LargeButton"
+text = "Spielen"
+
+[node name="BackButton" type="Button" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.95
+anchor_right = 0.05
+anchor_bottom = 0.95
+offset_top = -25.0
+offset_right = 49.0
+grow_vertical = 0
+theme = ExtResource("2_m1xud")
+theme_type_variation = &"LargeButton"
+text = "Zurück"
+
+[node name="GeneratorContainer" type="VBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.05
+offset_left = -186.0
+offset_bottom = 61.0
+grow_horizontal = 0
+alignment = 1
+
+[node name="GeneratorLabel" type="Label" parent="Background/GeneratorContainer"]
+layout_mode = 2
+theme = ExtResource("2_m1xud")
+text = "Form des Geländes"
+horizontal_alignment = 1
+
+[node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_8rmen")]
+layout_mode = 2
+
+[node name="PlayerContainer" type="VBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.05
+anchor_bottom = 0.05
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
+[connection signal="pressed" from="Background/BackButton" to="." method="OnBackButtonPressed"]

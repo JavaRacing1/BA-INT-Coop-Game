@@ -1,6 +1,7 @@
 using Godot;
 
 using INTOnlineCoop.Script.Level.Tile;
+using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.UI.Component;
 using INTOnlineCoop.Script.UI.Screen;
 
@@ -48,10 +49,16 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _Ready()
         {
-            if (_tileManager != null)
-            {
-                _tileManager.InitTileMap(_terrainImage);
-            }
+            _tileManager?.InitTileMap(_terrainImage);
+            MultiplayerLobby.Instance.PlayerDisconnected += OnDisconnect;
+        }
+
+        /// <summary>
+        /// Disconnect signals
+        /// </summary>
+        public override void _ExitTree()
+        {
+            MultiplayerLobby.Instance.PlayerDisconnected -= OnDisconnect;
         }
 
         /// <summary>
@@ -64,6 +71,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 return;
             }
+
             if (@event is InputEventKey { Keycode: Key.Escape } && _userInterfaceLayer != null)
             {
                 PauseDialog pauseDialog = _userInterfaceLayer.GetNodeOrNull<PauseDialog>("PauseDialog");
@@ -80,8 +88,15 @@ namespace INTOnlineCoop.Script.Level
             }
         }
 
+        private void OnDisconnect(int peerId)
+        {
+            GD.Print($"{peerId} disconnected! Closing level");
+            OnExit();
+        }
+
         private void OnExit()
         {
+            MultiplayerLobby.Instance.CloseConnection();
             IsInputBlocked = false;
             MainMenu menu = GD.Load<PackedScene>("res://scene/ui/screen/MainMenu.tscn").Instantiate<MainMenu>();
             GetTree().Root.AddChild(menu);

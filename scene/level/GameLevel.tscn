@@ -20,8 +20,9 @@ script = ExtResource("2_0aiww")
 script = ExtResource("2_l7ks5")
 _tileMap = NodePath("../LevelTileMap")
 
-[node name="LevelTileMap" type="TileMap" parent="."]
+[node name="LevelTileMap" type="TileMapLayer" parent="."]
+texture_filter = 4
+use_parent_material = true
 tile_set = ExtResource("3_g3n4h")
-format = 2
 
 [node name="UserInterfaceLayer" type="CanvasLayer" parent="."]

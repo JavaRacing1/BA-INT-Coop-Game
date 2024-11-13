@@ -10,7 +10,7 @@ namespace INTOnlineCoop.Script.Level.Tile
     /// </summary>
     public partial class LevelTileManager : Node2D
     {
-        [Export] private TileMap _tileMap;
+        [Export] private TileMapLayer _tileMap;
 
         /// <summary>
         /// Initializes the tile map
@@ -52,12 +52,12 @@ namespace INTOnlineCoop.Script.Level.Tile
 
                         if (locationData.AlternativeTileId != -1)
                         {
-                            _tileMap.SetCell(0, new Vector2I(x, y), locationData.TileSetId,
+                            _tileMap.SetCell(new Vector2I(x, y), locationData.TileSetId,
                                 alternativeTile: locationData.AlternativeTileId);
                         }
                         else
                         {
-                            _tileMap.SetCell(0, new Vector2I(x, y), locationData.TileSetId,
+                            _tileMap.SetCell(new Vector2I(x, y), locationData.TileSetId,
                                 new Vector2I(locationData.AtlasX, locationData.AtlasY));
                         }
                     }
@@ -75,7 +75,7 @@ namespace INTOnlineCoop.Script.Level.Tile
                         continue;
                     }
                     Array<Vector2I> cachedCells = pixelCache.GetValueOrDefault(color);
-                    _tileMap.SetCellsTerrainConnect(0, cachedCells, terrainInformation.Item1, terrainInformation.Item2);
+                    _tileMap.SetCellsTerrainConnect(cachedCells, terrainInformation.Item1, terrainInformation.Item2);
                 }
             }
         }
