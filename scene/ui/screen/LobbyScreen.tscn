@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7lnnklj7nfp0"]
+[gd_scene load_steps=5 format=3 uid="uid://b7lnnklj7nfp0"]
 
 [ext_resource type="Script" path="res://script/ui/screen/LobbyScreen.cs" id="1_kxm2y"]
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_m1xud"]
+[ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="3_7aolt"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_8rmen"]
 
 [node name="LobbyScreen" type="Control" node_paths=PackedStringArray("_generatorSettings", "_generatorContainer", "_playerInformationContainer", "_playButton")]
@@ -18,13 +19,14 @@ _generatorContainer = NodePath("Background/GeneratorContainer")
 _playerInformationContainer = NodePath("Background/PlayerContainer")
 _playButton = NodePath("Background/PlayButton")
 
-[node name="Background" type="Panel" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("3_7aolt")
 
 [node name="PlayButton" type="Button" parent="Background"]
 layout_mode = 1

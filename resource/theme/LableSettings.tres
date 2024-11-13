@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bxvabpyexv0e1"]
+
+[ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="1_dah7b"]
+
+[resource]
+font = ExtResource("1_dah7b")
+font_size = 25

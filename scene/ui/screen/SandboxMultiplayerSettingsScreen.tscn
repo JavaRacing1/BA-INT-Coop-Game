@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b30mk3fd1pf23"]
+[gd_scene load_steps=5 format=3 uid="uid://b267u1c4cxx0d"]
 
 [ext_resource type="Script" path="res://script/ui/screen/SandboxSettingsScreen.cs" id="1_vmss3"]
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="2_gcfyk"]
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="2_xubts"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_daxfu"]
-[ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/AmaraHead.png" id="5_bdb3c"]
 
 [node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
 layout_mode = 3
@@ -74,32 +73,6 @@ horizontal_alignment = 1
 
 [node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_daxfu")]
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Background"]
-layout_mode = 0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 275.0
-offset_bottom = 305.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Amara"
-
-[node name="Sprite2D" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 60)
-layout_mode = 2
-texture = ExtResource("5_bdb3c")
-
-[node name="CheckBox" type="CheckBox" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
 
 [connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Background/BackButton" to="." method="OnBackButtonPressed"]
