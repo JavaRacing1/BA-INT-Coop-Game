@@ -2,14 +2,7 @@ using Godot;
 
 public partial class Walk : State
 {
-    public override void Enter(PlayerCharacter player)
-    {
-        base.Enter(player);                     //Spieler dem Objekt player zuweisen
-        GD.Print("Entering walk State");        //Debugger-Code
-        //Einfügen von Animationen
-    }
-
-    public override void Update(double delta)
+    public override void PhysicProcess(double delta)
     {
         Vector2 velocity = Character.Velocity;
 

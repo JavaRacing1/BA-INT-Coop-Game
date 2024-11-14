@@ -26,8 +26,8 @@ public partial class StateMachine : Node
         //Prüfen, ob der State, in den gewechselt werden soll, existiert
         if (_states.TryGetValue(stateName, out State newState))
         {
-            CurrentState = newState;                        //In den neuen State wechseln
-            CurrentState.Enter(GetParent<PlayerCharacter>());        //Spieler-Objekt im State hinterlegen
+            CurrentState = newState;     //In den neuen State wechseln
+            CurrentState.Enter();        //Spieler-Objekt im State hinterlegen
         }
         else
         {

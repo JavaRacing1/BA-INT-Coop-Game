@@ -2,15 +2,42 @@ using Godot;
 
 public abstract partial class State : Node
 {
-    protected const float Speed = 50f;         //Spielergeschwindigkeit
-    protected const float Gravity = 100f;       //Gravitation
-    protected PlayerCharacter Character { get; private set; }                      //Spieler initialisieren
-    public virtual void Enter(PlayerCharacter player)
+    /// <summary>
+    /// Speed of the player
+    /// </summary>
+    protected const float Speed = 50f; //Spielergeschwindigkeit
+    /// <summary>
+    /// Gravity applied to the player
+    /// </summary>
+    protected const float Gravity = 100f; //Gravitation
+
+    /// <summary>
+    /// Character which uses the state
+    /// </summary>
+    [Export]
+    protected PlayerCharacter Character { get; private set; } //Spieler initialisieren
+
+    /// <summary>
+    /// Enters the state
+    /// </summary>
+    public virtual void Enter()
     {
-        Character = player;
+        GD.Print($"Entering {Name} state");
     }
 
-    public virtual void Update(double delta) { }
+    /// <summary>
+    /// Runs physic processes
+    /// </summary>
+    /// <param name="delta">Current Frame-delta</param>
+    public virtual void PhysicProcess(double delta)
+    {
+    }
 
-    public virtual void HandleInput(InputEvent inputEvent) { }
+    /// <summary>
+    /// Handles input event 
+    /// </summary>
+    /// <param name="inputEvent">Input event</param>
+    public virtual void HandleInput(InputEvent inputEvent)
+    {
+    }
 }

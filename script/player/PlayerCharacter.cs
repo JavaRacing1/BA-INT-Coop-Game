@@ -12,7 +12,7 @@ public partial class PlayerCharacter : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        StateMachine.CurrentState.Update(delta);
+        StateMachine.CurrentState.PhysicProcess(delta);
     }
 
     public override void _UnhandledInput(InputEvent @event)
