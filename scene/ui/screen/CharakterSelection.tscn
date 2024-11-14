@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://8l6r2sjad6tf"]
 
-[ext_resource type="Script" path="res://scene/ui/screen/CharacterSelection.cs" id="1_mm8oj"]
+[ext_resource type="Script" path="res://script/ui/screen/CharakterSelection.cs" id="1_ntg85"]
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="1_oydd5"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkk0b"]
 [ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/AmaraHead.png" id="2_ugdev"]
@@ -32,7 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_mm8oj")
+script = ExtResource("1_ntg85")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -300,7 +300,7 @@ texture_pressed = ExtResource("16_me0yd")
 texture_hover = ExtResource("15_42o74")
 stretch_mode = 5
 
-[node name="ReturnButton2" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+[node name="ReturnButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("12_f45xe")
@@ -363,6 +363,6 @@ texture_hover = ExtResource("15_42o74")
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/WilhelmHead" to="." method="OnWilhelmHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ZeroHead" to="." method="OnZeroHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton" to="." method="OnCharacterSelectionConfirmPressed"]
-[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnButton2" to="." method="OnCharacterSelectReturnPressed"]
-[connection signal="pressed" from="Popup/ReturnButton" to="." method="OnReturnToMenuPressed"]
-[connection signal="pressed" from="Popup/ConfirmButton" to="." method="OnCharacterSelectConfirmPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnButton" to="." method="OnCharacterSelectReturnPressed"]
+[connection signal="pressed" from="Popup/ReturnButton" to="." method="OnPopUpReturnCharacterSelectionPressed"]
+[connection signal="pressed" from="Popup/ConfirmButton" to="." method="OnPopUpConfirmCharacterSelectionPressed"]
