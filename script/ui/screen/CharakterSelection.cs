@@ -39,11 +39,11 @@ namespace INTOnlineCoop.Script.UI.Screen
         //PopUp verstecken
         [Export] private Popup _confirmPopUp;
 
-        // Maximal vier Figuren auswählbar
+        // Maximal vier Figuren auswï¿½hlbar
         private const int MaxSelections = 4;
         private int _countSelectedCharacters;
 
-        // Verweise auf Bestätigen und Abbrechen-Buttons
+        // Verweise auf Bestï¿½tigen und Abbrechen-Buttons
         [Export] private Button _confirmSelectionButton;
         [Export] private Button _returnSelectionButton;
         [Export] private Button _confirmPopupButton;
@@ -76,7 +76,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         public override void _Ready()
         {
 
-            // Setze den Anfangszustand für die Buttons
+            // Setze den Anfangszustand fï¿½r die Buttons
             _confirmSelectionButton.Visible = false;
             _confirmSelectionButton.Disabled = true;
             _returnSelectionButton.Disabled = false;
@@ -94,7 +94,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             _headAthenaButton.Disabled = false;
             _headAmaraButton.Disabled = false;
 
-            //Weieße Lable-Farbe bei Szenenaufruf setzten
+            //Weieï¿½e Lable-Farbe bei Szenenaufruf setzten
             _zeroLabel.Modulate = new Color(255, 255, 255);
             _whilhelmLabel.Modulate = new Color(255, 255, 255);
             _salvadorLabel.Modulate = new Color(255, 255, 255);
@@ -110,11 +110,11 @@ namespace INTOnlineCoop.Script.UI.Screen
             //PopUp verstecken
             _confirmPopUp.Visible = false;
 
-            //überprüfe funktionlität ConfirmSelectionButton
+            //ï¿½berprï¿½fe funktionlitï¿½t ConfirmSelectionButton
             CheckSelectedCharacters();
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnAthenaHeadPressed()
         {
@@ -134,7 +134,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnAmaraHeadPressed()
         {
@@ -154,7 +154,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnAxtonHeadPressed()
         {
@@ -174,7 +174,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnGaigeHeadPressed()
         {
@@ -194,7 +194,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnKriegHeadPressed()
         {
@@ -214,7 +214,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnMajaHeadPressed()
         {
@@ -234,7 +234,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnMozeHeadPressed()
         {
@@ -254,7 +254,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnNishaHeadPressed()
         {
@@ -274,7 +274,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnSalvadorHeadPressed()
         {
@@ -294,7 +294,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnWilhelmHeadPressed()
         {
@@ -314,7 +314,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
+        /// Auswahl Spielfigur, erhï¿½he Anzahl um 1, verï¿½ndere Labelcolor
         /// </summary>
         private void OnZeroHeadPressed()
         {
@@ -334,7 +334,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Üperprüfe Anzahl ausgewählter Spielfiguren, aktiviere ConfirmSelectionButton
+        /// ï¿½perprï¿½fe Anzahl ausgewï¿½hlter Spielfiguren, aktiviere ConfirmSelectionButton
         /// </summary>
         private void CheckSelectedCharacters()
         {
@@ -364,14 +364,14 @@ namespace INTOnlineCoop.Script.UI.Screen
             _confirmPopUp.Visible = false;
         }
         /// <summary>
-        /// wechsel zurück auf Main-Szene
+        /// wechsel zurï¿½ck auf Main-Szene
         /// </summary>
         private void OnCharacterSelectReturnPressed()
         {
             _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
         }
         /// <summary>
-        /// Sammel gültige Spielfiguren zusammen, übergebe Liste von Spielfiguren an GameManager, wechsel zurück in Lobby
+        /// Sammel gï¿½ltige Spielfiguren zusammen, ï¿½bergebe Liste von Spielfiguren an GameManager, wechsel zurï¿½ck in Lobby
         /// </summary>
         private void OnPopUpConfirmCharacterSelectionPressed()
         {
