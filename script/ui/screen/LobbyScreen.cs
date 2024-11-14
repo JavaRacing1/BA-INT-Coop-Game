@@ -140,7 +140,7 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnCharacterSelectionButtonPressed()
         {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/CharakterSelection.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/CharacterSelection.tscn");
         }
     }
 }
