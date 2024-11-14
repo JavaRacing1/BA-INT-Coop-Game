@@ -1,43 +1,50 @@
 using Godot;
 
-public abstract partial class State : Node
+namespace INTOnlineCoop.Script.Player
 {
     /// <summary>
-    /// Speed of the player
+    /// Represents a player state
     /// </summary>
-    protected const float Speed = 50f; //Spielergeschwindigkeit
-    /// <summary>
-    /// Gravity applied to the player
-    /// </summary>
-    protected const float Gravity = 100f; //Gravitation
-
-    /// <summary>
-    /// Character which uses the state
-    /// </summary>
-    [Export]
-    protected PlayerCharacter Character { get; private set; } //Spieler initialisieren
-
-    /// <summary>
-    /// Enters the state
-    /// </summary>
-    public virtual void Enter()
+    public abstract partial class State : Node
     {
-        GD.Print($"Entering {Name} state");
-    }
+        /// <summary>
+        /// Speed of the player
+        /// </summary>
+        protected const float Speed = 50f; //Spielergeschwindigkeit
+        /// <summary>
+        /// Gravity applied to the player
+        /// </summary>
+        protected const float Gravity = 100f; //Gravitation
 
-    /// <summary>
-    /// Runs physic processes
-    /// </summary>
-    /// <param name="delta">Current Frame-delta</param>
-    public virtual void PhysicProcess(double delta)
-    {
-    }
+        /// <summary>
+        /// Character which uses the state
+        /// </summary>
+        [Export]
+        protected PlayerCharacter Character { get; private set; } //Spieler initialisieren
 
-    /// <summary>
-    /// Handles input event 
-    /// </summary>
-    /// <param name="inputEvent">Input event</param>
-    public virtual void HandleInput(InputEvent inputEvent)
-    {
+        /// <summary>
+        /// Enters the state
+        /// </summary>
+        public virtual void Enter()
+        {
+            GD.Print($"Entering {Name} state");
+        }
+
+        /// <summary>
+        /// Runs physic processes
+        /// </summary>
+        /// <param name="delta">Current Frame-delta</param>
+        public virtual void PhysicProcess(double delta)
+        {
+        }
+
+        /// <summary>
+        /// Handles input event 
+        /// </summary>
+        /// <param name="inputEvent">Input event</param>
+        public virtual void HandleInput(InputEvent inputEvent)
+        {
+        }
     }
 }
+

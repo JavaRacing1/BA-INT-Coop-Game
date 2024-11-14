@@ -1,18 +1,29 @@
 using Godot;
 
-public partial class InAir : State
+namespace INTOnlineCoop.Script.Player.States
 {
-    public override void PhysicProcess(double delta)
+    /// <summary>
+    /// State used when player is in the air
+    /// </summary>
+    public partial class InAir : State
     {
-        //Spieler in Idle-Zustand versetzen, wenn Boden erreicht
-        if (Character.IsOnFloor())
+        /// <summary>
+        /// Updates player movement
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
         {
-            Character.StateMachine.TransitionTo("idle");
-        }
-        else
-        {
-            Character.Velocity += new Vector2(0, Gravity * (float)delta);     //Schwerkraft anwenden
-            _ = Character.MoveAndSlide();                                     //Bewegung aktualisieren
+            //Spieler in Idle-Zustand versetzen, wenn Boden erreicht
+            if (Character.IsOnFloor())
+            {
+                Character.StateMachine.TransitionTo(AvailableState.Idle);
+            }
+            else
+            {
+                Character.Velocity += new Vector2(0, Gravity * (float)delta);     //Schwerkraft anwenden
+                _ = Character.MoveAndSlide();                                     //Bewegung aktualisieren
+            }
         }
     }
 }
+

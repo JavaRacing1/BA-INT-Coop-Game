@@ -1,37 +1,77 @@
+using System;
+
 using Godot;
 
 using System.Collections.Generic;
 
-public partial class StateMachine : Node
+namespace INTOnlineCoop.Script.Player
 {
-    private readonly Dictionary<string, State> _states = new();     //State-Dictionary zum Speichern aller States anlegen
-    public State CurrentState { get; private set; }                 //Aktuellen Status deklarieren
-
-    public override void _Ready()
+    /// <summary>
+    /// States available for usage by the StateMachine
+    /// </summary>
+    public enum AvailableState
     {
-        //Jeden Kind-Node des StateMashine-Nodes durchlaufen
-        foreach (Node node in GetChildren())
-        {
-            //Wenn der Node vom Typ State ist, ins Dictionary aufnehmen
-            if (node is State state)
-            {
-                _states.Add(node.Name.ToString().ToLower(), state); //States zum Dictionary hinzufügen
-                GD.Print($"State registered: {node.Name}");         //Debugger-Code
-            }
-        }
+        /// <summary>State when character is not moving but controllable</summary>
+        Idle,
+        /// <summary>State when character is in the air</summary>
+        InAir,
+        /// <summary>State when character is not controllable</summary>
+        Inactive,
+        /// <summary>State when character is walking</summary>
+        Walk
     }
 
-    public void TransitionTo(string stateName)
+    /// <summary>
+    /// Manages the states of a player
+    /// </summary>
+    public partial class StateMachine : Node
     {
-        //Prüfen, ob der State, in den gewechselt werden soll, existiert
-        if (_states.TryGetValue(stateName, out State newState))
+        private readonly Dictionary<AvailableState, State> _states = new(); //State-Dictionary zum Speichern aller States anlegen
+
+        /// <summary>
+        /// Current state of the state machine
+        /// </summary>
+        public State CurrentState { get; private set; }
+
+        /// <summary>
+        /// Load all available states
+        /// </summary>
+        public override void _Ready()
         {
-            CurrentState = newState;     //In den neuen State wechseln
-            CurrentState.Enter();        //Spieler-Objekt im State hinterlegen
+            //Jeden Kind-Node des StateMashine-Nodes durchlaufen
+            foreach (Node node in GetChildren())
+            {
+                //Wenn der Node vom Typ State ist, ins Dictionary aufnehmen
+                if (node is State state)
+                {
+                    bool parseOk = Enum.TryParse(state.Name, true, out AvailableState availableState);
+                    if (!parseOk)
+                    {
+                        GD.PrintErr($"Could not parse state '{state.Name}'");
+                        continue;
+                    }
+                    _states.Add(availableState, state); //States zum Dictionary hinzufügen
+                    GD.Print($"State registered: {node.Name}");
+                }
+            }
         }
-        else
+
+        /// <summary>
+        /// Changes the currently active state
+        /// </summary>
+        /// <param name="state">New state</param>
+        public void TransitionTo(AvailableState state)
         {
-            GD.PrintErr($"State {stateName} not found");    //Debugger-Code
+            //Prüfen, ob der State, in den gewechselt werden soll, existiert
+            if (_states.TryGetValue(state, out State newState))
+            {
+                CurrentState = newState; //In den neuen State wechseln
+                CurrentState.Enter();
+            }
+            else
+            {
+                GD.PrintErr($"State {state} not found");
+            }
         }
     }
 }

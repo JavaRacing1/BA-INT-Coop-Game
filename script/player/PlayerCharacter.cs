@@ -1,22 +1,47 @@
 using Godot;
 
-public partial class PlayerCharacter : CharacterBody2D
+namespace INTOnlineCoop.Script.Player
 {
-    [Export] public StateMachine StateMachine { get; private set; }
-
-    public override void _Ready()
+    /// <summary>
+    /// Character controlled by the player
+    /// </summary>
+    public partial class PlayerCharacter : CharacterBody2D
     {
-        StateMachine = GetNode<StateMachine>("StateMachine");   //StateMashine-Node initialisieren
-        StateMachine.TransitionTo("idle");                      // Initialer Zustand
-    }
+        /// <summary>
+        /// Current StateMachine instance
+        /// </summary>
+        [Export]
+        public StateMachine StateMachine { get; private set; }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        StateMachine.CurrentState.PhysicProcess(delta);
-    }
+        /// <summary>
+        /// Initializes the state machine
+        /// </summary>
+        public override void _Ready()
+        {
+            if (StateMachine == null)
+            {
+                return;
+            }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        StateMachine.CurrentState.HandleInput(@event);
+            StateMachine.TransitionTo(AvailableState.Idle); // Initialer Zustand
+        }
+
+        /// <summary>
+        /// Redirects physic and movement updates to states
+        /// </summary>
+        /// <param name="delta">Current Frame-delta</param>
+        public override void _PhysicsProcess(double delta)
+        {
+            StateMachine.CurrentState.PhysicProcess(delta);
+        }
+
+        /// <summary>
+        /// Redirects input to states
+        /// </summary>
+        /// <param name="event">InputEvent instance</param>
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            StateMachine.CurrentState.HandleInput(@event);
+        }
     }
 }

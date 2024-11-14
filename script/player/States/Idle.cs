@@ -1,18 +1,28 @@
 using Godot;
 
-public partial class Idle : State
+namespace INTOnlineCoop.Script.Player.States
 {
-    public override void PhysicProcess(double delta)
+    /// <summary>
+    /// State used when the character is not moving
+    /// </summary>
+    public partial class Idle : State
     {
-        //Übergang in den Walking-Zustand, falls Eingabe erfolgt
-        if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
+        /// <summary>
+        /// Updates player movement
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
         {
-            Character.StateMachine.TransitionTo("walk");
-        }
-        //Übergang in den Inair-Zustand, falls in der Luft
-        else if (!Character.IsOnFloor())
-        {
-            Character.StateMachine.TransitionTo("inair");
+            //Übergang in den Walking-Zustand, falls Eingabe erfolgt
+            if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
+            {
+                Character.StateMachine.TransitionTo(AvailableState.Walk);
+            }
+            //Übergang in den Inair-Zustand, falls in der Luft
+            else if (!Character.IsOnFloor())
+            {
+                Character.StateMachine.TransitionTo(AvailableState.InAir);
+            }
         }
     }
 }
