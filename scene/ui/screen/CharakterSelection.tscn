@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://8l6r2sjad6tf"]
 
-[ext_resource type="Script" path="res://script/ui/screen/CharakterSelection.cs" id="1_ntg85"]
+[ext_resource type="Script" path="res://script/ui/screen/CharacterSelection.cs" id="1_ntg85"]
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="1_oydd5"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkk0b"]
 [ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/AmaraHead.png" id="2_ugdev"]
@@ -25,7 +25,7 @@
 [sub_resource type="Theme" id="Theme_ujvug"]
 default_font = ExtResource("2_kkk0b")
 
-[node name="CharakterSelection" type="Control"]
+[node name="CharakterSelection" type="Control" node_paths=PackedStringArray("_headAmaraButton", "_headAthenaButton", "_headAxtonButton", "_headGaigeButton", "_headMajaButton", "_headMozeButton", "_headNishaButton", "_headKriegButton", "_headSalvadorButton", "_headWhilhelmButton", "_headZeroButton", "_amaraLabel", "_athenaLabel", "_axtonLabel", "_gaigeLabel", "_majaLabel", "_mozeLabel", "_nishaLabel", "_kriegLabel", "_salvadorLabel", "_whilhelmLabel", "_zeroLabel", "_confirmPopUpMenu", "_confirmSelectionButton", "_returnSelectionButton", "_confirmPopupButton", "_returnPopupButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,6 +33,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ntg85")
+_headAmaraButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/AmaraHead")
+_headAthenaButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/AthenaHead")
+_headAxtonButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/AxtonHead")
+_headGaigeButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/GaigeHead")
+_headMajaButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/MajaHead")
+_headMozeButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/MozeHead")
+_headNishaButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/NishaHead")
+_headKriegButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Krieg")
+_headSalvadorButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/SalvadorHead")
+_headWhilhelmButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/WilhelmHead")
+_headZeroButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/ZeroHead")
+_amaraLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/Amara")
+_athenaLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/Athena")
+_axtonLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/Axton")
+_gaigeLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set1/Gaige")
+_majaLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Maja")
+_mozeLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Moze")
+_nishaLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Nisha")
+_kriegLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Krieg2")
+_salvadorLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Salvador")
+_whilhelmLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Whihelm")
+_zeroLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Zero")
+_confirmPopUpMenu = NodePath("Popup")
+_confirmSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton")
+_returnSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/ReturnSelectionButton")
+_confirmPopupButton = NodePath("Popup/ConfirmPopUpButton")
+_returnPopupButton = NodePath("Popup/ReturnPopUpButton")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -156,7 +183,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Figur1" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
+[node name="Krieg2" type="Label" parent="TextureRect/MarginContainer/VBoxContainer/Set2"]
 layout_mode = 2
 text = "Krieg"
 label_settings = ExtResource("3_coh1l")
@@ -300,7 +327,7 @@ texture_pressed = ExtResource("16_me0yd")
 texture_hover = ExtResource("15_42o74")
 stretch_mode = 5
 
-[node name="ReturnButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
+[node name="ReturnSelectionButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/Set3"]
 layout_mode = 2
 size_flags_horizontal = 4
 texture_normal = ExtResource("12_f45xe")
@@ -312,7 +339,6 @@ stretch_mode = 5
 title = "Charakterauswahl abbrechen"
 initial_position = 1
 size = Vector2i(376, 200)
-visible = false
 
 [node name="Label" type="Label" parent="Popup"]
 anchors_preset = 8
@@ -332,7 +358,7 @@ theme_override_fonts/font = ExtResource("2_kkk0b")
 text = "Möchtest du die Charakterauswahl abbrechen"
 horizontal_alignment = 1
 
-[node name="ReturnButton" type="TextureButton" parent="Popup"]
+[node name="ReturnPopUpButton" type="TextureButton" parent="Popup"]
 custom_minimum_size = Vector2(0, 100)
 offset_left = 15.0
 offset_top = 150.0
@@ -342,7 +368,7 @@ texture_normal = ExtResource("12_f45xe")
 texture_pressed = ExtResource("13_komb6")
 texture_hover = ExtResource("13_ftk78")
 
-[node name="ConfirmButton" type="TextureButton" parent="Popup"]
+[node name="ConfirmPopUpButton" type="TextureButton" parent="Popup"]
 offset_left = 300.0
 offset_top = 150.0
 offset_right = 668.0
@@ -359,10 +385,10 @@ texture_hover = ExtResource("15_42o74")
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/MajaHead" to="." method="OnMajaHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/MozeHead" to="." method="OnMozeHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set2/NishaHead" to="." method="OnNishaHeadPressed"]
-[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/SalvadorHead" to="." method="OnSalavdorHeadPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/SalvadorHead" to="." method="OnSalvadorHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/WilhelmHead" to="." method="OnWilhelmHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ZeroHead" to="." method="OnZeroHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton" to="." method="OnCharacterSelectionConfirmPressed"]
-[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnButton" to="." method="OnCharacterSelectReturnPressed"]
-[connection signal="pressed" from="Popup/ReturnButton" to="." method="OnPopUpReturnCharacterSelectionPressed"]
-[connection signal="pressed" from="Popup/ConfirmButton" to="." method="OnPopUpConfirmCharacterSelectionPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnSelectionButton" to="." method="OnCharacterSelectReturnPressed"]
+[connection signal="pressed" from="Popup/ReturnPopUpButton" to="." method="OnPopUpReturnCharacterSelectionPressed"]
+[connection signal="pressed" from="Popup/ConfirmPopUpButton" to="." method="OnPopUpConfirmCharacterSelectionPressed"]

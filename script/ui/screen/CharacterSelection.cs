@@ -37,17 +37,17 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private Label _zeroLabel;
 
         //PopUp verstecken
-        [Export] private Popup _confirmPopUp;
+        [Export] private Window _confirmPopUpMenu;
 
         // Maximal vier Figuren ausw�hlbar
         private const int MaxSelections = 4;
         private int _countSelectedCharacters;
 
         // Verweise auf Best�tigen und Abbrechen-Buttons
-        [Export] private Button _confirmSelectionButton;
-        [Export] private Button _returnSelectionButton;
-        [Export] private Button _confirmPopupButton;
-        [Export] private Button _returnPopupButton;
+        [Export] private TextureButton _confirmSelectionButton;
+        [Export] private TextureButton _returnSelectionButton;
+        [Export] private TextureButton _confirmPopupButton;
+        [Export] private TextureButton _returnPopupButton;
 
         //Zustandsvariablen der Charakterbuttons
         private bool _isAmaraPressed;
@@ -108,7 +108,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             _amaraLabel.Modulate = new Color(255, 255, 255);
 
             //PopUp verstecken
-            _confirmPopUp.Visible = false;
+            _confirmPopUpMenu.Visible = false;
 
             //�berpr�fe funktionlit�t ConfirmSelectionButton
             CheckSelectedCharacters();
@@ -124,6 +124,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _athenaLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Athena");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -131,6 +132,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _athenaLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Athena");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -144,6 +146,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _amaraLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Amara");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -151,6 +154,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _amaraLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Amara");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -164,6 +168,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _axtonLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Axtona");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -171,6 +176,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _axtonLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Axton");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -184,6 +190,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _gaigeLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Gaige");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -191,6 +198,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _gaigeLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Gaige");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -204,6 +212,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _kriegLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Krieg");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -211,6 +220,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _kriegLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Krieg");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -224,6 +234,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _majaLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Maja");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -231,6 +242,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _majaLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Maja");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -244,6 +256,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _mozeLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Moze");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -251,6 +264,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _mozeLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Moze");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -264,6 +278,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _nishaLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Nisha");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -271,6 +286,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _nishaLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Nisha");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -284,13 +300,15 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _salvadorLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Salvador");
+                CheckSelectedCharacters();
             }
             else
             {
                 _isSalvadorPressed = false;
                 _salvadorLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
-                _ = CharactersPlayer.Remove("Salavador");
+                _ = CharactersPlayer.Remove("Salvador");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -304,6 +322,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _whilhelmLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Whilhelm");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -311,6 +330,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _whilhelmLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Whilhelm");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -324,6 +344,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _zeroLabel.Modulate = new Color(0, 255, 0);
                 _countSelectedCharacters++;
                 CharactersPlayer.Add("Zero");
+                CheckSelectedCharacters();
             }
             else
             {
@@ -331,6 +352,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _zeroLabel.Modulate = new Color(255, 255, 255);
                 _countSelectedCharacters--;
                 _ = CharactersPlayer.Remove("Zero");
+                CheckSelectedCharacters();
             }
         }
         /// <summary>
@@ -354,21 +376,21 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnCharacterSelectionConfirmPressed()
         {
-            _confirmPopUp.Visible = true;
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/LobbyScreen.tscn");
         }
         /// <summary>
         /// verstecke PopUp
         /// </summary>
         private void OnPopUpReturnCharacterSelectionPressed()
         {
-            _confirmPopUp.Visible = false;
+            _confirmPopUpMenu.Visible = false;
         }
         /// <summary>
         /// wechsel zur�ck auf Main-Szene
         /// </summary>
         private void OnCharacterSelectReturnPressed()
         {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
+            _confirmPopUpMenu.Visible = true;
         }
         /// <summary>
         /// Sammel g�ltige Spielfiguren zusammen, �bergebe Liste von Spielfiguren an GameManager, wechsel zur�ck in Lobby
