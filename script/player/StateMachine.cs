@@ -15,8 +15,6 @@ namespace INTOnlineCoop.Script.Player
         Idle,
         /// <summary>State when character is in the air</summary>
         InAir,
-        /// <summary>State when character is not controllable</summary>
-        Inactive,
         /// <summary>State when character is walking</summary>
         Walk
     }

@@ -17,12 +17,11 @@ namespace INTOnlineCoop.Script.Player.States
             if (Character.IsOnFloor())
             {
                 Character.StateMachine.TransitionTo(AvailableState.Idle);
+                return;
             }
-            else
-            {
-                Character.Velocity += new Vector2(0, Gravity * (float)delta);     //Schwerkraft anwenden
-                _ = Character.MoveAndSlide();                                     //Bewegung aktualisieren
-            }
+
+            Character.Velocity += new Vector2(0, Gravity * (float)delta);
+            _ = Character.MoveAndSlide();
         }
     }
 }
