@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0fj285k46j7r"]
+[gd_scene load_steps=8 format=3 uid="uid://d0fj285k46j7r"]
 
 [ext_resource type="Script" path="res://script/player/Player.cs" id="1_cc308"]
-[ext_resource type="SpriteFrames" uid="uid://b0kirv7ja0bym" path="res://assets/sprites/game_figure/zero/zero_sprite_sheet.res" id="2_uogve"]
 [ext_resource type="Script" path="res://script/player/StateMashine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/States/Idle.cs" id="3_idfjx"]
 [ext_resource type="Script" path="res://script/player/States/Inair.cs" id="4_wuv2g"]
@@ -10,12 +9,10 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="PlayerCharacter" type="CharacterBody2D"]
 script = ExtResource("1_cc308")
 
-[node name="CharacterAnimations" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_uogve")
-animation = &"RecoveringDamage(Grounded)"
+[node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
 
 [node name="CharacterCollision" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 2)
@@ -24,14 +21,14 @@ shape = SubResource("RectangleShape2D_5aihb")
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_68vnu")
 
-[node name="idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("3_idfjx")
 
-[node name="inair" type="Node" parent="StateMachine"]
+[node name="InAir" type="Node" parent="StateMachine"]
 script = ExtResource("4_wuv2g")
 
-[node name="walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("5_oo4e5")
 
-[node name="inactive" type="Node" parent="StateMachine"]
+[node name="Inactive" type="Node" parent="StateMachine"]
 script = ExtResource("6_i6bn6")
