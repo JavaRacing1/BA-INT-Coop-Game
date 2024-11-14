@@ -2,7 +2,7 @@ using Godot;
 
 public partial class Idle : State
 {
-    public override void Enter(Player player)
+    public override void Enter(PlayerCharacter player)
     {
         base.Enter(player);
         GD.Print("Entering idle State");        //Debugger-Code
@@ -13,12 +13,12 @@ public partial class Idle : State
         //Übergang in den Walking-Zustand, falls Eingabe erfolgt
         if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
         {
-            Spieler.StateMachine.TransitionTo("walk");
+            Character.StateMachine.TransitionTo("walk");
         }
         //Übergang in den Inair-Zustand, falls in der Luft
-        else if (!Spieler.IsOnFloor())
+        else if (!Character.IsOnFloor())
         {
-            Spieler.StateMachine.TransitionTo("inair");
+            Character.StateMachine.TransitionTo("inair");
         }
     }
 }

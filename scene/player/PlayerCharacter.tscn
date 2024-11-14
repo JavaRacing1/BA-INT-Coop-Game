@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://d0fj285k46j7r"]
 
-[ext_resource type="Script" path="res://script/player/Player.cs" id="1_cc308"]
-[ext_resource type="Script" path="res://script/player/StateMashine.cs" id="3_68vnu"]
-[ext_resource type="Script" path="res://script/player/States/Idle.cs" id="3_idfjx"]
-[ext_resource type="Script" path="res://script/player/States/Inair.cs" id="4_wuv2g"]
-[ext_resource type="Script" path="res://script/player/States/Walk.cs" id="5_oo4e5"]
-[ext_resource type="Script" path="res://script/player/States/Inactive.cs" id="6_i6bn6"]
+[ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
+[ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
+[ext_resource type="Script" path="res://script/player/states/Idle.cs" id="3_idfjx"]
+[ext_resource type="Script" path="res://script/player/states/InAir.cs" id="4_wuv2g"]
+[ext_resource type="Script" path="res://script/player/states/Walk.cs" id="5_oo4e5"]
+[ext_resource type="Script" path="res://script/player/states/Inactive.cs" id="6_i6bn6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 

@@ -1,12 +1,12 @@
 using Godot;
 
-public partial class Player : CharacterBody2D
+public partial class PlayerCharacter : CharacterBody2D
 {
-    public StateMashine StateMachine { get; private set; }
+    [Export] public StateMachine StateMachine { get; private set; }
 
     public override void _Ready()
     {
-        StateMachine = GetNode<StateMashine>("StateMachine");   //StateMashine-Node initialisieren
+        StateMachine = GetNode<StateMachine>("StateMachine");   //StateMashine-Node initialisieren
         StateMachine.TransitionTo("idle");                      // Initialer Zustand
     }
 

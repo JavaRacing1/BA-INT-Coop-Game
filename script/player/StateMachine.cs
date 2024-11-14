@@ -2,7 +2,7 @@ using Godot;
 
 using System.Collections.Generic;
 
-public partial class StateMashine : Node
+public partial class StateMachine : Node
 {
     private readonly Dictionary<string, State> _states = new();     //State-Dictionary zum Speichern aller States anlegen
     public State CurrentState { get; private set; }                 //Aktuellen Status deklarieren
@@ -27,7 +27,7 @@ public partial class StateMashine : Node
         if (_states.TryGetValue(stateName, out State newState))
         {
             CurrentState = newState;                        //In den neuen State wechseln
-            CurrentState.Enter(GetParent<Player>());        //Spieler-Objekt im State hinterlegen
+            CurrentState.Enter(GetParent<PlayerCharacter>());        //Spieler-Objekt im State hinterlegen
         }
         else
         {
