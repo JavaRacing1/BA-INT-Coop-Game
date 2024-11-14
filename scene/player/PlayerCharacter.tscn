@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d0fj285k46j7r"]
+[gd_scene load_steps=7 format=3 uid="uid://d0fj285k46j7r"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/states/Idle.cs" id="3_idfjx"]
 [ext_resource type="Script" path="res://script/player/states/InAir.cs" id="4_wuv2g"]
 [ext_resource type="Script" path="res://script/player/states/Walk.cs" id="5_oo4e5"]
-[ext_resource type="Script" path="res://script/player/states/Inactive.cs" id="6_i6bn6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 
@@ -31,8 +30,4 @@ Character = NodePath("../..")
 
 [node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
 script = ExtResource("5_oo4e5")
-Character = NodePath("../..")
-
-[node name="Inactive" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
-script = ExtResource("6_i6bn6")
 Character = NodePath("../..")

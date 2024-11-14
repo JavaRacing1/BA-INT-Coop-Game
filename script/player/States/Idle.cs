@@ -18,8 +18,8 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 Character.StateMachine.TransitionTo(AvailableState.Walk);
             }
-            //Übergang in den Inair-Zustand, falls in der Luft
-            else if (!Character.IsOnFloor())
+            //Übergang in den Inair-Zustand, falls in der Luft oder Sprung
+            else if (!Character.IsOnFloor() || Input.IsActionJustPressed("jump"))
             {
                 Character.StateMachine.TransitionTo(AvailableState.InAir);
             }
