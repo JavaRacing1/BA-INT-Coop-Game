@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 using Godot;
 
-using INTOnlineCoop.Script.Player;
-
-namespace INTOnlineCoop.Script.Util
+namespace INTOnlineCoop.Script.Player
 {
     /// <summary>
     /// Class for storing player data over network
