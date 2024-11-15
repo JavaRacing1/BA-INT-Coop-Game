@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://depnoi07sbwpb"
-path="res://.godot/imported/idle.png-da35543881eaa40e01bfa1e19e3af61c.ctex"
+uid="uid://cn8jql706tpts"
+path="res://.godot/imported/body.png-d2d6184ea8b6a3ad29f9806be436c57e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/gaige/idle.png"
-dest_files=["res://.godot/imported/idle.png-da35543881eaa40e01bfa1e19e3af61c.ctex"]
+source_file="res://assets/sprites/game_figure/salvador/body.png"
+dest_files=["res://.godot/imported/body.png-d2d6184ea8b6a3ad29f9806be436c57e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn8jql706tpts"
-path="res://.godot/imported/idle.png-c06e6852614179a11e649eb1bf0657b3.ctex"
+uid="uid://21g2xty4ryl8"
+path="res://.godot/imported/body.png-8791bd3f68a5f7c68dd8d4461306d0e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/salvador/idle.png"
-dest_files=["res://.godot/imported/idle.png-c06e6852614179a11e649eb1bf0657b3.ctex"]
+source_file="res://assets/sprites/game_figure/amara/body.png"
+dest_files=["res://.godot/imported/body.png-8791bd3f68a5f7c68dd8d4461306d0e2.ctex"]
 
 [params]
 

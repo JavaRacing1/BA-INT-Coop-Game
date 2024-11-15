@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://21g2xty4ryl8"
-path="res://.godot/imported/idle.png-d653c7f52d4610d7d06635efa32b06cf.ctex"
+uid="uid://depnoi07sbwpb"
+path="res://.godot/imported/body.png-681a65d5a7a9cbb89c2a17f6c70f31c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/amara/idle.png"
-dest_files=["res://.godot/imported/idle.png-d653c7f52d4610d7d06635efa32b06cf.ctex"]
+source_file="res://assets/sprites/game_figure/gaige/body.png"
+dest_files=["res://.godot/imported/body.png-681a65d5a7a9cbb89c2a17f6c70f31c7.ctex"]
 
 [params]
 

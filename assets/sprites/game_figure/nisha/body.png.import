@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r35jdnvtprts"
-path="res://.godot/imported/idle.png-6433e6c8f61f3d74f8413ea0a134e6ec.ctex"
+uid="uid://ddlx1u26thial"
+path="res://.godot/imported/body.png-e7d955ab6fafc509c8c92512b5e21ee9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/axton/idle.png"
-dest_files=["res://.godot/imported/idle.png-6433e6c8f61f3d74f8413ea0a134e6ec.ctex"]
+source_file="res://assets/sprites/game_figure/nisha/body.png"
+dest_files=["res://.godot/imported/body.png-e7d955ab6fafc509c8c92512b5e21ee9.ctex"]
 
 [params]
 

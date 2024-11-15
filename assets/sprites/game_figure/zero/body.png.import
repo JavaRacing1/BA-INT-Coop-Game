@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqtsuiebi1v25"
-path="res://.godot/imported/idle.png-a569210da105b3b11e9917163719ec63.ctex"
+uid="uid://cxla3kihubdik"
+path="res://.godot/imported/body.png-5a7d7f675f1174f20429ed3e51ace0dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/krieg/idle.png"
-dest_files=["res://.godot/imported/idle.png-a569210da105b3b11e9917163719ec63.ctex"]
+source_file="res://assets/sprites/game_figure/zero/body.png"
+dest_files=["res://.godot/imported/body.png-5a7d7f675f1174f20429ed3e51ace0dc.ctex"]
 
 [params]
 

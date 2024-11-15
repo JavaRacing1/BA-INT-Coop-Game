@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://edj3qs0n2keq"
-path="res://.godot/imported/idle.png-9f899a5d339d93ae70a7f8c483635a55.ctex"
+uid="uid://bqtsuiebi1v25"
+path="res://.godot/imported/body.png-3aaecf6810f043be6bdd6f276d258273.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/maja/idle.png"
-dest_files=["res://.godot/imported/idle.png-9f899a5d339d93ae70a7f8c483635a55.ctex"]
+source_file="res://assets/sprites/game_figure/krieg/body.png"
+dest_files=["res://.godot/imported/body.png-3aaecf6810f043be6bdd6f276d258273.ctex"]
 
 [params]
 
