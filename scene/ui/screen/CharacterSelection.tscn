@@ -1,24 +1,24 @@
-[gd_scene load_steps=23 format=3 uid="uid://8l6r2sjad6tf"]
+[gd_scene load_steps=23 format=3 uid="uid://ypat1xehgmhj"]
 
 [ext_resource type="Script" path="res://script/ui/screen/CharacterSelection.cs" id="1_ntg85"]
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="1_oydd5"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkk0b"]
-[ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/AmaraHead.png" id="2_ugdev"]
-[ext_resource type="LabelSettings" uid="uid://bxvabpyexv0e1" path="res://resource/theme/LableSettings.tres" id="3_coh1l"]
-[ext_resource type="Texture2D" uid="uid://50j8bk8kw7yq" path="res://assets/sprites/game_figure/athena/AthenaHead.png" id="5_o8j6v"]
-[ext_resource type="Texture2D" uid="uid://d24orc3p0wwdo" path="res://assets/sprites/game_figure/axton/AxtonHead.png" id="6_kircx"]
-[ext_resource type="Texture2D" uid="uid://fknilx3whkp4" path="res://assets/sprites/game_figure/gaige/GaigeHead.png" id="7_hk705"]
-[ext_resource type="Texture2D" uid="uid://bq8vb0fn5wr2u" path="res://assets/sprites/game_figure/krieg/KriegHead.png" id="8_yiabi"]
-[ext_resource type="Texture2D" uid="uid://b58n3uq1ajldo" path="res://assets/sprites/game_figure/maja/MajaHead.png" id="9_23b6g"]
-[ext_resource type="Texture2D" uid="uid://cokulnrj4x5oa" path="res://assets/sprites/game_figure/moze/MozeHead.png" id="10_ep8rw"]
-[ext_resource type="Texture2D" uid="uid://bu0b4iwr6s70h" path="res://assets/sprites/game_figure/nisha/NishaHead.png" id="11_bdd20"]
+[ext_resource type="Texture2D" uid="uid://bm2wbrsxbq3ud" path="res://assets/sprites/game_figure/amara/head.png" id="2_ugdev"]
+[ext_resource type="LabelSettings" path="res://resource/theme/LableSettings.tres" id="3_coh1l"]
+[ext_resource type="Texture2D" uid="uid://50j8bk8kw7yq" path="res://assets/sprites/game_figure/athena/head.png" id="5_o8j6v"]
+[ext_resource type="Texture2D" uid="uid://d24orc3p0wwdo" path="res://assets/sprites/game_figure/axton/head.png" id="6_kircx"]
+[ext_resource type="Texture2D" uid="uid://fknilx3whkp4" path="res://assets/sprites/game_figure/gaige/head.png" id="7_hk705"]
+[ext_resource type="Texture2D" uid="uid://bq8vb0fn5wr2u" path="res://assets/sprites/game_figure/krieg/head.png" id="8_yiabi"]
+[ext_resource type="Texture2D" uid="uid://b58n3uq1ajldo" path="res://assets/sprites/game_figure/maja/head.png" id="9_23b6g"]
+[ext_resource type="Texture2D" uid="uid://cokulnrj4x5oa" path="res://assets/sprites/game_figure/moze/head.png" id="10_ep8rw"]
+[ext_resource type="Texture2D" uid="uid://bu0b4iwr6s70h" path="res://assets/sprites/game_figure/nisha/head.png" id="11_bdd20"]
 [ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/dialog/CancelButtonNormal.png" id="12_f45xe"]
-[ext_resource type="Texture2D" uid="uid://bpdsh0i5163d4" path="res://assets/sprites/game_figure/salvador/SalvadorHead.png" id="13_7j6bu"]
+[ext_resource type="Texture2D" uid="uid://bpdsh0i5163d4" path="res://assets/sprites/game_figure/salvador/head.png" id="13_7j6bu"]
 [ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/dialog/CancelButtonHover.png" id="13_ftk78"]
 [ext_resource type="Texture2D" uid="uid://hqutx654d6o5" path="res://assets/texture/button/dialog/CancelButtonPressed.png" id="13_komb6"]
-[ext_resource type="Texture2D" uid="uid://j5eq2ticglwh" path="res://assets/sprites/game_figure/wilhelm/WilhelmHead.png" id="14_06fb6"]
+[ext_resource type="Texture2D" uid="uid://j5eq2ticglwh" path="res://assets/sprites/game_figure/wilhelm/head.png" id="14_06fb6"]
 [ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/dialog/ConfirmButtonHover.png" id="15_42o74"]
-[ext_resource type="Texture2D" uid="uid://dd72h6d4w0bgv" path="res://assets/sprites/game_figure/zero/ZeroHead1.png" id="15_nvfm8"]
+[ext_resource type="Texture2D" uid="uid://dd72h6d4w0bgv" path="res://assets/sprites/game_figure/zero/head.png" id="15_nvfm8"]
 [ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/dialog/ConfirmButtonPressed.png" id="16_me0yd"]
 [ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/dialog/ConfirmButtonNormal.png" id="17_cg8kt"]
 
@@ -55,11 +55,11 @@ _kriegLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set2/Krieg2")
 _salvadorLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Salvador")
 _whilhelmLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Whihelm")
 _zeroLabel = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/Zero")
-_confirmPopUpMenu = NodePath("Popup")
+_confirmPopUpMenu = NodePath("")
 _confirmSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton")
 _returnSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/Set3/ReturnSelectionButton")
-_confirmPopupButton = NodePath("Popup/ConfirmPopUpButton")
-_returnPopupButton = NodePath("Popup/ReturnPopUpButton")
+_confirmPopupButton = NodePath("")
+_returnPopupButton = NodePath("")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -335,48 +335,6 @@ texture_pressed = ExtResource("13_komb6")
 texture_hover = ExtResource("13_ftk78")
 stretch_mode = 5
 
-[node name="Popup" type="Window" parent="."]
-title = "Charakterauswahl abbrechen"
-initial_position = 1
-size = Vector2i(376, 200)
-
-[node name="Label" type="Label" parent="Popup"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -184.0
-offset_top = -96.0
-offset_right = 184.0
-offset_bottom = 96.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("2_kkk0b")
-text = "Möchtest du die Charakterauswahl abbrechen"
-horizontal_alignment = 1
-
-[node name="ReturnPopUpButton" type="TextureButton" parent="Popup"]
-custom_minimum_size = Vector2(0, 100)
-offset_left = 15.0
-offset_top = 150.0
-offset_right = 383.0
-offset_bottom = 342.0
-texture_normal = ExtResource("12_f45xe")
-texture_pressed = ExtResource("13_komb6")
-texture_hover = ExtResource("13_ftk78")
-
-[node name="ConfirmPopUpButton" type="TextureButton" parent="Popup"]
-offset_left = 300.0
-offset_top = 150.0
-offset_right = 668.0
-offset_bottom = 342.0
-texture_normal = ExtResource("17_cg8kt")
-texture_pressed = ExtResource("16_me0yd")
-texture_hover = ExtResource("15_42o74")
-
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AmaraHead" to="." method="OnAmaraHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AthenaHead" to="." method="OnAthenaHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set1/AxtonHead" to="." method="OnAxtonHeadPressed"]
@@ -390,5 +348,3 @@ texture_hover = ExtResource("15_42o74")
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ZeroHead" to="." method="OnZeroHeadPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ConfirmSelectionButton" to="." method="OnCharacterSelectionConfirmPressed"]
 [connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/Set3/ReturnSelectionButton" to="." method="OnCharacterSelectReturnPressed"]
-[connection signal="pressed" from="Popup/ReturnPopUpButton" to="." method="OnPopUpReturnCharacterSelectionPressed"]
-[connection signal="pressed" from="Popup/ConfirmPopUpButton" to="." method="OnPopUpConfirmCharacterSelectionPressed"]

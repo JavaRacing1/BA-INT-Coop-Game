@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 using Godot;
 
+using INTOnlineCoop.Script.UI.Component;
+
 namespace INTOnlineCoop.Script.UI.Screen
 {
     /// <summary>
@@ -37,7 +39,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         [Export] private Label _zeroLabel;
 
         //PopUp verstecken
-        [Export] private Window _confirmPopUpMenu;
+        private GameConfirmationDialog _exitDialog;
 
         // Maximal vier Figuren auswählbar
         private const int MaxSelections = 4;
@@ -46,8 +48,6 @@ namespace INTOnlineCoop.Script.UI.Screen
         // Verweise auf Bestätigen und Abbrechen-Buttons
         [Export] private TextureButton _confirmSelectionButton;
         [Export] private TextureButton _returnSelectionButton;
-        [Export] private TextureButton _confirmPopupButton;
-        [Export] private TextureButton _returnPopupButton;
 
         //Zustandsvariablen der Charakterbuttons
         private bool _isAmaraPressed;
@@ -75,13 +75,10 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         public override void _Ready()
         {
-
             // Setze den Anfangszustand für die Buttons
             _confirmSelectionButton.Visible = false;
             _confirmSelectionButton.Disabled = true;
             _returnSelectionButton.Disabled = false;
-            _confirmPopupButton.Disabled = false;
-            _returnPopupButton.Disabled = false;
             _headZeroButton.Disabled = false;
             _headWhilhelmButton.Disabled = false;
             _headSalvadorButton.Disabled = false;
@@ -107,12 +104,10 @@ namespace INTOnlineCoop.Script.UI.Screen
             _athenaLabel.Modulate = new Color(255, 255, 255);
             _amaraLabel.Modulate = new Color(255, 255, 255);
 
-            //PopUp verstecken
-            _confirmPopUpMenu.Visible = false;
-
             //Überprüfe funktionlität ConfirmSelectionButton
             CheckSelectedCharacters();
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -135,6 +130,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -157,6 +153,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -179,6 +176,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -201,6 +199,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -223,6 +222,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -245,6 +245,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -267,6 +268,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -289,6 +291,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -311,6 +314,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -333,6 +337,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
@@ -355,6 +360,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 CheckSelectedCharacters();
             }
         }
+
         /// <summary>
         /// Üperprüfe Anzahl ausgewählter Spielfiguren, aktiviere ConfirmSelectionButton
         /// </summary>
@@ -371,37 +377,30 @@ namespace INTOnlineCoop.Script.UI.Screen
                 _confirmSelectionButton.Disabled = true;
             }
         }
+
         /// <summary>
         /// zeige PopUp
         /// </summary>
         private void OnCharacterSelectionConfirmPressed()
         {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/LobbyScreen.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
         }
-        /// <summary>
-        /// verstecke PopUp
-        /// </summary>
-        private void OnPopUpReturnCharacterSelectionPressed()
-        {
-            _confirmPopUpMenu.Visible = false;
-        }
+
         /// <summary>
         /// wechsel zurück auf Main-Szene
         /// </summary>
         private void OnCharacterSelectReturnPressed()
         {
-            _confirmPopUpMenu.Visible = true;
-        }
-        /// <summary>
-        /// Sammel gültige Spielfiguren zusammen, übergebe Liste von Spielfiguren an GameManager, wechsel zurück in Lobby
-        /// </summary>
-        private void OnPopUpConfirmCharacterSelectionPressed()
-        {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/LobbyScreen.tscn");
+            if (_exitDialog == null)
+            {
+                _exitDialog = new GameConfirmationDialog("Charakterauswahl verlassen",
+                    "Möchtest du die Charakterauswahl abbrechen?");
+                _exitDialog.GetOkButton().Pressed += () =>
+                    _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
+                AddChild(_exitDialog);
+            }
+
+            _exitDialog.Visible = true;
         }
     };
 }
-
-
-
-
