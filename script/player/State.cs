@@ -14,7 +14,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>
         /// Gravity applied to the player
         /// </summary>
-        protected const float Gravity = 100f; //Gravitation
+        protected const float Gravity = 300f; //Gravitation
 
         /// <summary>
         /// Character which uses the state
