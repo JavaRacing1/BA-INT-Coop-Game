@@ -3,44 +3,10 @@ using System.Collections.Generic;
 
 using Godot;
 
+using INTOnlineCoop.Script.Player;
+
 namespace INTOnlineCoop.Script.Util
 {
-    /// <summary>
-    /// Enum listing all available characters
-    /// </summary>
-    public enum CharacterType
-    {
-        /// <summary> No character selected </summary>
-        None,
-
-        /// <summary>Axton (Borderlands 2)</summary>
-        Axton,
-
-        /// <summary>Zane (Borderlands 3)</summary>
-        Zane,
-
-        /// <summary>Zero (Borderlands 2)</summary>
-        Zero,
-
-        /// <summary>Krieg (Borderlands 2)</summary>
-        Krieg,
-
-        /// <summary>Wilhelm (Borderlands Pre-Sequel)</summary>
-        Wilhelm,
-
-        /// <summary>Maya (Borderlands 2)</summary>
-        Maja,
-
-        /// <summary>Nisha (Borderlands Pre-Sequel)</summary>
-        Nisha,
-
-        /// <summary>Gaige (Borderlands 2)</summary>
-        Gaige,
-
-        /// <summary>Athena (Borderlands Pre-Sequel)</summary>
-        Athena
-    }
-
     /// <summary>
     /// Class for storing player data over network
     /// </summary>
@@ -123,7 +89,7 @@ namespace INTOnlineCoop.Script.Util
             Godot.Collections.Dictionary<string, Variant> dict = new() { { "Name", data.Name }, { "PlayerNumber", data.PlayerNumber } };
             for (int i = 0; i < 4; i++)
             {
-                dict["Character" + i] = data.Characters[i].ToString();
+                dict["Character" + i] = data.Characters[i].Name;
             }
 
             return dict;
@@ -145,13 +111,8 @@ namespace INTOnlineCoop.Script.Util
             for (int i = 0; i < 4; i++)
             {
                 string characterValue = (string)serializedDict.GetValueOrDefault("Character" + i, "None");
-                bool convertedSuccessfully = Enum.TryParse(characterValue, true, out CharacterType type);
-                if (!convertedSuccessfully)
-                {
-                    GD.PrintErr($"Couldn't convert Character {characterValue} to CharacterType!");
-                }
-
-                data.SetCharacterByIndex(i, type);
+                CharacterType characterType = CharacterType.FromName(characterValue);
+                data.SetCharacterByIndex(i, characterType);
             }
 
             return data;
