@@ -15,6 +15,12 @@ namespace INTOnlineCoop.Script.Player.States
         {
             Vector2 velocity = Character.Velocity;
 
+            float inputDirection = Input.GetAxis("walk_left", "walk_right");
+            velocity.X = inputDirection * Speed;
+
+            Character.Velocity = velocity;
+            _ = Character.MoveAndSlide();
+
             if (!Character.IsOnFloor())
             {
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
@@ -23,25 +29,7 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-
-            //Bewegung nach links
-            if (Input.IsActionPressed("walk_left"))
-            {
-                GD.Print("Move Left");
-                velocity.X = -Speed; //Bewegung entgegen der x-Achse
-                Character.Velocity = velocity; //Charakter die Geschwindigkeit/Richtung übergeben
-                _ = Character.MoveAndSlide(); //Bewegung aktualisieren
-            }
-            //Bewegung nach rechts
-            else if (Input.IsActionPressed("walk_right"))
-            {
-                GD.Print("Move Right");
-                velocity.X = Speed; //Bewegung entlang der x-Achse
-                Character.Velocity = velocity; //Charakter die Geschwindigkeit/Richtung übergeben
-                _ = Character.MoveAndSlide(); //Bewegung aktualisieren
-            }
-            //Wechsel in den State idle, falls keine Bewegung mehr durchgeführt wird
-            else
+            else if (Mathf.IsEqualApprox(inputDirection, 0.0))
             {
                 Character.StateMachine.TransitionTo(AvailableState.Idle);
             }

@@ -15,23 +15,18 @@ namespace INTOnlineCoop.Script.Player.States
         {
             Vector2 velocity = Character.Velocity;
 
-            if (Input.IsActionPressed("walk_left"))
-            {
-                velocity.X = -Speed; //Bewegung entgegen der x-Achse
-            }
-            else if (Input.IsActionPressed("walk_right"))
-            {
-                velocity.X = Speed; //Bewegung entlang der x-Achse
-            }
-
+            float inputDirection = Input.GetAxis("walk_left", "walk_right");
+            velocity.X = inputDirection * Speed;
             velocity.Y += Gravity * (float)delta;
+
             Character.Velocity = velocity;
             _ = Character.MoveAndSlide();
 
-            //Spieler in Idle-Zustand versetzen, wenn Boden erreicht
             if (Character.IsOnFloor())
             {
-                Character.StateMachine.TransitionTo(AvailableState.Idle);
+                Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(inputDirection, 0.0)
+                    ? AvailableState.Idle
+                    : AvailableState.Walk);
             }
         }
     }
