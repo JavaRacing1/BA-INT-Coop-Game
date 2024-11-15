@@ -26,7 +26,7 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(inputDirection, 0.0)
                     ? AvailableState.Idle
-                    : AvailableState.Walk);
+                    : AvailableState.Walking);
             }
         }
     }

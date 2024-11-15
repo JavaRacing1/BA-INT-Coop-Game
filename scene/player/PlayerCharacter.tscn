@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/states/Idle.cs" id="3_idfjx"]
 [ext_resource type="Script" path="res://script/player/states/Falling.cs" id="4_wuv2g"]
-[ext_resource type="Script" path="res://script/player/states/Walk.cs" id="5_oo4e5"]
+[ext_resource type="Script" path="res://script/player/states/Walking.cs" id="5_oo4e5"]
 [ext_resource type="Script" path="res://script/player/states/Jumping.cs" id="6_st2wn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
@@ -29,7 +29,7 @@ Character = NodePath("../..")
 script = ExtResource("4_wuv2g")
 Character = NodePath("../..")
 
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
+[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
 script = ExtResource("5_oo4e5")
 Character = NodePath("../..")
 

@@ -5,7 +5,7 @@ namespace INTOnlineCoop.Script.Player.States
     /// <summary>
     /// State used when the character is walking
     /// </summary>
-    public partial class Walk : State
+    public partial class Walking : State
     {
         /// <summary>
         /// Updates player movement

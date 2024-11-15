@@ -24,7 +24,7 @@ namespace INTOnlineCoop.Script.Player.States
             //Übergang in den Walking-Zustand, falls Eingabe erfolgt
             else if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
             {
-                Character.StateMachine.TransitionTo(AvailableState.Walk);
+                Character.StateMachine.TransitionTo(AvailableState.Walking);
             }
         }
     }

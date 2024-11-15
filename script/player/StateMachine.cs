@@ -18,7 +18,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>State when character jumped</summary>
         Jumping,
         /// <summary>State when character is walking</summary>
-        Walk
+        Walking
     }
 
     /// <summary>
