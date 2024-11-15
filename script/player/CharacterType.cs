@@ -91,9 +91,14 @@ namespace INTOnlineCoop.Script.Player
         private CharacterType(string name)
         {
             Name = name;
+            if (name == "None")
+            {
+                return;
+            }
             HeadTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/head.png");
             BodyTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/body.png");
-            SpriteFrames = GD.Load<SpriteFrames>($"res://assets/sprites/game_figure/{name.ToLower()}/sprite.res");
+            //TODO: Add SpriteFrames for each character
+            //SpriteFrames = GD.Load<SpriteFrames>($"res://assets/sprites/game_figure/{name.ToLower()}/sprite.res");
         }
 
         /// <summary>
