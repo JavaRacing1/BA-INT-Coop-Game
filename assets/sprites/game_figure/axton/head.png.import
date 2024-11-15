@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r35jdnvtprts"
-path="res://.godot/imported/idel_fram_1.png-65f47a08c6d0875a1d9f5ff89b2b5199.ctex"
+uid="uid://d24orc3p0wwdo"
+path="res://.godot/imported/head.png-3980b2c73654fd97815a02131255763a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/axton/idel_fram_1.png"
-dest_files=["res://.godot/imported/idel_fram_1.png-65f47a08c6d0875a1d9f5ff89b2b5199.ctex"]
+source_file="res://assets/sprites/game_figure/axton/head.png"
+dest_files=["res://.godot/imported/head.png-3980b2c73654fd97815a02131255763a.ctex"]
 
 [params]
 

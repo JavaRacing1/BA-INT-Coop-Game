@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fknilx3whkp4"
-path="res://.godot/imported/GaigeHead.png-75d57c42657f362206a52d1ce54f094e.ctex"
+uid="uid://ccqcsrbx2u4ue"
+path="res://.godot/imported/sprite.png-3bd56823f9b6c5bcf3a1a04169d0b75f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/gaige/GaigeHead.png"
-dest_files=["res://.godot/imported/GaigeHead.png-75d57c42657f362206a52d1ce54f094e.ctex"]
+source_file="res://assets/sprites/game_figure/axton/sprite.png"
+dest_files=["res://.godot/imported/sprite.png-3bd56823f9b6c5bcf3a1a04169d0b75f.ctex"]
 
 [params]
 

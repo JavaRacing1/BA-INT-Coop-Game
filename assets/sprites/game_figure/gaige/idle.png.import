@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3tst5c7ho5hj"
-path="res://.godot/imported/idel_fram_1.png-94aae8f232485522b27714b3df0af8ac.ctex"
+uid="uid://depnoi07sbwpb"
+path="res://.godot/imported/idle.png-da35543881eaa40e01bfa1e19e3af61c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/athena/idel_fram_1.png"
-dest_files=["res://.godot/imported/idel_fram_1.png-94aae8f232485522b27714b3df0af8ac.ctex"]
+source_file="res://assets/sprites/game_figure/gaige/idle.png"
+dest_files=["res://.godot/imported/idle.png-da35543881eaa40e01bfa1e19e3af61c.ctex"]
 
 [params]
 

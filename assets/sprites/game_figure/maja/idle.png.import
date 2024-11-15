@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqtsuiebi1v25"
-path="res://.godot/imported/idel_fram_1.png-4f76af5d04ef8e7ef88213313209a832.ctex"
+uid="uid://edj3qs0n2keq"
+path="res://.godot/imported/idle.png-9f899a5d339d93ae70a7f8c483635a55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/krieg/idel_fram_1.png"
-dest_files=["res://.godot/imported/idel_fram_1.png-4f76af5d04ef8e7ef88213313209a832.ctex"]
+source_file="res://assets/sprites/game_figure/maja/idle.png"
+dest_files=["res://.godot/imported/idle.png-9f899a5d339d93ae70a7f8c483635a55.ctex"]
 
 [params]
 

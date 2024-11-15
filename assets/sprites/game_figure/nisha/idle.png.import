@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq8vb0fn5wr2u"
-path="res://.godot/imported/KriegHead.png-59db7cf450c7021a169361d7c58c7ebb.ctex"
+uid="uid://ddlx1u26thial"
+path="res://.godot/imported/idle.png-6f0226e7130671837d5d0534551d883c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/krieg/KriegHead.png"
-dest_files=["res://.godot/imported/KriegHead.png-59db7cf450c7021a169361d7c58c7ebb.ctex"]
+source_file="res://assets/sprites/game_figure/nisha/idle.png"
+dest_files=["res://.godot/imported/idle.png-6f0226e7130671837d5d0534551d883c.ctex"]
 
 [params]
 

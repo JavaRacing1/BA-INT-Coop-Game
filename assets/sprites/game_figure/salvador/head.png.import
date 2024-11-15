@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu0b4iwr6s70h"
-path="res://.godot/imported/NishaHead.png-36116bba565d86594176b1db925c7697.ctex"
+uid="uid://bpdsh0i5163d4"
+path="res://.godot/imported/head.png-96d3721623f1bdaec77577c13c484cb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/nisha/NishaHead.png"
-dest_files=["res://.godot/imported/NishaHead.png-36116bba565d86594176b1db925c7697.ctex"]
+source_file="res://assets/sprites/game_figure/salvador/head.png"
+dest_files=["res://.godot/imported/head.png-96d3721623f1bdaec77577c13c484cb6.ctex"]
 
 [params]
 

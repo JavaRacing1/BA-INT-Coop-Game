@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://50j8bk8kw7yq"
-path="res://.godot/imported/AthenaHead.png-da2cbae5a4c3cf75dc0b15d1310c4b07.ctex"
+uid="uid://cn8jql706tpts"
+path="res://.godot/imported/idle.png-c06e6852614179a11e649eb1bf0657b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/athena/AthenaHead.png"
-dest_files=["res://.godot/imported/AthenaHead.png-da2cbae5a4c3cf75dc0b15d1310c4b07.ctex"]
+source_file="res://assets/sprites/game_figure/salvador/idle.png"
+dest_files=["res://.godot/imported/idle.png-c06e6852614179a11e649eb1bf0657b3.ctex"]
 
 [params]
 

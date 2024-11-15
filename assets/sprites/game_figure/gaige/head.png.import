@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm2wbrsxbq3ud"
-path="res://.godot/imported/AmaraHead.png-06d4b708690e1b992cbd63ac9a5d307a.ctex"
+uid="uid://fknilx3whkp4"
+path="res://.godot/imported/head.png-17d12e8621325f915eaba62a56afb663.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/amara/AmaraHead.png"
-dest_files=["res://.godot/imported/AmaraHead.png-06d4b708690e1b992cbd63ac9a5d307a.ctex"]
+source_file="res://assets/sprites/game_figure/gaige/head.png"
+dest_files=["res://.godot/imported/head.png-17d12e8621325f915eaba62a56afb663.ctex"]
 
 [params]
 

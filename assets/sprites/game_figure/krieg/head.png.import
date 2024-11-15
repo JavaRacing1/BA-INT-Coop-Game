@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d24orc3p0wwdo"
-path="res://.godot/imported/AxtonHead.png-3d79a0a9b9d509f7a7b52221b5b12ad2.ctex"
+uid="uid://bq8vb0fn5wr2u"
+path="res://.godot/imported/head.png-de4927eea2a8435bc5cf673c323f6d29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/axton/AxtonHead.png"
-dest_files=["res://.godot/imported/AxtonHead.png-3d79a0a9b9d509f7a7b52221b5b12ad2.ctex"]
+source_file="res://assets/sprites/game_figure/krieg/head.png"
+dest_files=["res://.godot/imported/head.png-de4927eea2a8435bc5cf673c323f6d29.ctex"]
 
 [params]
 

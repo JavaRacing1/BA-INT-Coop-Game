@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://diko0fho4sw2u"
-path="res://.godot/imported/idel_fram_1.png-d7229f3cbbda9e07e5d4f095573dd3ea.ctex"
+uid="uid://bm2wbrsxbq3ud"
+path="res://.godot/imported/head.png-dd18c498ce3086e4806fb2293b538e98.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/wilhelm/idel_fram_1.png"
-dest_files=["res://.godot/imported/idel_fram_1.png-d7229f3cbbda9e07e5d4f095573dd3ea.ctex"]
+source_file="res://assets/sprites/game_figure/amara/head.png"
+dest_files=["res://.godot/imported/head.png-dd18c498ce3086e4806fb2293b538e98.ctex"]
 
 [params]
 

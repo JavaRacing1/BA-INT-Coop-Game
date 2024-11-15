@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpdsh0i5163d4"
-path="res://.godot/imported/SalvadorHead.png-380b12852278017ad6b6dffd357320e2.ctex"
+uid="uid://b4ltlkn5xpdl6"
+path="res://.godot/imported/idle.png-1ecfb86b206bccc00a559425b27fe804.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/salvador/SalvadorHead.png"
-dest_files=["res://.godot/imported/SalvadorHead.png-380b12852278017ad6b6dffd357320e2.ctex"]
+source_file="res://assets/sprites/game_figure/moze/idle.png"
+dest_files=["res://.godot/imported/idle.png-1ecfb86b206bccc00a559425b27fe804.ctex"]
 
 [params]
 

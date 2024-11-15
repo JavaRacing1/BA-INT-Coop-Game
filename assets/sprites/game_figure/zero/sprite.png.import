@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cokulnrj4x5oa"
-path="res://.godot/imported/MozeHead.png-aed35f1690308447fc9754d4edc03c8a.ctex"
+uid="uid://d3ant8woohn6a"
+path="res://.godot/imported/sprite.png-0f6a00925a1d856ffdd5a9621287f4f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/moze/MozeHead.png"
-dest_files=["res://.godot/imported/MozeHead.png-aed35f1690308447fc9754d4edc03c8a.ctex"]
+source_file="res://assets/sprites/game_figure/zero/sprite.png"
+dest_files=["res://.godot/imported/sprite.png-0f6a00925a1d856ffdd5a9621287f4f9.ctex"]
 
 [params]
 

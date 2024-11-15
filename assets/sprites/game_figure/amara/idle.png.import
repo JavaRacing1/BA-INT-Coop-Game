@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b58n3uq1ajldo"
-path="res://.godot/imported/MajaHead.png-a007613677ceb38cebce089fef62ef90.ctex"
+uid="uid://21g2xty4ryl8"
+path="res://.godot/imported/idle.png-d653c7f52d4610d7d06635efa32b06cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/game_figure/maja/MajaHead.png"
-dest_files=["res://.godot/imported/MajaHead.png-a007613677ceb38cebce089fef62ef90.ctex"]
+source_file="res://assets/sprites/game_figure/amara/idle.png"
+dest_files=["res://.godot/imported/idle.png-d653c7f52d4610d7d06635efa32b06cf.ctex"]
 
 [params]
 
