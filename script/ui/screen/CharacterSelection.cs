@@ -114,7 +114,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             CheckSelectedCharacters();
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnAthenaHeadPressed()
         {
@@ -136,7 +136,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnAmaraHeadPressed()
         {
@@ -158,7 +158,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnAxtonHeadPressed()
         {
@@ -180,7 +180,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnGaigeHeadPressed()
         {
@@ -202,7 +202,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnKriegHeadPressed()
         {
@@ -224,7 +224,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnMajaHeadPressed()
         {
@@ -246,7 +246,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnMozeHeadPressed()
         {
@@ -268,7 +268,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnNishaHeadPressed()
         {
@@ -290,7 +290,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnSalvadorHeadPressed()
         {
@@ -312,7 +312,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnWilhelmHeadPressed()
         {
@@ -334,7 +334,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// Auswahl Spielfigur, erh�he Anzahl um 1, ver�ndere Labelcolor
+        /// Auswahl Spielfigur, erhöhe Anzahl um 1, verändere Labelcolor
         /// </summary>
         private void OnZeroHeadPressed()
         {
@@ -356,7 +356,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             }
         }
         /// <summary>
-        /// �perpr�fe Anzahl ausgew�hlter Spielfiguren, aktiviere ConfirmSelectionButton
+        /// Üperprüfe Anzahl ausgewählter Spielfiguren, aktiviere ConfirmSelectionButton
         /// </summary>
         private void CheckSelectedCharacters()
         {
@@ -386,14 +386,14 @@ namespace INTOnlineCoop.Script.UI.Screen
             _confirmPopUpMenu.Visible = false;
         }
         /// <summary>
-        /// wechsel zur�ck auf Main-Szene
+        /// wechsel zurück auf Main-Szene
         /// </summary>
         private void OnCharacterSelectReturnPressed()
         {
             _confirmPopUpMenu.Visible = true;
         }
         /// <summary>
-        /// Sammel g�ltige Spielfiguren zusammen, �bergebe Liste von Spielfiguren an GameManager, wechsel zur�ck in Lobby
+        /// Sammel gültige Spielfiguren zusammen, übergebe Liste von Spielfiguren an GameManager, wechsel zurück in Lobby
         /// </summary>
         private void OnPopUpConfirmCharacterSelectionPressed()
         {
