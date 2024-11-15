@@ -39,11 +39,11 @@ namespace INTOnlineCoop.Script.UI.Screen
         //PopUp verstecken
         [Export] private Window _confirmPopUpMenu;
 
-        // Maximal vier Figuren ausw�hlbar
+        // Maximal vier Figuren auswählbar
         private const int MaxSelections = 4;
         private int _countSelectedCharacters;
 
-        // Verweise auf Best�tigen und Abbrechen-Buttons
+        // Verweise auf Bestätigen und Abbrechen-Buttons
         [Export] private TextureButton _confirmSelectionButton;
         [Export] private TextureButton _returnSelectionButton;
         [Export] private TextureButton _confirmPopupButton;
@@ -76,7 +76,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         public override void _Ready()
         {
 
-            // Setze den Anfangszustand f�r die Buttons
+            // Setze den Anfangszustand für die Buttons
             _confirmSelectionButton.Visible = false;
             _confirmSelectionButton.Disabled = true;
             _returnSelectionButton.Disabled = false;
@@ -94,7 +94,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             _headAthenaButton.Disabled = false;
             _headAmaraButton.Disabled = false;
 
-            //Weie�e Lable-Farbe bei Szenenaufruf setzten
+            //Weieße Lable-Farbe bei Szenenaufruf setzten
             _zeroLabel.Modulate = new Color(255, 255, 255);
             _whilhelmLabel.Modulate = new Color(255, 255, 255);
             _salvadorLabel.Modulate = new Color(255, 255, 255);
@@ -110,7 +110,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             //PopUp verstecken
             _confirmPopUpMenu.Visible = false;
 
-            //�berpr�fe funktionlit�t ConfirmSelectionButton
+            //Überprüfe funktionlität ConfirmSelectionButton
             CheckSelectedCharacters();
         }
         /// <summary>
@@ -118,7 +118,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnAthenaHeadPressed()
         {
-            if (_isAthenaPressed == false)
+            if (!_isAthenaPressed)
             {
                 _isAthenaPressed = true;
                 _athenaLabel.Modulate = new Color(0, 255, 0);
@@ -140,7 +140,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnAmaraHeadPressed()
         {
-            if (_isAmaraPressed == false)
+            if (!_isAmaraPressed)
             {
                 _isAmaraPressed = true;
                 _amaraLabel.Modulate = new Color(0, 255, 0);
@@ -162,7 +162,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnAxtonHeadPressed()
         {
-            if (_isAxtonPressed == false)
+            if (!_isAxtonPressed)
             {
                 _isAxtonPressed = true;
                 _axtonLabel.Modulate = new Color(0, 255, 0);
@@ -184,7 +184,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnGaigeHeadPressed()
         {
-            if (_isGaigePressed == false)
+            if (!_isGaigePressed)
             {
                 _isGaigePressed = true;
                 _gaigeLabel.Modulate = new Color(0, 255, 0);
@@ -206,7 +206,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnKriegHeadPressed()
         {
-            if (_isKriegPressed == false)
+            if (!_isKriegPressed)
             {
                 _isKriegPressed = true;
                 _kriegLabel.Modulate = new Color(0, 255, 0);
@@ -228,7 +228,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnMajaHeadPressed()
         {
-            if (_isMajaPressed == false)
+            if (!_isMajaPressed)
             {
                 _isMajaPressed = true;
                 _majaLabel.Modulate = new Color(0, 255, 0);
@@ -250,7 +250,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnMozeHeadPressed()
         {
-            if (_isMozePressed == false)
+            if (!_isMozePressed)
             {
                 _isMozePressed = true;
                 _mozeLabel.Modulate = new Color(0, 255, 0);
@@ -272,7 +272,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnNishaHeadPressed()
         {
-            if (_isNishaPressed == false)
+            if (!_isNishaPressed)
             {
                 _isNishaPressed = true;
                 _nishaLabel.Modulate = new Color(0, 255, 0);
@@ -294,7 +294,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnSalvadorHeadPressed()
         {
-            if (_isSalvadorPressed == false)
+            if (!_isSalvadorPressed)
             {
                 _isSalvadorPressed = true;
                 _salvadorLabel.Modulate = new Color(0, 255, 0);
@@ -316,7 +316,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnWilhelmHeadPressed()
         {
-            if (_isWhilhelmPressed == false)
+            if (!_isWhilhelmPressed)
             {
                 _isWhilhelmPressed = true;
                 _whilhelmLabel.Modulate = new Color(0, 255, 0);
@@ -338,7 +338,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnZeroHeadPressed()
         {
-            if (_isZeroPressed == false)
+            if (!_isZeroPressed)
             {
                 _isZeroPressed = true;
                 _zeroLabel.Modulate = new Color(0, 255, 0);
