@@ -15,28 +15,30 @@ namespace INTOnlineCoop.Script.Player.States
         {
             Vector2 velocity = Character.Velocity;
 
-            //Spieler in den State InAir versetzen falls eine der Bedingungen erfüllt
-            if (!Character.IsOnFloor() || Input.IsActionJustPressed("jump"))
+            if (!Character.IsOnFloor())
             {
-                Character.StateMachine.TransitionTo(AvailableState.InAir);
-                return;
+                Character.StateMachine.TransitionTo(AvailableState.Falling);
+            }
+            else if (Input.IsActionJustPressed("jump"))
+            {
+                Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
 
             //Bewegung nach links
             if (Input.IsActionPressed("walk_left"))
             {
                 GD.Print("Move Left");
-                velocity.X = -Speed;            //Bewegung entgegen der x-Achse
-                Character.Velocity = velocity;  //Charakter die Geschwindigkeit/Richtung übergeben
-                _ = Character.MoveAndSlide();   //Bewegung aktualisieren
+                velocity.X = -Speed; //Bewegung entgegen der x-Achse
+                Character.Velocity = velocity; //Charakter die Geschwindigkeit/Richtung übergeben
+                _ = Character.MoveAndSlide(); //Bewegung aktualisieren
             }
             //Bewegung nach rechts
             else if (Input.IsActionPressed("walk_right"))
             {
                 GD.Print("Move Right");
-                velocity.X = Speed;             //Bewegung entlang der x-Achse
-                Character.Velocity = velocity;  //Charakter die Geschwindigkeit/Richtung übergeben
-                _ = Character.MoveAndSlide();   //Bewegung aktualisieren
+                velocity.X = Speed; //Bewegung entlang der x-Achse
+                Character.Velocity = velocity; //Charakter die Geschwindigkeit/Richtung übergeben
+                _ = Character.MoveAndSlide(); //Bewegung aktualisieren
             }
             //Wechsel in den State idle, falls keine Bewegung mehr durchgeführt wird
             else

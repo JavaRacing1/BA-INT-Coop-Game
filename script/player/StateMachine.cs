@@ -13,8 +13,10 @@ namespace INTOnlineCoop.Script.Player
     {
         /// <summary>State when character is not moving but controllable</summary>
         Idle,
-        /// <summary>State when character is in the air</summary>
-        InAir,
+        /// <summary>State when character is falling</summary>
+        Falling,
+        /// <summary>State when character jumped</summary>
+        Jumping,
         /// <summary>State when character is walking</summary>
         Walk
     }
