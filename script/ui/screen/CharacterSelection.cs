@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 
 using INTOnlineCoop.Script.Player;
+using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.UI.Component;
 
 namespace INTOnlineCoop.Script.UI.Screen
@@ -39,11 +40,20 @@ namespace INTOnlineCoop.Script.UI.Screen
 
             if (_characterGrid != null)
             {
+                List<CharacterType> selectedCharacters = PlayerSettingsData.Instance.SelectedCharacters;
+                foreach (CharacterType type in selectedCharacters)
+                {
+                    if (type != CharacterType.None)
+                    {
+                        SelectedCharacters.Add(type);
+                    }
+                }
                 PackedScene itemScene = GD.Load<PackedScene>("res://scene/ui/component/CharacterSelectionItem.tscn");
                 foreach (CharacterType type in CharacterType.Values)
                 {
                     CharacterSelectionItem item = itemScene.Instantiate<CharacterSelectionItem>();
                     item.SetCharacterType(type);
+                    item.SetColor(selectedCharacters.Contains(type));
                     item.SelectedCharacterChanged += OnSelectedCharacterChanged;
                     _characterGrid.AddChild(item);
                     if (type == CharacterType.Gaige || type == CharacterType.Nisha || type == CharacterType.Zero)
@@ -112,6 +122,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnCharacterSelectionConfirmPressed()
         {
+            PlayerSettingsData.Instance.SetSelectedCharacters(SelectedCharacters);
             _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
         }
 

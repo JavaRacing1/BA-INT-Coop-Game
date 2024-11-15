@@ -64,14 +64,23 @@ namespace INTOnlineCoop.Script.UI.Component
                 return;
             }
 
-            _isSelected = !_isSelected;
-            _nameLabel.AddThemeColorOverride("font_color",
-                _isSelected ? new Color(0, 1.0f, 0) : new Color(1.0f, 1.0f, 1.0f));
+            SetColor(!_isSelected);
             Error error = EmitSignal(SignalName.SelectedCharacterChanged, _isSelected, CharacterType);
             if (error != Error.Ok)
             {
                 GD.PrintErr("Could not emit SelectedCharacterChanged event: " + error);
             }
+        }
+
+        /// <summary>
+        /// Changes the text color of the item
+        /// </summary>
+        /// <param name="isSelected"></param>
+        public void SetColor(bool isSelected)
+        {
+            _isSelected = isSelected;
+            _nameLabel?.AddThemeColorOverride("font_color",
+                isSelected ? new Color(0, 1.0f, 0) : new Color(1.0f, 1.0f, 1.0f));
         }
     }
 }

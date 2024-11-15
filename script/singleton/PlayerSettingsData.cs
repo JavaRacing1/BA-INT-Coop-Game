@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 
+using INTOnlineCoop.Script.Player;
+
 namespace INTOnlineCoop.Script.Singleton
 {
     /// <summary>
@@ -115,6 +117,11 @@ namespace INTOnlineCoop.Script.Singleton
         public bool HasControlChanges { get; private set; }
 
         /// <summary>
+        /// List containing all selected characters
+        /// </summary>
+        public List<CharacterType> SelectedCharacters { get; private set; } = new();
+
+        /// <summary>
         /// Initializes the settings file
         /// </summary>
         public override void _Ready()
@@ -192,6 +199,20 @@ namespace INTOnlineCoop.Script.Singleton
         {
             ShowControlHints = visible;
             HasUnsavedChanges = true;
+        }
+
+        /// <summary>
+        /// Changes the selected characters
+        /// </summary>
+        /// <param name="characters">List with all selected characters</param>
+        public void SetSelectedCharacters(List<CharacterType> characters)
+        {
+            SelectedCharacters.Clear();
+            foreach (CharacterType type in characters)
+            {
+                SelectedCharacters.Add(type);
+            }
+            ApplyChanges();
         }
 
         /// <summary>
@@ -406,6 +427,13 @@ namespace INTOnlineCoop.Script.Singleton
                 (Godot.Collections.Dictionary<string, Godot.Collections.Dictionary<string, Variant>>)
                 CollectionExtensions
                     .GetValueOrDefault(dataDict, "Controls", CreateDefaultControls());
+            SelectedCharacters.Clear();
+            for (int i = 0; i < 4; i++)
+            {
+                string characterName = (string)CollectionExtensions.GetValueOrDefault(dataDict, "Character" + i, "None");
+                CharacterType type = CharacterType.FromName(characterName);
+                SelectedCharacters.Add(type);
+            }
         }
 
         private void Save()
@@ -420,6 +448,11 @@ namespace INTOnlineCoop.Script.Singleton
                 { "ShowControlHints", ShowControlHints },
                 { "Controls", _controlSettings }
             };
+            for (int i = 0; i < 4; i++)
+            {
+                CharacterType type = SelectedCharacters.Count == 4 ? SelectedCharacters[i] : CharacterType.None;
+                dataDict.Add("Character" + i, type.Name);
+            }
             string jsonData = Json.Stringify(dataDict);
 
             using FileAccess saveFile = FileAccess.Open(SettingsPath, FileAccess.ModeFlags.Write);
