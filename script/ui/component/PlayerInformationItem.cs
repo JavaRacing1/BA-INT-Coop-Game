@@ -2,58 +2,81 @@ using Godot;
 
 namespace INTOnlineCoop.Script.UI.Component
 {
-    /// <summary>
-    /// Displays information about a player
-    /// </summary>
-    public partial class PlayerInformationItem : PanelContainer
-    {
-        [Export] private Label _numberLabel;
-        [Export] private Label _nameLabel;
-        [Export] private Sprite2D[] _sprites;
+	public partial class PlayerInformationItem : PanelContainer
+	{
+		[Export] private Label _numberLabel;
+		[Export] private Label _nameLabel;
+		[Export] private Sprite2D[] _sprites;
 
-        private string[] _figureSprites = { "Figure1", "Figure2", "Figure3", "Figure4" };
-        /// <summary>
-        /// Changes the player number of the instance
-        /// </summary>
-        /// <param name="number">New player number</param>
-        public void SetPlayerNumber(int number)
-        {
-            if (_numberLabel != null)
-            {
-                _numberLabel.Text = number.ToString();
-            }
-        }
+		private readonly string[] _playerFigures = { "Athena, Moze, Krieg, Zero", "Axton, Maja, Moze, Amara" };
 
-        /// <summary>
-        /// Changes the player name of the instance
-        /// </summary>
-        /// <param name="name">New player name</param>
-        public void SetPlayerName(string name)
-        {
-            if (_nameLabel != null)
-            {
-                _nameLabel.Text = name;
-            }
-        }
+		private string[] _figureSprites = { "Figure1", "Figure2", "Figure3", "Figure4" };
 
-        /// <summary>
-        /// Returns the player number
-        /// </summary>
-        /// <returns>Current player number</returns>
-        public int GetPlayerNumber()
-        {
-            return _numberLabel == null ? -1 : int.Parse(_numberLabel.Text);
-        }
+		private static readonly string[] AvailableFigures =
+		{
+			"Amara", "Athena", "Axton", "Gaige", "Krieg", "Maja", "Moze", "Nisha", "Salvador", "Whilhelm", "Zero"
+		};
 
-        private static void SettingUpCharacterPanel()
-        {
-            for (int i = 0; i < 4; i++)
-            {
+		public void SetPlayerNumber(int number)
+		{
+			if (_numberLabel != null)
+			{
+				_numberLabel.Text = number.ToString();
+			}
+		}
 
-            }
-        }
-    }
+		public void SetPlayerName(string name)
+		{
+			if (_nameLabel != null)
+			{
+				_nameLabel.Text = name;
+			}
+		}
+
+		public int GetPlayerNumber()
+		{
+			return _numberLabel == null ? -1 : int.Parse(_numberLabel.Text);
+		}
+
+		private void SettingUpCharacterPanel()
+		{
+			if (_sprites == null || _sprites.Length == 0)
+			{
+				GD.PrintErr("Sprites array is not initialized.");
+				return;
+			}
+
+			for (int i = 0; i < _playerFigures.Length; i++)
+			{
+				string[] selectedFigures = _playerFigures[i].Split(", ");
+
+				for (int j = 0; j < selectedFigures.Length && j < _sprites.Length; j++)
+				{
+					string figureName = selectedFigures[j].Trim();
+
+					if (Array.Exists(AvailableFigures, element => element == figureName))
+					{
+						string texturePath = $"res://assets/sprites/game_figure/{figureName}/head.png";
+						Sprite2D sprite = _sprites[j];
+						if (sprite != null)
+						{
+							Texture2D texture = GD.Load<Texture2D>(texturePath);
+							if (texture != null)
+							{
+								sprite.Texture = texture;
+							}
+							else
+							{
+								//GD.PrintErr($"Texture not found: {texturePath}");
+							}
+						}
+					}
+					else
+					{
+						GD.PrintErr($"Figure '{figureName}' is not in the available figure list.");
+					}
+				}
+			}
+		}
+	}
 }
-
-
-

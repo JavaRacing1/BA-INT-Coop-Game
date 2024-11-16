@@ -4,12 +4,13 @@
 [ext_resource type="StyleBox" uid="uid://cgks6cphnhxfu" path="res://resource/stylebox/PlayerInformationStyleBox.tres" id="1_83y0c"]
 [ext_resource type="Script" path="res://script/ui/component/PlayerInformationItem.cs" id="1_u6mrt"]
 
-[node name="PlayerInformationItem" type="PanelContainer" node_paths=PackedStringArray("_numberLabel", "_nameLabel")]
+[node name="PlayerInformationItem" type="PanelContainer" node_paths=PackedStringArray("_numberLabel", "_nameLabel", "_sprites")]
 custom_minimum_size = Vector2(280, 30)
 theme = ExtResource("1_22wg4")
 script = ExtResource("1_u6mrt")
 _numberLabel = NodePath("HBoxContainer/NumberPanel/NumberCenter/NumberLabel")
 _nameLabel = NodePath("HBoxContainer/NamePanel/NameCenter/NameLabel")
+_sprites = []
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
