@@ -15,7 +15,10 @@ namespace INTOnlineCoop.Script.Player
         /// Gravity applied to the player
         /// </summary>
         protected const float Gravity = 300f; //Gravitation
-
+        /*/// <summary>
+        /// Healthpoints of a Character
+        /// </summary>*/
+        //public int Healthpoints = 100;
         /// <summary>
         /// Character which uses the state
         /// </summary>

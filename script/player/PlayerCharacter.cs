@@ -24,7 +24,13 @@ namespace INTOnlineCoop.Script.Player
             }
 
             StateMachine.TransitionTo(AvailableState.Idle); // Initialer Zustand
+
         }
+
+        //SetPlayerTyp Methode()
+        //Lese CharacterTyp enum auf ausgewählte Figuren von User
+        //Export Funktion zu AnimatedSprite2D Texture - Zuweisung der SpriteSheet Eingenschaft passend zum Namen der Figuren
+        //zwischenspeichern in eigener Variable
 
         /// <summary>
         /// Redirects physic and movement updates to states
