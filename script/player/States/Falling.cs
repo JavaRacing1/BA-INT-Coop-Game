@@ -34,7 +34,6 @@ namespace INTOnlineCoop.Script.Player.States
             Character.Velocity = velocity;
             _ = Character.MoveAndSlide();
 
-            GD.Print(CharacterSprite.Animation + " " + CharacterSprite.Frame);
             if (Character.IsOnFloor())
             {
                 if ((CharacterSprite.Animation == "LandingOnGround") && (CharacterSprite.Frame == 2))

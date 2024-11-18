@@ -47,7 +47,6 @@ namespace INTOnlineCoop.Script.Player.States
             Character.Velocity = velocity;
             _ = Character.MoveAndSlide();
 
-            GD.Print(CharacterSprite.Animation + " " + CharacterSprite.Frame);
             if (Character.Velocity.Y > 0)
             {
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
