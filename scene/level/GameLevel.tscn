@@ -1,15 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=7 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
 [ext_resource type="Script" path="res://script/level/tile/LevelTileManager.cs" id="2_l7ks5"]
 [ext_resource type="TileSet" uid="uid://m5d5tod6nelb" path="res://resource/tileset/TestTileSet.tres" id="3_g3n4h"]
+[ext_resource type="Shader" path="res://resource/shader/BottomWater.gdshader" id="7_6fdox"]
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera", "_userInterfaceLayer")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3cewb"]
+shader = ExtResource("7_6fdox")
+shader_parameter/WAVE_THRESHOLD = 50.0
+shader_parameter/SPEED = 3.0
+shader_parameter/WAVE_INTERVAL = 100.0
+
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera", "_userInterfaceLayer", "_bottomWaterRect")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 _camera = NodePath("PlayerCamera")
 _userInterfaceLayer = NodePath("UserInterfaceLayer")
+_bottomWaterRect = NodePath("BottomWater")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -26,3 +34,10 @@ use_parent_material = true
 tile_set = ExtResource("3_g3n4h")
 
 [node name="UserInterfaceLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="BottomWater" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_3cewb")
+offset_top = 320.0
+offset_right = 640.0
+offset_bottom = 360.0

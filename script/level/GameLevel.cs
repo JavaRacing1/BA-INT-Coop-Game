@@ -18,6 +18,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private LevelTileManager _tileManager;
         [Export] private PlayerCamera _camera;
         [Export] private CanvasLayer _userInterfaceLayer;
+        [Export] private ColorRect _bottomWaterRect;
 
         private Image _terrainImage;
 
@@ -37,11 +38,18 @@ namespace INTOnlineCoop.Script.Level
         public void Init(Image terrainImage)
         {
             _terrainImage = terrainImage;
+            Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
             if (_camera != null)
             {
-                Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
                 Vector2I terrainSize = new(terrainImage.GetWidth() * tileSize.X, terrainImage.GetHeight() * tileSize.Y);
                 _camera.Init(terrainSize);
+            }
+
+            if (_bottomWaterRect != null)
+            {
+                _bottomWaterRect.Size =
+                    new((terrainImage.GetWidth() * tileSize.X) + 1000, 300);
+                _bottomWaterRect.Position = new(-500, (terrainImage.GetHeight() * tileSize.Y) - 32);
             }
 
             GD.Print("GameLevel initialized!");
@@ -78,6 +86,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _Ready()
         {
+            _tileManager?.InitTileMap(_terrainImage);
             _tileManager?.InitTileMap(_terrainImage);
             MultiplayerLobby.Instance.PlayerDisconnected += OnDisconnect;
         }
