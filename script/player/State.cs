@@ -11,19 +11,23 @@ namespace INTOnlineCoop.Script.Player
         /// Speed of the player
         /// </summary>
         protected const float Speed = 50f; //Spielergeschwindigkeit
+
         /// <summary>
         /// Gravity applied to the player
         /// </summary>
         protected const float Gravity = 300f; //Gravitation
-        /*/// <summary>
-        /// Healthpoints of a Character
-        /// </summary>*/
-        //public int Healthpoints = 100;
+
         /// <summary>
         /// Character which uses the state
         /// </summary>
         [Export]
         protected PlayerCharacter Character { get; private set; } //Spieler initialisieren
+
+        /// <summary>
+        /// reference to the usage of the AnimationPlayer build into AnimatedSprite2D with his SpriteFrames and Animation options
+        /// </summary>
+        [Export]
+        protected AnimatedSprite2D CharacterSprite { get; private set; }
 
         /// <summary>
         /// Enters the state
@@ -50,4 +54,3 @@ namespace INTOnlineCoop.Script.Player
         }
     }
 }
-

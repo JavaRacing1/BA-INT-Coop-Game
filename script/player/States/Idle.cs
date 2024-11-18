@@ -7,12 +7,8 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Idle : State
     {
-        /// <summary>
-        /// reference to the usage of the AnimationPlayer build into AnimatedSprite2D with his SpriteFrames and Animation options
-        /// </summary>
-        [Export] private AnimatedSprite2D _figureAnimation;
-
         // private bool _gettingHit;
+        private int _idleFrameCounter;
 
         /// <summary>
         /// define what animation is played when entering the state
@@ -20,7 +16,8 @@ namespace INTOnlineCoop.Script.Player.States
         public override void Enter()
         {
             base.Enter();
-            _figureAnimation.Play("Idle");
+            CharacterSprite.Animation = "Idle";
+            CharacterSprite.Pause();
         }
 
         /// <summary>
@@ -29,34 +26,51 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void PhysicProcess(double delta)
         {
+            _idleFrameCounter++;
+            //TODO: Change frame depending on selected character
+            if (CharacterSprite.Frame == 14 && _idleFrameCounter > 0)
+            {
+                CharacterSprite.Pause();
+                _idleFrameCounter = -20;
+            }
+            else if (_idleFrameCounter == 0)
+            {
+                CharacterSprite.Frame = 0;
+            }
+            else if (_idleFrameCounter == 400)
+            {
+                CharacterSprite.Play();
+            }
+
             if (!Character.IsOnFloor())
             {
-                _figureAnimation.Stop();
-                _figureAnimation.Animation = "InAir";
-                _figureAnimation.Frame = 1;
-                _figureAnimation.Play("InAir");
+                CharacterSprite.Stop();
+                CharacterSprite.Animation = "InAir";
+                CharacterSprite.Frame = 1;
+                CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
             else if (Input.IsActionJustPressed("jump"))
             {
-                _figureAnimation.Stop();
-                _figureAnimation.Play("JumpingOffGround");
+                CharacterSprite.Stop();
+                CharacterSprite.Play("JumpingOffGround");
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
             //Übergang in den Walking-Zustand, falls Eingabe erfolgt
             else if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
             {
-                _figureAnimation.Stop();
+                CharacterSprite.Stop();
                 if (Input.IsActionPressed("walk_right"))
                 {
-                    _figureAnimation.FlipH = false;
-                    _figureAnimation.Play("Walking");
+                    CharacterSprite.FlipH = false;
+                    CharacterSprite.Play("Walking");
                 }
                 else
                 {
-                    _figureAnimation.FlipH = true;
-                    _figureAnimation.Play("Walking");
+                    CharacterSprite.FlipH = true;
+                    CharacterSprite.Play("Walking");
                 }
+
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }
             /*else if (_gettingHit)
