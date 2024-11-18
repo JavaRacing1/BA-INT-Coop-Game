@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://0lx3kqmol1vv"]
+[gd_scene load_steps=5 format=3 uid="uid://0lx3kqmol1vv"]
 
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_5kdtc"]
 [ext_resource type="Script" path="res://script/ui/screen/SettingsWindow.cs" id="1_n4ifw"]
 [ext_resource type="PackedScene" uid="uid://dh3ulu14fm0k2" path="res://scene/ui/component/InputConfigItem.tscn" id="3_irfp3"]
+[ext_resource type="Texture2D" uid="uid://chdq7ndxhevuj" path="res://assets/sprites/background/BackGround.png" id="3_jruuj"]
 
 [node name="SettingsWindow" type="CanvasLayer" node_paths=PackedStringArray("_displayModeButton", "_particleCheckBox", "_masterVolumeSlider", "_musicVolumeSlider", "_effectVolumeSlider", "_masterCurrentVolumeLabel", "_musicCurrentVolumeLabel", "_effectCurrentVolumeLabel", "_controlHintCheckBox", "_inputContainer")]
 script = ExtResource("1_n4ifw")
@@ -17,7 +18,7 @@ _effectCurrentVolumeLabel = NodePath("Panel/TabContainer/Audio/VBoxContainer/Eff
 _controlHintCheckBox = NodePath("Panel/TabContainer/Gameplay/VBoxContainer/ControlHintsContainer/ControlHintsCheckBox")
 _inputContainer = NodePath("Panel/TabContainer/Steuerung/InputScrollContainer/InputContainer")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="TextureRect" parent="."]
 anchors_preset = -1
 anchor_left = 0.1
 anchor_top = 0.1
@@ -26,6 +27,8 @@ anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_5kdtc")
+texture = ExtResource("3_jruuj")
+expand_mode = 1
 
 [node name="TabContainer" type="TabContainer" parent="Panel"]
 layout_mode = 1

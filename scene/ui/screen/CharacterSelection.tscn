@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://ypat1xehgmhj"]
+
+[ext_resource type="Script" path="res://script/ui/screen/CharacterSelection.cs" id="1_ntg85"]
+[ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="1_oydd5"]
+[ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkk0b"]
+[ext_resource type="LabelSettings" path="res://resource/theme/LableSettings.tres" id="3_coh1l"]
+[ext_resource type="Texture2D" uid="uid://qodsfsec2jhk" path="res://assets/texture/button/dialog/CancelButtonNormal.png" id="12_f45xe"]
+[ext_resource type="Texture2D" uid="uid://d0yts0shheeis" path="res://assets/texture/button/dialog/CancelButtonHover.png" id="13_ftk78"]
+[ext_resource type="Texture2D" uid="uid://hqutx654d6o5" path="res://assets/texture/button/dialog/CancelButtonPressed.png" id="13_komb6"]
+[ext_resource type="Texture2D" uid="uid://b3tida7l3r1y7" path="res://assets/texture/button/dialog/ConfirmButtonHover.png" id="15_42o74"]
+[ext_resource type="Texture2D" uid="uid://bstltd1axg5a" path="res://assets/texture/button/dialog/ConfirmButtonPressed.png" id="16_me0yd"]
+[ext_resource type="Texture2D" uid="uid://wi20gjq03jpt" path="res://assets/texture/button/dialog/ConfirmButtonNormal.png" id="17_cg8kt"]
+
+[sub_resource type="Theme" id="Theme_ujvug"]
+default_font = ExtResource("2_kkk0b")
+
+[node name="CharakterSelection" type="Control" node_paths=PackedStringArray("_confirmSelectionButton", "_returnSelectionButton", "_characterGrid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ntg85")
+_confirmSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/ButtonContainer/ConfirmSelectionButton")
+_returnSelectionButton = NodePath("TextureRect/MarginContainer/VBoxContainer/ButtonContainer/ReturnSelectionButton")
+_characterGrid = NodePath("TextureRect/MarginContainer/VBoxContainer/CharacterGrid")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_oydd5")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect"]
+layout_mode = 2
+offset_right = 640.0
+offset_bottom = 343.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Headline" type="Label" parent="TextureRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = SubResource("Theme_ujvug")
+text = "Wähle 4 Figuren aus!"
+label_settings = ExtResource("3_coh1l")
+horizontal_alignment = 1
+
+[node name="CharacterGrid" type="GridContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 230)
+layout_mode = 2
+columns = 7
+
+[node name="ButtonContainer" type="HBoxContainer" parent="TextureRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="ConfirmSelectionButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("17_cg8kt")
+texture_pressed = ExtResource("16_me0yd")
+texture_hover = ExtResource("15_42o74")
+stretch_mode = 5
+
+[node name="ReturnSelectionButton" type="TextureButton" parent="TextureRect/MarginContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("12_f45xe")
+texture_pressed = ExtResource("13_komb6")
+texture_hover = ExtResource("13_ftk78")
+stretch_mode = 5
+
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/ButtonContainer/ConfirmSelectionButton" to="." method="OnCharacterSelectionConfirmPressed"]
+[connection signal="pressed" from="TextureRect/MarginContainer/VBoxContainer/ButtonContainer/ReturnSelectionButton" to="." method="OnCharacterSelectReturnPressed"]

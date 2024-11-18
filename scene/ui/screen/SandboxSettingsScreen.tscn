@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctc7akvhlwyrr"]
+[gd_scene load_steps=5 format=3 uid="uid://ctc7akvhlwyrr"]
 
 [ext_resource type="Script" path="res://script/ui/screen/SandboxSettingsScreen.cs" id="1_8b3xc"]
 [ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="1_v0gyq"]
+[ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="2_eq2re"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_jk25u"]
 
 [node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
@@ -14,13 +15,14 @@ grow_vertical = 2
 script = ExtResource("1_8b3xc")
 _generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
 
-[node name="Background" type="Panel" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_eq2re")
 
 [node name="PlayButton" type="Button" parent="Background"]
 layout_mode = 1

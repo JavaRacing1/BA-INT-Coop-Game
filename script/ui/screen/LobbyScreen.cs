@@ -5,7 +5,7 @@ using Godot;
 using INTOnlineCoop.Script.Level;
 using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.UI.Component;
-using INTOnlineCoop.Script.Util;
+using INTOnlineCoop.Script.Player;
 
 namespace INTOnlineCoop.Script.UI.Screen
 {
@@ -136,6 +136,11 @@ namespace INTOnlineCoop.Script.UI.Screen
             GetTree().Root.AddChild(level);
             GetTree().CurrentScene = level;
             QueueFree();
+        }
+
+        private void OnCharacterSelectionButtonPressed()
+        {
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/CharacterSelection.tscn");
         }
     }
 }
