@@ -98,6 +98,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 PlayerInformationItem item = informationItemScene.Instantiate<PlayerInformationItem>();
                 item.SetPlayerNumber(data.Key);
                 item.SetPlayerName(data.Value.Name);
+                item.SetCharacters(data.Value.Characters);
                 _playerInformationContainer.AddChild(item);
             }
         }

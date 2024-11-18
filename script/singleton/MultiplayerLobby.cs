@@ -197,9 +197,15 @@ namespace INTOnlineCoop.Script.Singleton
         /// Creates a new local player data instance
         /// </summary>
         /// <param name="username">Username of the player</param>
-        public void CreatePlayerData(string username)
+        /// <param name="characters">Selected characters</param>
+        public void CreatePlayerData(string username, List<CharacterType> characters)
         {
             CurrentPlayerData = new PlayerData { Name = username };
+            for (int i = 0; i < characters.Count; i++)
+            {
+                CharacterType character = characters[i];
+                CurrentPlayerData.SetCharacterByIndex(i, character);
+            }
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ theme = ExtResource("1_22wg4")
 script = ExtResource("1_u6mrt")
 _numberLabel = NodePath("HBoxContainer/NumberPanel/NumberCenter/NumberLabel")
 _nameLabel = NodePath("HBoxContainer/NamePanel/NameCenter/NameLabel")
-_sprites = []
+_sprites = [NodePath("HBoxContainer/CharacterPanel/Figure1"), NodePath("HBoxContainer/CharacterPanel/Figure2"), NodePath("HBoxContainer/CharacterPanel/Figure3"), NodePath("HBoxContainer/CharacterPanel/Figure4")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

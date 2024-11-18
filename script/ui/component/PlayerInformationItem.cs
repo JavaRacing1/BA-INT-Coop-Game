@@ -1,6 +1,6 @@
-using System.Linq;
-
 using Godot;
+
+using INTOnlineCoop.Script.Player;
 
 
 namespace INTOnlineCoop.Script.UI.Component
@@ -14,18 +14,10 @@ namespace INTOnlineCoop.Script.UI.Component
         [Export] private Label _nameLabel;
         [Export] private Sprite2D[] _sprites;
 
-        private readonly string[] _playerFigures = { "Athena, Moze, Krieg, Zero", "Axton, Maja, Moze, Amara" };
-
-        private string[] _figureSprites = { "Figure1", "Figure2", "Figure3", "Figure4" };
-
-        private static readonly string[] AvailableFigures =
-        {
-            "Amara", "Athena", "Axton", "Gaige", "Krieg", "Maja", "Moze", "Nisha", "Salvador", "Whilhelm", "Zero"
-        };
         /// <summary>
-        /// 
+        /// Changes the player number
         /// </summary>
-        /// <param name="number"></param>
+        /// <param name="number">New player number</param>
         public void SetPlayerNumber(int number)
         {
             if (_numberLabel != null)
@@ -33,10 +25,11 @@ namespace INTOnlineCoop.Script.UI.Component
                 _numberLabel.Text = number.ToString();
             }
         }
+
         /// <summary>
-        /// 
+        /// Sets the player name
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">New player name</param>
         public void SetPlayerName(string name)
         {
             if (_nameLabel != null)
@@ -44,54 +37,35 @@ namespace INTOnlineCoop.Script.UI.Component
                 _nameLabel.Text = name;
             }
         }
+
         /// <summary>
-        /// 
+        /// Returns the current player number
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Player number</returns>
         public int GetPlayerNumber()
         {
             return _numberLabel == null ? -1 : int.Parse(_numberLabel.Text);
         }
+
         /// <summary>
-        /// 
+        /// Set the character textures
         /// </summary>
-        private void SettingUpCharacterPanel()
+        /// <param name="characterTypes"></param>
+        public void SetCharacters(CharacterType[] characterTypes)
         {
-            if (_sprites == null || _sprites.Length == 0)
+            if (_sprites is not { Length: 4 } || characterTypes.Length != 4)
             {
                 GD.PrintErr("Sprites array is not initialized.");
                 return;
             }
 
-            for (int i = 0; i < _playerFigures.Length; i++)
+            for (int i = 0; i < 4; i++)
             {
-                string[] selectedFigures = _playerFigures[i].Split(", ");
-
-                for (int j = 0; j < selectedFigures.Length && j < _sprites.Length; j++)
+                Sprite2D sprite = _sprites[i];
+                CharacterType character = characterTypes[i];
+                if (character != CharacterType.None)
                 {
-                    string figureName = selectedFigures[j].Trim();
-
-                    if (AvailableFigures.Contains(figureName))
-                    {
-                        string texturePath = $"res://assets/sprites/game_figure/{figureName}/head.png";
-                        Sprite2D sprite = _sprites[j];
-                        if (sprite != null)
-                        {
-                            Texture2D texture = GD.Load<Texture2D>(texturePath);
-                            if (texture != null)
-                            {
-                                sprite.Texture = texture;
-                            }
-                            else
-                            {
-                                //GD.PrintErr($"Texture not found: {texturePath}");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        GD.PrintErr($"Figure '{figureName}' is not in the available figure list.");
-                    }
+                    sprite.Texture = character.HeadTexture;
                 }
             }
         }

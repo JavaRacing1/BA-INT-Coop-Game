@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+
 using Godot;
 
+using INTOnlineCoop.Script.Player;
+using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.UI.Component;
 
 namespace INTOnlineCoop.Script.UI.Screen
@@ -84,6 +88,13 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private void OnMultiplayerButtonPressed()
         {
+            List<CharacterType> characters = PlayerSettingsData.Instance.SelectedCharacters;
+            if (characters.TrueForAll(character => character == CharacterType.None))
+            {
+                OnCharacterSelectionButtonPressed();
+                return;
+            }
+
             if (_connectionWindow == null)
             {
                 _connectionWindow = GD.Load<PackedScene>("res://scene/ui/component/MultiplayerConnectionWindow.tscn")

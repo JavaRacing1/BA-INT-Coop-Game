@@ -54,7 +54,7 @@ namespace INTOnlineCoop.Script.UI.Component
                 username = GenerateUsername();
             }
 
-            MultiplayerLobby.Instance.CreatePlayerData(username);
+            MultiplayerLobby.Instance.CreatePlayerData(username, PlayerSettingsData.Instance.SelectedCharacters);
 
             string serverAddress = _serverAddressInput.Text;
             string portString = _portInput.Text;

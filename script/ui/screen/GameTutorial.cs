@@ -104,14 +104,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             _infoText.Text = _tutorialText[_tutorialTextIndex];
             _pageLabel.Text = $"{_tutorialTextIndex + 1}/{_tutorialText.Length}";
 
-            if (TextureCache.ContainsKey(_tutorialTextIndex))
-            {
-                _imagePanel.Texture = TextureCache[_tutorialTextIndex];
-            }
-            else
-            {
-                _imagePanel.Texture = null;
-            }
+            _imagePanel.Texture = TextureCache.ContainsKey(_tutorialTextIndex) ? TextureCache[_tutorialTextIndex] : null;
         }
     }
 }
