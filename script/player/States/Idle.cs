@@ -27,15 +27,14 @@ namespace INTOnlineCoop.Script.Player.States
         public override void PhysicProcess(double delta)
         {
             _idleFrameCounter++;
-            //TODO: Change frame depending on selected character
-            if (CharacterSprite.Frame == 14 && _idleFrameCounter > 0)
+            if (_idleFrameCounter == 0)
+            {
+                CharacterSprite.Frame = 0;
+            }
+            else if (CharacterSprite.Frame == Character.Type.LastIdleFrame && _idleFrameCounter > 0)
             {
                 CharacterSprite.Pause();
                 _idleFrameCounter = -20;
-            }
-            else if (_idleFrameCounter == 0)
-            {
-                CharacterSprite.Frame = 0;
             }
             else if (_idleFrameCounter == 400)
             {

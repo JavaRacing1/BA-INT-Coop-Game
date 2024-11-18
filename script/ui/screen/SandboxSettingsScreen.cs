@@ -93,7 +93,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 level.Init(image);
                 GetTree().Root.AddChild(level);
                 GetTree().CurrentScene = level;
-                level.SpawnSandboxCharacter(_generatorSettings.SelectedTerrainShape);
+                level.SpawnSandboxCharacter(_generatorSettings.SelectedTerrainShape, _selectedCharacter);
                 QueueFree();
             }
         }

@@ -59,7 +59,8 @@ namespace INTOnlineCoop.Script.Level
         /// Spawns a sandbox character in the level
         /// </summary>
         /// <param name="shape">Selected Terrain shape</param>
-        public void SpawnSandboxCharacter(TerrainShape shape)
+        /// <param name="characterType">Selected character type</param>
+        public void SpawnSandboxCharacter(TerrainShape shape, CharacterType characterType)
         {
             if (_terrainImage == null || _tileManager == null)
             {
@@ -77,7 +78,7 @@ namespace INTOnlineCoop.Script.Level
             GD.Print($"Scaled Position: {scaledSpawnPosition}");
             PlayerCharacter character = GD.Load<PackedScene>("res://scene/player/PlayerCharacter.tscn")
                 .Instantiate<PlayerCharacter>();
-            character.Position = scaledSpawnPosition;
+            character.Init(scaledSpawnPosition, characterType);
             AddChild(character);
         }
 

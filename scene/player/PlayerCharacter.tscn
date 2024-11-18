@@ -11,12 +11,13 @@
 [ext_resource type="Script" path="res://script/player/states/Dead.cs" id="9_m8cti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
-size = Vector2(16, 32)
+size = Vector2(16, 30)
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
+_sprite = NodePath("CharacterSprite")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
@@ -62,8 +63,12 @@ script = ExtResource("6_st2wn")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
-[node name="TakingDamage" type="Node" parent="StateMachine"]
+[node name="TakingDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
 script = ExtResource("8_favfb")
+Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
 
-[node name="Dead" type="Node" parent="StateMachine"]
+[node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
 script = ExtResource("9_m8cti")
+Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")

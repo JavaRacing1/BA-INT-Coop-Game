@@ -7,11 +7,36 @@ namespace INTOnlineCoop.Script.Player
     /// </summary>
     public partial class PlayerCharacter : CharacterBody2D
     {
+        [Export] private AnimatedSprite2D _sprite;
+
         /// <summary>
         /// Current StateMachine instance
         /// </summary>
         [Export]
         public StateMachine StateMachine { get; private set; }
+
+        /// <summary>
+        /// Current type used by the character
+        /// </summary>
+        public CharacterType Type { get; private set; }
+
+        /// <summary>
+        /// Initializes the character
+        /// </summary>
+        /// <param name="position">Character position</param>
+        /// <param name="type">Type of the character</param>
+        public void Init(Vector2 position, CharacterType type)
+        {
+            Position = position;
+            Type = type;
+
+            if (_sprite == null || type.SpriteFrames == null)
+            {
+                return;
+            }
+
+            _sprite.SpriteFrames = type.SpriteFrames;
+        }
 
         /// <summary>
         /// Initializes the state machine
@@ -24,7 +49,6 @@ namespace INTOnlineCoop.Script.Player
             }
 
             StateMachine.TransitionTo(AvailableState.Idle); // Initialer Zustand
-
         }
 
         //SetPlayerTyp Methode()
