@@ -4,12 +4,13 @@
 [ext_resource type="StyleBox" uid="uid://cgks6cphnhxfu" path="res://resource/stylebox/PlayerInformationStyleBox.tres" id="1_83y0c"]
 [ext_resource type="Script" path="res://script/ui/component/PlayerInformationItem.cs" id="1_u6mrt"]
 
-[node name="PlayerInformationItem" type="PanelContainer" node_paths=PackedStringArray("_numberLabel", "_nameLabel")]
-custom_minimum_size = Vector2(260, 30)
+[node name="PlayerInformationItem" type="PanelContainer" node_paths=PackedStringArray("_numberLabel", "_nameLabel", "_sprites")]
+custom_minimum_size = Vector2(280, 30)
 theme = ExtResource("1_22wg4")
 script = ExtResource("1_u6mrt")
 _numberLabel = NodePath("HBoxContainer/NumberPanel/NumberCenter/NumberLabel")
 _nameLabel = NodePath("HBoxContainer/NamePanel/NameCenter/NameLabel")
+_sprites = [NodePath("HBoxContainer/CharacterPanel/Figure1"), NodePath("HBoxContainer/CharacterPanel/Figure2"), NodePath("HBoxContainer/CharacterPanel/Figure3"), NodePath("HBoxContainer/CharacterPanel/Figure4")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -55,3 +56,19 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 theme_override_styles/panel = ExtResource("1_83y0c")
+
+[node name="Figure1" type="Sprite2D" parent="HBoxContainer/CharacterPanel"]
+position = Vector2(15, 15)
+scale = Vector2(2, 2)
+
+[node name="Figure2" type="Sprite2D" parent="HBoxContainer/CharacterPanel"]
+position = Vector2(50, 15)
+scale = Vector2(2, 2)
+
+[node name="Figure3" type="Sprite2D" parent="HBoxContainer/CharacterPanel"]
+position = Vector2(85, 15)
+scale = Vector2(2, 2)
+
+[node name="Figure4" type="Sprite2D" parent="HBoxContainer/CharacterPanel"]
+position = Vector2(120, 15)
+scale = Vector2(2, 2)

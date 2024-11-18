@@ -2,8 +2,8 @@ using System;
 
 using Godot;
 
-using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.Player;
+using INTOnlineCoop.Script.Singleton;
 
 namespace INTOnlineCoop.Script.UI.Component
 {
@@ -54,7 +54,7 @@ namespace INTOnlineCoop.Script.UI.Component
                 username = GenerateUsername();
             }
 
-            MultiplayerLobby.Instance.CreatePlayerData(username);
+            MultiplayerLobby.Instance.CreatePlayerData(username, PlayerSettingsData.Instance.SelectedCharacters);
 
             string serverAddress = _serverAddressInput.Text;
             string portString = _portInput.Text;

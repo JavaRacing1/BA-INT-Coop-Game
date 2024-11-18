@@ -98,6 +98,7 @@ namespace INTOnlineCoop.Script.UI.Screen
                 PlayerInformationItem item = informationItemScene.Instantiate<PlayerInformationItem>();
                 item.SetPlayerNumber(data.Key);
                 item.SetPlayerName(data.Value.Name);
+                item.SetCharacters(data.Value.Characters);
                 _playerInformationContainer.AddChild(item);
             }
         }
@@ -124,6 +125,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 return;
             }
+
             MultiplayerLobby.Instance.SendGeneratorSettingsToServer(_generatorSettings.SelectedTerrainShape,
                 _generatorSettings.Seed);
             _playButton.Disabled = true;
@@ -136,11 +138,6 @@ namespace INTOnlineCoop.Script.UI.Screen
             GetTree().Root.AddChild(level);
             GetTree().CurrentScene = level;
             QueueFree();
-        }
-
-        private void OnCharacterSelectionButtonPressed()
-        {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/CharacterSelection.tscn");
         }
     }
 }
