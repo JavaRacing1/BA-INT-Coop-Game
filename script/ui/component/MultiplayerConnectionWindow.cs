@@ -2,8 +2,8 @@ using System;
 
 using Godot;
 
-using INTOnlineCoop.Script.Singleton;
 using INTOnlineCoop.Script.Player;
+using INTOnlineCoop.Script.Singleton;
 
 namespace INTOnlineCoop.Script.UI.Component
 {
