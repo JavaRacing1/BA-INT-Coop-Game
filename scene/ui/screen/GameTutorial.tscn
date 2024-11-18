@@ -9,7 +9,7 @@
 font = ExtResource("2_dq8dm")
 font_size = 32
 
-[node name="GameTutorial" type="Control"]
+[node name="GameTutorial" type="Control" node_paths=PackedStringArray("_infoText", "_pageLabel", "_imagePanel", "_showNextButton", "_showPreviousButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +17,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_erwf3")
+_infoText = NodePath("InfoTextLabel")
+_pageLabel = NodePath("PageLabel")
+_imagePanel = NodePath("InfoImage")
+_showNextButton = NodePath("ShowNextButton")
+_showPreviousButton = NodePath("ShowPreviousButton")
 
 [node name="BackroundImage" type="TextureRect" parent="."]
 z_as_relative = false
