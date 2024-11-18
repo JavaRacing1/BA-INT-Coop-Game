@@ -366,6 +366,10 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 _ = _freePlayerNumbers.Add(oldPlayerNumber);
                 GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
+                if (_freePlayerNumbers.Count == MaxPlayers)
+                {
+                    _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
+                }
             }
         }
 
@@ -475,6 +479,12 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 GD.PrintErr("Failed to send SendLevelToClient RPC: " + error);
             }
+
+            GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
+            level.Init(image);
+            GetTree().Root.AddChild(level, true);
+            GetTree().CurrentScene = level;
+            GetNode("/root/MainMenu").QueueFree();
         }
 
         /// <summary>

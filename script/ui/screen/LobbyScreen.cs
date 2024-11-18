@@ -135,7 +135,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         {
             GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
             level.Init(levelImage);
-            GetTree().Root.AddChild(level);
+            GetTree().Root.AddChild(level, true);
             GetTree().CurrentScene = level;
             QueueFree();
         }
