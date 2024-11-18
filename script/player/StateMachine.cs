@@ -20,7 +20,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>State when character is walking</summary>
         Walking,
         /// <summary>State when character takes damage</summary>
-        TakeingDamage,
+        TakingDamage,
         /// <summary>State when character dies of haveing no healthpoints left (healthpoints lower than 0)</summary>
         Dead
     }

@@ -21,6 +21,11 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type { get; private set; }
 
         /// <summary>
+        /// True if the player is blocked from inputs
+        /// </summary>
+        public bool IsBlocked { get; set; }
+
+        /// <summary>
         /// Initializes the character
         /// </summary>
         /// <param name="position">Character position</param>
@@ -59,19 +64,20 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>
         /// Redirects physic and movement updates to states
         /// </summary>
-        /// <param name="delta">Current Frame-delta</param>
+        /// <param name="delta">Current frame delta</param>
         public override void _PhysicsProcess(double delta)
         {
             StateMachine.CurrentState.PhysicProcess(delta);
         }
 
         /// <summary>
-        /// Redirects input to states
+        /// Redirects process for input and animation handling to states
         /// </summary>
-        /// <param name="event">InputEvent instance</param>
-        public override void _UnhandledInput(InputEvent @event)
+        /// <param name="delta">Current frame delta</param>
+        public override void _Process(double delta)
         {
-            StateMachine.CurrentState.HandleInput(@event);
+            StateMachine.CurrentState.HandleInput(delta);
+            StateMachine.CurrentState.ChangeAnimationsAndStates(delta);
         }
     }
 }

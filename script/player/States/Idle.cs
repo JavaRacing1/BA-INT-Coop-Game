@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Util;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -7,6 +9,18 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Idle : State
     {
+        /// <summary>
+        /// True if the client just jumped
+        /// </summary>
+        [Export]
+        private bool Jumped { get; set; }
+
+        /// <summary>
+        /// Movement of the player
+        /// </summary>
+        [Export]
+        private float Direction { get; set; }
+
         // private bool _gettingHit;
         private int _idleFrameCounter;
 
@@ -18,13 +32,31 @@ namespace INTOnlineCoop.Script.Player.States
             base.Enter();
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
+            Jumped = false;
+            Direction = 0;
         }
 
         /// <summary>
-        /// Updates player movement and changeing played animation
+        /// Handles input in Idle state
         /// </summary>
         /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        public override void HandleInput(double delta)
+        {
+            if (InputBlocker.IsActionJustPressed(Character, "jump"))
+            {
+                Jumped = true;
+            }
+            else
+            {
+                Direction = InputBlocker.GetAxis(Character, "walk_left", "walk_right");
+            }
+        }
+
+        /// <summary>
+        /// Manages the used animations + state changes
+        /// </summary>
+        /// <param name="delta">Frame delta</param>
+        public override void ChangeAnimationsAndStates(double delta)
         {
             _idleFrameCounter++;
             if (_idleFrameCounter == 0)
@@ -49,39 +81,21 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Input.IsActionJustPressed("jump"))
+            else if (Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
+                Jumped = false;
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            //Übergang in den Walking-Zustand, falls Eingabe erfolgt
-            else if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
+            else if (Mathf.IsEqualApprox(Direction, 0.0))
             {
                 CharacterSprite.Stop();
-                if (Input.IsActionPressed("walk_right"))
-                {
-                    CharacterSprite.FlipH = false;
-                    CharacterSprite.Play("Walking");
-                }
-                else
-                {
-                    CharacterSprite.FlipH = true;
-                    CharacterSprite.Play("Walking");
-                }
-
+                CharacterSprite.FlipH = Direction < 0;
+                CharacterSprite.Play("Walking");
+                Direction = 0;
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }
-            /*else if (_gettingHit)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.TakeingDamage);
-            }
-            else if (Healthpoints <= 0)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.Dead);
-            }*/
         }
     }
 }

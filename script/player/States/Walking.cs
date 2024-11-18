@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Util;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -7,31 +9,42 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Walking : State
     {
-        // private bool _gettingHit;
+        /// <summary>
+        /// True if the client just jumped
+        /// </summary>
+        [Export]
+        private bool Jumped { get; set; }
 
         /// <summary>
-        /// Updates player movement
+        /// Movement of the player
+        /// </summary>
+        [Export]
+        private float Direction { get; set; }
+
+        /// <summary>
+        /// Handles walking input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        public override void HandleInput(double delta)
         {
-            Vector2 velocity = Character.Velocity;
+            Direction = InputBlocker.GetAxis(Character, "walk_left", "walk_right");
 
-            float inputDirection = Input.GetAxis("walk_left", "walk_right");
-
-            if (Input.IsActionPressed("walk_right"))
+            if (InputBlocker.IsActionJustPressed(Character, "jump"))
             {
-                CharacterSprite.FlipH = false;
+                Jumped = true;
             }
-            else if (Input.IsActionPressed("walk_left"))
+        }
+
+        /// <summary>
+        /// Changes animations and states
+        /// </summary>
+        /// <param name="delta"></param>
+        public override void ChangeAnimationsAndStates(double delta)
+        {
+            if (!Mathf.IsEqualApprox(Direction, 0))
             {
-                CharacterSprite.FlipH = true;
+                CharacterSprite.FlipH = Direction < 0;
             }
-
-            velocity.X = inputDirection * Speed;
-
-            Character.Velocity = velocity;
-            _ = Character.MoveAndSlide();
 
             if (!Character.IsOnFloor())
             {
@@ -41,27 +54,31 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Input.IsActionJustPressed("jump"))
+            else if (Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
+                Jumped = false;
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            else if (Mathf.IsEqualApprox(inputDirection, 0.0))
+            else if (Mathf.IsEqualApprox(Direction, 0))
             {
                 CharacterSprite.Stop();
                 Character.StateMachine.TransitionTo(AvailableState.Idle);
             }
-            /*else if (_gettingHit)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.TakeingDamage);
-            }
-            else if (Healthpoints <= 0)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.Dead);
-            }*/
+        }
+
+        /// <summary>
+        /// Updates player movement
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
+        {
+            Vector2 velocity = Character.Velocity;
+            velocity.X = Direction * Speed;
+            Direction = 0.0f;
+            Character.Velocity = velocity;
+            _ = Character.MoveAndSlide();
         }
     }
 }

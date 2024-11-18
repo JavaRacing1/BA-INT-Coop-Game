@@ -38,18 +38,26 @@ namespace INTOnlineCoop.Script.Player
         }
 
         /// <summary>
-        /// Runs physic processes
+        /// Checks for input changes
         /// </summary>
-        /// <param name="delta">Current Frame-delta</param>
-        public virtual void PhysicProcess(double delta)
+        /// <param name="delta">Current frame delta</param>
+        public virtual void HandleInput(double delta)
         {
         }
 
         /// <summary>
-        /// Handles input event 
+        /// Handles the animations of a state
         /// </summary>
-        /// <param name="inputEvent">Input event</param>
-        public virtual void HandleInput(InputEvent inputEvent)
+        /// <param name="delta">Current frame delta</param>
+        public virtual void ChangeAnimationsAndStates(double delta)
+        {
+        }
+
+        /// <summary>
+        /// Runs physic processes
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public virtual void PhysicProcess(double delta)
         {
         }
     }
