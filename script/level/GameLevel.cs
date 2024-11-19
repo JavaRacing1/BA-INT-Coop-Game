@@ -16,7 +16,9 @@ namespace INTOnlineCoop.Script.Level
     public partial class GameLevel : Node2D
     {
         [Export] private LevelTileManager _tileManager;
+        [Export] private LevelCharacterManager _characterManager;
         [Export] private PlayerCamera _camera;
+        [Export] private Node2D _characterParent;
         [Export] private CanvasLayer _userInterfaceLayer;
         [Export] private ColorRect _bottomWaterRect;
 
@@ -25,11 +27,7 @@ namespace INTOnlineCoop.Script.Level
         /// <summary>
         /// Flag variable for blocking the game inputs
         /// </summary>
-        public static bool IsInputBlocked
-        {
-            get;
-            set;
-        }
+        public static bool IsInputBlocked { get; set; }
 
         /// <summary>
         /// Initializes the level instance
@@ -78,7 +76,7 @@ namespace INTOnlineCoop.Script.Level
             GD.Print($"Scaled Position: {scaledSpawnPosition}");
             PlayerCharacter character = GD.Load<PackedScene>("res://scene/player/PlayerCharacter.tscn")
                 .Instantiate<PlayerCharacter>();
-            character.Init(scaledSpawnPosition, characterType);
+            character.Init(scaledSpawnPosition, characterType, 1);
             AddChild(character);
         }
 
@@ -90,6 +88,12 @@ namespace INTOnlineCoop.Script.Level
             _tileManager?.InitTileMap(_terrainImage);
             _tileManager?.InitTileMap(_terrainImage);
             MultiplayerLobby.Instance.PlayerDisconnected += OnDisconnect;
+
+            Error error = MultiplayerLobby.Instance.RpcId(1, MultiplayerLobby.MethodName.PlayerLoaded);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Could not send PlayerLoaded RPC: " + error);
+            }
         }
 
         /// <summary>
@@ -98,6 +102,23 @@ namespace INTOnlineCoop.Script.Level
         public override void _ExitTree()
         {
             MultiplayerLobby.Instance.PlayerDisconnected -= OnDisconnect;
+        }
+
+        /// <summary>
+        /// Starts the game
+        /// </summary>
+        public void StartGame()
+        {
+            if (_characterParent == null || _characterManager == null)
+            {
+                return;
+            }
+
+            PlayerPositionGenerator positionGenerator = new();
+            positionGenerator.Init(_terrainImage, "", debugMode: true);
+            Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
+
+            _characterManager.SpawnCharacters(_characterParent, positionGenerator, tileSize);
         }
 
         /// <summary>

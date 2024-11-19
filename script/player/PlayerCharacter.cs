@@ -24,7 +24,7 @@ namespace INTOnlineCoop.Script.Player
         /// Peer ID of the controlling player
         /// </summary>
         [Export]
-        public int PeerId { get; private set; }
+        public long PeerId { get; private set; }
 
         /// <summary>
         /// True if the player is blocked from inputs
@@ -36,10 +36,11 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         /// <param name="position">Character position</param>
         /// <param name="type">Type of the character</param>
-        public void Init(Vector2 position, CharacterType type)
+        public void Init(Vector2 position, CharacterType type, long peerId)
         {
             Position = position;
             Type = type;
+            PeerId = peerId;
 
             if (_sprite == null || type.SpriteFrames == null)
             {

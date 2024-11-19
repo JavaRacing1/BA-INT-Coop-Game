@@ -26,6 +26,8 @@ namespace INTOnlineCoop.Script.Singleton
         private readonly Dictionary<long, PlayerData> _playerData = new();
         private readonly SortedSet<int> _freePlayerNumbers = new() { 1, 2 };
 
+        private int _playersLoaded;
+
         /// <summary>
         /// Current MultiplayerLobby instance
         /// </summary>
@@ -209,13 +211,32 @@ namespace INTOnlineCoop.Script.Singleton
         }
 
         /// <summary>
-        /// Returns an immutable set of PlayerData
+        /// Returns an immutable set of all PlayerData
         /// </summary>
         /// <returns>Immutable sorted set with PlayerData</returns>
         public ImmutableSortedSet<PlayerData> GetPlayerData()
         {
             return _playerData.Values.ToImmutableSortedSet(Comparer<PlayerData>
                 .Create((p1, p2) => p1.PlayerNumber - p2.PlayerNumber));
+        }
+
+        /// <summary>
+        /// Returns the data of a player
+        /// </summary>
+        /// <param name="playerNumber">Peer ID of the player</param>
+        /// <returns>PlayerData; null if the PeerID does not exist</returns>
+        public PlayerData GetPlayerData(long playerNumber)
+        {
+            return _playerData.GetValueOrDefault(playerNumber, null);
+        }
+
+        /// <summary>
+        /// Returns all registered peer ids
+        /// </summary>
+        /// <returns>Set containing peer ids</returns>
+        public ImmutableSortedSet<long> GetPeerIds()
+        {
+            return _playerData.Keys.ToImmutableSortedSet();
         }
 
         /// <summary>
@@ -368,6 +389,7 @@ namespace INTOnlineCoop.Script.Singleton
                 GD.Print($"{Multiplayer.GetUniqueId()}: Received PlayerDisconnected on server");
                 if (_freePlayerNumbers.Count == MaxPlayers)
                 {
+                    _playersLoaded = 0;
                     _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
                 }
             }
@@ -479,12 +501,6 @@ namespace INTOnlineCoop.Script.Singleton
             {
                 GD.PrintErr("Failed to send SendLevelToClient RPC: " + error);
             }
-
-            GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
-            level.Init(image);
-            GetTree().Root.AddChild(level, true);
-            GetTree().CurrentScene = level;
-            GetNode("/root/MainMenu").QueueFree();
         }
 
         /// <summary>
@@ -496,16 +512,38 @@ namespace INTOnlineCoop.Script.Singleton
         [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         private void SendLevelToClient(int width, int height, byte[] levelImageData)
         {
+            Image levelImage = Image.CreateFromData(width, height, false, Image.Format.Rgba8, levelImageData);
             if (Multiplayer.IsServer())
             {
+                GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
+                level.Init(levelImage);
+                GetTree().Root.AddChild(level, true);
+                GetTree().CurrentScene = level;
+                GetNode("/root/MainMenu").QueueFree();
                 return;
             }
 
-            Image levelImage = Image.CreateFromData(width, height, false, Image.Format.Rgba8, levelImageData);
             Error error = EmitSignal(SignalName.LevelDataReceived, levelImage);
             if (error != Error.Ok)
             {
                 GD.PrintErr("Failed to send LevelDataReceived signal: " + error);
+            }
+        }
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true,
+            TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void PlayerLoaded()
+        {
+            if (!Multiplayer.IsServer() || Multiplayer.GetRemoteSenderId() == 1)
+            {
+                return;
+            }
+
+            _playersLoaded++;
+            if (_playersLoaded == _playerData.Count)
+            {
+                GameLevel gameLevel = GetNode<GameLevel>("/root/GameLevel");
+                gameLevel.StartGame();
             }
         }
     }

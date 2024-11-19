@@ -33,6 +33,8 @@ texture_filter = 4
 use_parent_material = true
 tile_set = ExtResource("3_g3n4h")
 
+[node name="Characters" type="Node2D" parent="."]
+
 [node name="UserInterfaceLayer" type="CanvasLayer" parent="."]
 layer = 2
 
@@ -41,3 +43,8 @@ material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
 offset_bottom = 360.0
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
+spawn_path = NodePath("../Characters")
+spawn_limit = 8
