@@ -1,6 +1,6 @@
 using Godot;
 
-using INTOnlineCoop.Script.Util;
+using INTOnlineCoop.Script.Level;
 
 namespace INTOnlineCoop.Script.Player.States
 {
@@ -27,9 +27,14 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            Direction = InputBlocker.GetAxis(Character, "walk_left", "walk_right");
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
+            {
+                return;
+            }
 
-            if (InputBlocker.IsActionJustPressed(Character, "jump"))
+            Direction = Input.GetAxis("walk_left", "walk_right");
+
+            if (Input.IsActionJustPressed("jump"))
             {
                 Jumped = true;
             }

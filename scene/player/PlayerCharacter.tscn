@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://buofo08bpqit7"]
+[gd_scene load_steps=13 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
 [ext_resource type="SpriteFrames" uid="uid://w8wxaimre167" path="res://assets/texture/figures/zero/spriteSheet.res" id="2_ad60y"]
@@ -13,26 +13,42 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 size = Vector2(16, 30)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rcucl"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:PeerId")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gdvl3"]
 properties/0/path = NodePath("StateMachine/Idle:Jumped")
 properties/0/spawn = false
-properties/0/replication_mode = 2
+properties/0/replication_mode = 1
 properties/1/path = NodePath("StateMachine/Idle:Direction")
 properties/1/spawn = false
-properties/1/replication_mode = 2
+properties/1/replication_mode = 1
 properties/2/path = NodePath("StateMachine/Walking:Jumped")
 properties/2/spawn = false
-properties/2/replication_mode = 2
+properties/2/replication_mode = 1
 properties/3/path = NodePath("StateMachine/Walking:Direction")
 properties/3/spawn = false
-properties/3/replication_mode = 2
+properties/3/replication_mode = 1
+properties/4/path = NodePath("StateMachine/Falling:Direction")
+properties/4/spawn = false
+properties/4/replication_mode = 1
+properties/5/path = NodePath("StateMachine/Jumping:Jumped")
+properties/5/spawn = false
+properties/5/replication_mode = 1
+properties/6/path = NodePath("StateMachine/Jumping:Direction")
+properties/6/spawn = false
+properties/6/replication_mode = 1
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
 _sprite = NodePath("CharacterSprite")
-StateMachine = NodePath("")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_ad60y")
@@ -53,6 +69,9 @@ metadata/_aseprite_wizard_interface_config_ = {
 [node name="CharacterCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_5aihb")
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rcucl")
 
 [node name="StateMachine" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_gdvl3")

@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -10,42 +12,56 @@ namespace INTOnlineCoop.Script.Player.States
         private const float JumpVelocity = 170f;
 
         /// <summary>
+        /// True if the client just jumped
+        /// </summary>
+        [Export]
+        private bool Jumped { get; set; }
+
+        /// <summary>
+        /// Movement of the player
+        /// </summary>
+        [Export]
+        private float Direction { get; set; }
+
+        /// <summary>
         /// Apply jump impulse on enter
         /// </summary>
         public override void Enter()
         {
             base.Enter();
-            Vector2 velocity = Character.Velocity;
-            velocity.Y = -JumpVelocity;
-            Character.Velocity = velocity;
+            Jumped = true;
         }
 
         /// <summary>
-        /// Updates player movement
+        /// Handles jumping input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        public override void HandleInput(double delta)
         {
-            ChangeJumpingAnimation();
-
-            Vector2 velocity = Character.Velocity;
-
-            float inputDirection = Input.GetAxis("walk_left", "walk_right");
-
-            if (Input.IsActionPressed("walk_right"))
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
             {
-                CharacterSprite.FlipH = false;
-            }
-            else if (Input.IsActionPressed("walk_left"))
-            {
-                CharacterSprite.FlipH = true;
+                return;
             }
 
-            velocity.X = inputDirection * Speed;
-            velocity.Y += Gravity * (float)delta;
+            Direction = Input.GetAxis("walk_left", "walk_right");
+        }
 
-            Character.Velocity = velocity;
-            _ = Character.MoveAndSlide();
+        /// <summary>
+        /// Changes jumping animations
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void ChangeAnimationsAndStates(double delta)
+        {
+            if ((CharacterSprite.Animation == "JumpingOffGround") && (CharacterSprite.Frame == 6))
+            {
+                //JumpingOffGroundAnimation ist zu Ende -> wechsel auf InAir Animation
+                CharacterSprite.Play("InAir");
+            }
+
+            if (!Mathf.IsEqualApprox(Direction, 0))
+            {
+                CharacterSprite.FlipH = Direction < 0;
+            }
 
             if (Character.Velocity.Y > 0)
             {
@@ -54,17 +70,23 @@ namespace INTOnlineCoop.Script.Player.States
         }
 
         /// <summary>
-        /// If-statement checks, if current animation is still "JumpingOffGround".
-        /// Animation is set during state change from Idle to Jumping or Walking to Jumping
-        /// "InAir" Animation will set when condition is triggerd
+        /// Updates player movement
         /// </summary>
-        private void ChangeJumpingAnimation()
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
         {
-            if ((CharacterSprite.Animation == "JumpingOffGround") && (CharacterSprite.Frame == 6))
+            Vector2 velocity = Character.Velocity;
+            if (Jumped)
             {
-                //JumpingOffGroundAnimation ist zu Ende -> wechsel auf InAir Animation
-                CharacterSprite.Play("InAir");
+                velocity.Y = -JumpVelocity;
             }
+
+            Jumped = false;
+            velocity.X = Direction * Speed;
+            velocity.Y += Gravity * (float)delta;
+            Character.Velocity = velocity;
+
+            _ = Character.MoveAndSlide();
         }
     }
 }

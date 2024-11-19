@@ -1,6 +1,6 @@
 using Godot;
 
-using INTOnlineCoop.Script.Util;
+using INTOnlineCoop.Script.Level;
 
 namespace INTOnlineCoop.Script.Player.States
 {
@@ -42,13 +42,18 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            if (InputBlocker.IsActionJustPressed(Character, "jump"))
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
+            {
+                return;
+            }
+
+            if (Input.IsActionJustPressed("jump"))
             {
                 Jumped = true;
             }
             else
             {
-                Direction = InputBlocker.GetAxis(Character, "walk_left", "walk_right");
+                Direction = Input.GetAxis("walk_left", "walk_right");
             }
         }
 
@@ -88,7 +93,7 @@ namespace INTOnlineCoop.Script.Player.States
                 Jumped = false;
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            else if (Mathf.IsEqualApprox(Direction, 0.0))
+            else if (!Mathf.IsEqualApprox(Direction, 0.0))
             {
                 CharacterSprite.Stop();
                 CharacterSprite.FlipH = Direction < 0;

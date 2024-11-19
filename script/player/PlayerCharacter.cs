@@ -21,6 +21,12 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type { get; private set; }
 
         /// <summary>
+        /// Peer ID of the controlling player
+        /// </summary>
+        [Export]
+        public int PeerId { get; private set; }
+
+        /// <summary>
         /// True if the player is blocked from inputs
         /// </summary>
         public bool IsBlocked { get; set; }

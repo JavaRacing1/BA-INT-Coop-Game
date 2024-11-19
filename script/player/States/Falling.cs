@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -8,49 +10,30 @@ namespace INTOnlineCoop.Script.Player.States
     public partial class Falling : State
     {
         /// <summary>
-        /// Updates player movement
+        /// Movement of the player
         /// </summary>
-        /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        [Export]
+        private float Direction { get; set; }
+
+        /// <summary>
+        /// Handles falling input
+        /// </summary>
+        /// <param name="delta"></param>
+        public override void HandleInput(double delta)
         {
-            ChangeFallingAnimation();
-
-            Vector2 velocity = Character.Velocity;
-
-            float inputDirection = Input.GetAxis("walk_left", "walk_right");
-
-            if (Input.IsActionPressed("walk_right"))
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
             {
-                CharacterSprite.FlipH = false;
-            }
-            else if (Input.IsActionPressed("walk_left"))
-            {
-                CharacterSprite.FlipH = true;
+                return;
             }
 
-            velocity.X = inputDirection * Speed;
-            velocity.Y += Gravity * (float)delta;
-
-            Character.Velocity = velocity;
-            _ = Character.MoveAndSlide();
-
-            if (Character.IsOnFloor())
-            {
-                if ((CharacterSprite.Animation == "LandingOnGround") && (CharacterSprite.Frame == 2))
-                {
-                    Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(inputDirection, 0.0)
-                        ? AvailableState.Idle
-                        : AvailableState.Walking);
-                }
-            }
+            Direction = Input.GetAxis("walk_left", "walk_right");
         }
 
         /// <summary>
-        /// If-statement checks, if current animation is still "InAir".
-        /// Animation is set during state change from Idle to Falling or Walking to Falling
-        /// "InAir" Animation will loop until condition is triggerd
+        /// Changes falling animations + states
         /// </summary>
-        private void ChangeFallingAnimation()
+        /// <param name="delta"></param>
+        public override void ChangeAnimationsAndStates(double delta)
         {
             if ((CharacterSprite.Animation == "InAir") && Character.IsOnFloor())
             {
@@ -59,6 +42,38 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Stop();
                 CharacterSprite.Play("LandingOnGround");
             }
+
+            if (!Mathf.IsEqualApprox(Direction, 0))
+            {
+                CharacterSprite.FlipH = Direction < 0;
+            }
+
+            if (!Character.IsOnFloor())
+            {
+                return;
+            }
+
+            if ((CharacterSprite.Animation == "LandingOnGround") && (CharacterSprite.Frame == 2))
+            {
+                Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(Direction, 0.0)
+                    ? AvailableState.Idle
+                    : AvailableState.Walking);
+            }
+        }
+
+        /// <summary>
+        /// Updates player movement
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
+        {
+            Vector2 velocity = Character.Velocity;
+
+            velocity.X = Direction * Speed;
+            velocity.Y += Gravity * (float)delta;
+            Direction = 0;
+            Character.Velocity = velocity;
+            _ = Character.MoveAndSlide();
         }
     }
 }
