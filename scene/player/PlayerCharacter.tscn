@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
 [ext_resource type="SpriteFrames" uid="uid://w8wxaimre167" path="res://assets/texture/figures/zero/spriteSheet.res" id="2_ad60y"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
-[ext_resource type="Script" path="res://script/player/states/Idle.cs" id="3_idfjx"]
-[ext_resource type="Script" path="res://script/player/states/Falling.cs" id="4_wuv2g"]
-[ext_resource type="Script" path="res://script/player/states/Walking.cs" id="5_oo4e5"]
-[ext_resource type="Script" path="res://script/player/states/Jumping.cs" id="6_st2wn"]
-[ext_resource type="Script" path="res://script/player/states/TakingDamage.cs" id="8_favfb"]
-[ext_resource type="Script" path="res://script/player/states/Dead.cs" id="9_m8cti"]
+[ext_resource type="Script" path="res://script/player/state/Idle.cs" id="4_m11px"]
+[ext_resource type="Script" path="res://script/player/state/Falling.cs" id="5_yk43w"]
+[ext_resource type="Script" path="res://script/player/state/Walking.cs" id="6_ghi6c"]
+[ext_resource type="Script" path="res://script/player/state/Jumping.cs" id="7_k2ptf"]
+[ext_resource type="Script" path="res://script/player/state/TakingDamage.cs" id="8_rhafw"]
+[ext_resource type="Script" path="res://script/player/state/Dead.cs" id="9_o70kj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 size = Vector2(16, 30)
@@ -44,31 +44,31 @@ shape = SubResource("RectangleShape2D_5aihb")
 script = ExtResource("3_68vnu")
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("3_idfjx")
+script = ExtResource("4_m11px")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
 [node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("4_wuv2g")
+script = ExtResource("5_yk43w")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
 [node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("5_oo4e5")
+script = ExtResource("6_ghi6c")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
 [node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("6_st2wn")
+script = ExtResource("7_k2ptf")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
 [node name="TakingDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("8_favfb")
+script = ExtResource("8_rhafw")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 
 [node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
-script = ExtResource("9_m8cti")
+script = ExtResource("9_o70kj")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
