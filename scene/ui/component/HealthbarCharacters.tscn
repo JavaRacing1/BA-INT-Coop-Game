@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bet0m53b4cbiq"]
+
+[ext_resource type="Script" path="res://script/ui/component/HealthbarCharacters.cs" id="1_srxiw"]
+[ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_kkjik"]
+
+[node name="HealthbarCharacters" type="Node" node_paths=PackedStringArray("_playerNumber", "_healthPoints")]
+script = ExtResource("1_srxiw")
+_playerNumber = NodePath("TextureRect/GridContainer/PlayerNumber")
+_healthPoints = NodePath("TextureRect/GridContainer/Healthpoints")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GridContainer" type="HBoxContainer" parent="TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerNumber" type="Label" parent="TextureRect/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kkjik")
+theme_override_font_sizes/font_size = 15
+text = "PL1"
+
+[node name="Healthpoints" type="Label" parent="TextureRect/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kkjik")
+theme_override_font_sizes/font_size = 15

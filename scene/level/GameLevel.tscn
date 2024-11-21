@@ -1,10 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=26 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
 [ext_resource type="Script" path="res://script/level/tile/LevelTileManager.cs" id="2_l7ks5"]
 [ext_resource type="TileSet" uid="uid://m5d5tod6nelb" path="res://resource/tileset/TestTileSet.tres" id="3_g3n4h"]
+[ext_resource type="Script" path="res://script/level/UIElements.cs" id="5_f3so1"]
+[ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="5_upmi1"]
 [ext_resource type="Shader" path="res://resource/shader/BottomWater.gdshader" id="7_6fdox"]
+[ext_resource type="Texture2D" uid="uid://ondk6i3fqub8" path="res://assets/texture/PlayerDead.png" id="7_oq8g1"]
+[ext_resource type="Texture2D" uid="uid://8bwckspxtstw" path="res://assets/texture/button/weapons/BazzokaNormal.png" id="8_kwbqy"]
+[ext_resource type="Texture2D" uid="uid://dy7wnaeh7r2ea" path="res://assets/texture/button/weapons/BazzokaPressed.png" id="9_0lkg7"]
+[ext_resource type="Texture2D" uid="uid://cnwqao0v0ddj5" path="res://assets/texture/button/weapons/PistolNormal.png" id="9_sq5tk"]
+[ext_resource type="Texture2D" uid="uid://crx75i1e2hyxr" path="res://assets/texture/button/weapons/BazzokaHoverd.png" id="10_4n4dx"]
+[ext_resource type="Texture2D" uid="uid://bx3yidpms8dvf" path="res://assets/texture/button/weapons/SchrotflinteNormal.png" id="10_txkbf"]
+[ext_resource type="Texture2D" uid="uid://dahaeeremmjxn" path="res://assets/texture/button/weapons/SniperNormal.png" id="11_i7h4u"]
+[ext_resource type="Texture2D" uid="uid://ckngpn7nb0pve" path="res://assets/texture/button/weapons/BazzokaDisabeld.png" id="11_srw63"]
+[ext_resource type="Texture2D" uid="uid://cwg6ajqaf0p4n" path="res://assets/texture/button/weapons/PistolPressed.png" id="13_mnii5"]
+[ext_resource type="Texture2D" uid="uid://c5fdmbdpuvvef" path="res://assets/texture/button/weapons/PistolHoverd.png" id="14_bxod5"]
+[ext_resource type="Texture2D" uid="uid://b1s0drvx7vm65" path="res://assets/texture/button/weapons/PistolDisabled.png" id="15_n8i5y"]
+[ext_resource type="Texture2D" uid="uid://di775ctni24pd" path="res://assets/texture/button/weapons/ShotgunPressed.png" id="17_qkipk"]
+[ext_resource type="Texture2D" uid="uid://bsr4xhv2e1swo" path="res://assets/texture/button/weapons/ShotgunDisabled.png" id="17_tax4o"]
+[ext_resource type="Texture2D" uid="uid://4shri5ap1ixp" path="res://assets/texture/button/weapons/ShotgunHoverd.png" id="18_if113"]
+[ext_resource type="Texture2D" uid="uid://bqksn7c6dsh2j" path="res://assets/texture/button/weapons/SniperDisabled.png" id="19_7y1v3"]
+[ext_resource type="Texture2D" uid="uid://b35e1neqjtmy8" path="res://assets/texture/button/weapons/SniperPressed.png" id="21_7b1b2"]
+[ext_resource type="Texture2D" uid="uid://b6ay2snm5gvth" path="res://assets/texture/button/weapons/SniperHoverd.png" id="22_ctkvd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3cewb"]
 shader = ExtResource("7_6fdox")
@@ -12,12 +31,11 @@ shader_parameter/WAVE_THRESHOLD = 50.0
 shader_parameter/SPEED = 3.0
 shader_parameter/WAVE_INTERVAL = 100.0
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera", "_userInterfaceLayer", "_bottomWaterRect")]
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_camera", "_userInterfaceLayer")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 _camera = NodePath("PlayerCamera")
 _userInterfaceLayer = NodePath("UserInterfaceLayer")
-_bottomWaterRect = NodePath("BottomWater")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -33,11 +51,158 @@ texture_filter = 4
 use_parent_material = true
 tile_set = ExtResource("3_g3n4h")
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="."]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_spritesPlayer1", "_spritesPlayer2", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
+script = ExtResource("5_f3so1")
+_timer = NodePath("RoundTimer")
+_labelLeftTime = NodePath("TimeLeft")
+_labelTime = NodePath("TimeLabel")
+_spritesPlayer1 = [NodePath("FigureA1"), NodePath("FigureA2"), NodePath("FigureA3"), NodePath("FigureA4")]
+_spritesPlayer2 = [NodePath("FigureB1"), NodePath("FigureB2"), NodePath("FigureB3"), NodePath("FigureB4")]
+_textureButtonBazzoka = NodePath("BazzokaButton")
+_textureButtonPistol = NodePath("PistolButton")
+_textureButtonShotgun = NodePath("ShotgunButton")
+_textureButtonSniper = NodePath("SniperButton")
+
+[node name="RoundTimer" type="Timer" parent="UserInterfaceLayer"]
+
+[node name="TimeLabel" type="Label" parent="UserInterfaceLayer"]
+offset_left = 10.0
+offset_top = 2.0
+offset_right = 58.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 20
+text = "TIME:"
+
+[node name="PlayerANumber" type="Label" parent="UserInterfaceLayer"]
+offset_left = 380.0
+offset_top = 5.0
+offset_right = 493.0
+offset_bottom = 30.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 25
+text = "Player 1:"
+horizontal_alignment = 2
+
+[node name="TimeLeft" type="Label" parent="UserInterfaceLayer"]
+offset_left = 65.0
+offset_top = 2.0
+offset_right = 119.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 20
+text = "59'59"
+
+[node name="FigureA1" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(515, 15)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureA2" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(550, 15)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureA3" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(585, 15)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureA4" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(620, 15)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="BazzokaButton" type="TextureButton" parent="UserInterfaceLayer"]
+offset_left = 200.0
+offset_top = 310.0
+offset_right = 280.0
+offset_bottom = 390.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("8_kwbqy")
+texture_pressed = ExtResource("9_0lkg7")
+texture_hover = ExtResource("10_4n4dx")
+texture_disabled = ExtResource("11_srw63")
+stretch_mode = 0
+
+[node name="PistolButton" type="TextureButton" parent="UserInterfaceLayer"]
+offset_left = 275.0
+offset_top = 310.0
+offset_right = 355.0
+offset_bottom = 390.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("9_sq5tk")
+texture_pressed = ExtResource("13_mnii5")
+texture_hover = ExtResource("14_bxod5")
+texture_disabled = ExtResource("15_n8i5y")
+stretch_mode = 0
+
+[node name="ShotgunButton" type="TextureButton" parent="UserInterfaceLayer"]
+offset_left = 350.0
+offset_top = 310.0
+offset_right = 430.0
+offset_bottom = 390.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("10_txkbf")
+texture_pressed = ExtResource("17_qkipk")
+texture_hover = ExtResource("18_if113")
+texture_disabled = ExtResource("17_tax4o")
+stretch_mode = 0
+
+[node name="SniperButton" type="TextureButton" parent="UserInterfaceLayer"]
+offset_left = 425.0
+offset_top = 310.0
+offset_right = 505.0
+offset_bottom = 390.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("11_i7h4u")
+texture_pressed = ExtResource("21_7b1b2")
+texture_hover = ExtResource("22_ctkvd")
+texture_disabled = ExtResource("19_7y1v3")
+stretch_mode = 0
+
+[node name="PlayerBNumber" type="Label" parent="UserInterfaceLayer"]
+offset_left = 380.0
+offset_top = 40.0
+offset_right = 493.0
+offset_bottom = 65.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 25
+text = "Player 2:"
+horizontal_alignment = 2
+
+[node name="FigureB1" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(515, 50)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureB2" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(550, 50)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureB3" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(585, 50)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
+
+[node name="FigureB4" type="Sprite2D" parent="UserInterfaceLayer"]
+position = Vector2(620, 50)
+scale = Vector2(2, 2)
+texture = ExtResource("7_oq8g1")
 
 [node name="BottomWater" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
 offset_bottom = 360.0
+
+[connection signal="pressed" from="UserInterfaceLayer/BazzokaButton" to="." method="OnBazzokaButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/PistolButton" to="." method="OnPistolButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/SniperButton" to="." method="OnSniperButtonPressed"]

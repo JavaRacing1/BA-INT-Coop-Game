@@ -13,11 +13,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 size = Vector2(16, 30)
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
-_sprite = NodePath("CharacterSprite")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
