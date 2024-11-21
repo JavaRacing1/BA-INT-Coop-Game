@@ -8,7 +8,7 @@ namespace INTOnlineCoop.Script.UI.Screen
     /// Darstellung verschiedener Spielbeschreibungstexte und -bilder.
     /// Für jede Szene, die beschrieben werden soll, neuen Texteintrag in Array anlegen.
     /// Bilder in das Verzeichnis assets/texture/tutorial/ mit den Namen "Page(i)" anlegen (also Page1, Page2, ...).
-    /// Bilderanzahl und StringArray Abschnitte müssen gleich sein, sonst wird Fehlermeldung in COnsole erzeugt.
+    /// Bilderanzahl und StringArray Abschnitte müssen gleich sein, sonst wird Fehlermeldung in Console erzeugt.
     /// Bitte Text nach Länge und Fontgröße den Bilder anpassen!
     /// </summary>
     public partial class GameTutorial : Control
@@ -17,14 +17,14 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private readonly string[] _tutorialText =
         {
-            "Willkommen beim BA INT-Game!\nDiese kleine Einführung soll dem Spieler die grundlegenden Prinzipien, Inhalte und Ziele des Spiels vermitteln.",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            "Willkommen beim PixelSmashers!\nDiese Einführung wird dir die Grundlagen des Spiels erklären.",
+            "Wähle vor dem Spielstart 4 Figuren für dein Team in der Figuren-\nauswahl aus!",
+            "Im Sandbox-Modus kannst du die Fähigkeiten eines Charakters testen.",
+            "Die Online-Verbindung funktioniert folgendermaßen:",
+            "Bewege deine Spielfigur mit A, D und LEERTASTE, wenn du am Zug bist.",
+            "Eröffne das Feuer durch Zielen und Klicken mit dem Mauszeiger.",
+            "Versuche, alle deine Feinde auszuschalten und gewinne das Spiel!",
+            "Wenn der Timer abläuft ist das Spiel zu Ende, gewonnen hat der mit den meisten verbliebenen Einheiten.",
             ""
         };
 
