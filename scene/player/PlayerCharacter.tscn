@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
-[ext_resource type="SpriteFrames" uid="uid://w8wxaimre167" path="res://assets/texture/figures/zero/spriteSheet.res" id="2_ad60y"]
+[ext_resource type="SpriteFrames" uid="uid://bypvanrplbd8v" path="res://assets/sprites/game_figure/zero/sprite.res" id="2_ad60y"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/state/Idle.cs" id="4_m11px"]
 [ext_resource type="Script" path="res://script/player/state/Falling.cs" id="5_yk43w"]

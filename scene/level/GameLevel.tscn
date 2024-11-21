@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=27 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bqksn7c6dsh2j" path="res://assets/texture/button/weapons/SniperDisabled.png" id="19_7y1v3"]
 [ext_resource type="Texture2D" uid="uid://b35e1neqjtmy8" path="res://assets/texture/button/weapons/SniperPressed.png" id="21_7b1b2"]
 [ext_resource type="Texture2D" uid="uid://b6ay2snm5gvth" path="res://assets/texture/button/weapons/SniperHoverd.png" id="22_ctkvd"]
+[ext_resource type="Texture2D" uid="uid://b7h66j48601xa" path="res://assets/texture/level/BackgroundLayer.jpg" id="24_k8bir"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3cewb"]
 shader = ExtResource("7_6fdox")
@@ -195,6 +196,12 @@ texture = ExtResource("7_oq8g1")
 position = Vector2(620, 50)
 scale = Vector2(2, 2)
 texture = ExtResource("7_oq8g1")
+
+[node name="TextureRect" type="TextureRect" parent="UserInterfaceLayer"]
+z_index = -1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("24_k8bir")
 
 [node name="BottomWater" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_3cewb")
