@@ -14,6 +14,7 @@ config/name="INT-Online-Game"
 run/main_scene="res://scene/ui/screen/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+config/windows_native_icon="res://assets/texture/ExecuteIcon.png"
 
 [autoload]
 
