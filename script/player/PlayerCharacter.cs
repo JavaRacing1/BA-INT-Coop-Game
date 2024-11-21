@@ -37,7 +37,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>
         /// True if the player is blocked from inputs
         /// </summary>
-        public bool IsBlocked { get; set; }
+        [Export] public bool IsBlocked;
 
         [Export] private string _type;
         private long _peerId;
