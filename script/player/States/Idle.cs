@@ -9,18 +9,6 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Idle : State
     {
-        /// <summary>
-        /// True if the client just jumped
-        /// </summary>
-        [Export]
-        private bool Jumped { get; set; }
-
-        /// <summary>
-        /// Movement of the player
-        /// </summary>
-        [Export]
-        private float Direction { get; set; }
-
         // private bool _gettingHit;
         private int _idleFrameCounter;
 
@@ -32,8 +20,8 @@ namespace INTOnlineCoop.Script.Player.States
             base.Enter();
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
-            Jumped = false;
-            Direction = 0;
+            StateMachine.Jumped = false;
+            StateMachine.Direction = 0;
         }
 
         /// <summary>
@@ -47,14 +35,9 @@ namespace INTOnlineCoop.Script.Player.States
                 return;
             }
 
-            if (Input.IsActionJustPressed("jump"))
-            {
-                Jumped = true;
-            }
-            else
-            {
-                Direction = Input.GetAxis("walk_left", "walk_right");
-            }
+            StateMachine.Jumped = Input.IsActionJustPressed("jump");
+
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
         }
 
         /// <summary>
@@ -86,19 +69,17 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Jumped)
+            else if (StateMachine.Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
-                Jumped = false;
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            else if (!Mathf.IsEqualApprox(Direction, 0.0))
+            else if (!Mathf.IsEqualApprox(StateMachine.Direction, 0.0))
             {
                 CharacterSprite.Stop();
-                CharacterSprite.FlipH = Direction < 0;
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
                 CharacterSprite.Play("Walking");
-                Direction = 0;
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }
         }

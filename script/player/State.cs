@@ -30,11 +30,17 @@ namespace INTOnlineCoop.Script.Player
         protected AnimatedSprite2D CharacterSprite { get; private set; }
 
         /// <summary>
+        /// State Machine instance
+        /// </summary>
+        [Export]
+        protected StateMachine StateMachine { get; private set; }
+
+        /// <summary>
         /// Enters the state
         /// </summary>
         public virtual void Enter()
         {
-            GD.Print($"Entering {Name} state");
+            GD.Print($"{Multiplayer.GetUniqueId()}: Entering {Name} state");
         }
 
         /// <summary>

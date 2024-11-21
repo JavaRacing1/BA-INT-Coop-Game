@@ -23,29 +23,17 @@ properties/1/replication_mode = 0
 properties/2/path = NodePath(".:_type")
 properties/2/spawn = true
 properties/2/replication_mode = 0
+properties/3/path = NodePath(".:velocity")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gdvl3"]
-properties/0/path = NodePath("StateMachine/Idle:Jumped")
+properties/0/path = NodePath("StateMachine:Jumped")
 properties/0/spawn = false
-properties/0/replication_mode = 1
-properties/1/path = NodePath("StateMachine/Idle:Direction")
+properties/0/replication_mode = 2
+properties/1/path = NodePath("StateMachine:Direction")
 properties/1/spawn = false
-properties/1/replication_mode = 1
-properties/2/path = NodePath("StateMachine/Walking:Jumped")
-properties/2/spawn = false
-properties/2/replication_mode = 1
-properties/3/path = NodePath("StateMachine/Walking:Direction")
-properties/3/spawn = false
-properties/3/replication_mode = 1
-properties/4/path = NodePath("StateMachine/Falling:Direction")
-properties/4/spawn = false
-properties/4/replication_mode = 1
-properties/5/path = NodePath("StateMachine/Jumping:Jumped")
-properties/5/spawn = false
-properties/5/replication_mode = 1
-properties/6/path = NodePath("StateMachine/Jumping:Direction")
-properties/6/spawn = false
-properties/6/replication_mode = 1
+properties/1/replication_mode = 2
 
 [node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
 collision_layer = 2
@@ -81,32 +69,38 @@ replication_config = SubResource("SceneReplicationConfig_rcucl")
 replication_config = SubResource("SceneReplicationConfig_gdvl3")
 script = ExtResource("3_68vnu")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("3_idfjx")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("4_wuv2g")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("5_oo4e5")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("6_st2wn")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="TakingDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="TakingDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("8_favfb")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite")]
+[node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
 script = ExtResource("9_m8cti")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")

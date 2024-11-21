@@ -12,27 +12,6 @@ namespace INTOnlineCoop.Script.Player.States
         private const float JumpVelocity = 170f;
 
         /// <summary>
-        /// True if the client just jumped
-        /// </summary>
-        [Export]
-        private bool Jumped { get; set; }
-
-        /// <summary>
-        /// Movement of the player
-        /// </summary>
-        [Export]
-        private float Direction { get; set; }
-
-        /// <summary>
-        /// Apply jump impulse on enter
-        /// </summary>
-        public override void Enter()
-        {
-            base.Enter();
-            Jumped = true;
-        }
-
-        /// <summary>
         /// Handles jumping input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
@@ -43,7 +22,7 @@ namespace INTOnlineCoop.Script.Player.States
                 return;
             }
 
-            Direction = Input.GetAxis("walk_left", "walk_right");
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
         }
 
         /// <summary>
@@ -58,9 +37,9 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
             }
 
-            if (!Mathf.IsEqualApprox(Direction, 0))
+            if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
-                CharacterSprite.FlipH = Direction < 0;
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
             }
 
             if (Character.Velocity.Y > 0)
@@ -76,13 +55,13 @@ namespace INTOnlineCoop.Script.Player.States
         public override void PhysicProcess(double delta)
         {
             Vector2 velocity = Character.Velocity;
-            if (Jumped)
+            if (StateMachine.Jumped)
             {
                 velocity.Y = -JumpVelocity;
+                StateMachine.Jumped = false;
             }
 
-            Jumped = false;
-            velocity.X = Direction * Speed;
+            velocity.X = StateMachine.Direction * Speed;
             velocity.Y += Gravity * (float)delta;
             Character.Velocity = velocity;
 

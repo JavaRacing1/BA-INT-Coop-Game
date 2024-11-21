@@ -10,18 +10,6 @@ namespace INTOnlineCoop.Script.Player.States
     public partial class Walking : State
     {
         /// <summary>
-        /// True if the client just jumped
-        /// </summary>
-        [Export]
-        private bool Jumped { get; set; }
-
-        /// <summary>
-        /// Movement of the player
-        /// </summary>
-        [Export]
-        private float Direction { get; set; }
-
-        /// <summary>
         /// Handles walking input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
@@ -32,12 +20,9 @@ namespace INTOnlineCoop.Script.Player.States
                 return;
             }
 
-            Direction = Input.GetAxis("walk_left", "walk_right");
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
 
-            if (Input.IsActionJustPressed("jump"))
-            {
-                Jumped = true;
-            }
+            StateMachine.Jumped = Input.IsActionJustPressed("jump");
         }
 
         /// <summary>
@@ -46,9 +31,9 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta"></param>
         public override void ChangeAnimationsAndStates(double delta)
         {
-            if (!Mathf.IsEqualApprox(Direction, 0))
+            if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
-                CharacterSprite.FlipH = Direction < 0;
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
             }
 
             if (!Character.IsOnFloor())
@@ -59,14 +44,13 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Jumped)
+            else if (StateMachine.Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
-                Jumped = false;
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            else if (Mathf.IsEqualApprox(Direction, 0))
+            else if (Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
                 CharacterSprite.Stop();
                 Character.StateMachine.TransitionTo(AvailableState.Idle);
@@ -80,8 +64,7 @@ namespace INTOnlineCoop.Script.Player.States
         public override void PhysicProcess(double delta)
         {
             Vector2 velocity = Character.Velocity;
-            velocity.X = Direction * Speed;
-            Direction = 0.0f;
+            velocity.X = StateMachine.Direction * Speed;
             Character.Velocity = velocity;
             _ = Character.MoveAndSlide();
         }

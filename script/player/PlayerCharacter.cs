@@ -24,15 +24,23 @@ namespace INTOnlineCoop.Script.Player
         /// Peer ID of the controlling player
         /// </summary>
         [Export]
-        public long PeerId { get; private set; }
+        public long PeerId
+        {
+            get => _peerId;
+            private set
+            {
+                _peerId = value;
+                StateMachine?.SetMultiplayerAuthority((int)_peerId);
+            }
+        }
 
         /// <summary>
         /// True if the player is blocked from inputs
         /// </summary>
         public bool IsBlocked { get; set; }
 
-        [Export]
-        private string _type;
+        [Export] private string _type;
+        private long _peerId;
 
         /// <summary>
         /// Initializes the character
@@ -45,6 +53,10 @@ namespace INTOnlineCoop.Script.Player
             Position = position;
             _type = type.Name;
             PeerId = peerId;
+
+            if (StateMachine != null)
+            {
+            }
 
             if (_sprite == null || type.SpriteFrames == null)
             {

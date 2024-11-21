@@ -10,12 +10,6 @@ namespace INTOnlineCoop.Script.Player.States
     public partial class Falling : State
     {
         /// <summary>
-        /// Movement of the player
-        /// </summary>
-        [Export]
-        private float Direction { get; set; }
-
-        /// <summary>
         /// Handles falling input
         /// </summary>
         /// <param name="delta"></param>
@@ -26,7 +20,7 @@ namespace INTOnlineCoop.Script.Player.States
                 return;
             }
 
-            Direction = Input.GetAxis("walk_left", "walk_right");
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
         }
 
         /// <summary>
@@ -43,9 +37,9 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("LandingOnGround");
             }
 
-            if (!Mathf.IsEqualApprox(Direction, 0))
+            if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
-                CharacterSprite.FlipH = Direction < 0;
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
             }
 
             if (!Character.IsOnFloor())
@@ -55,7 +49,7 @@ namespace INTOnlineCoop.Script.Player.States
 
             if ((CharacterSprite.Animation == "LandingOnGround") && (CharacterSprite.Frame == 2))
             {
-                Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(Direction, 0.0)
+                Character.StateMachine.TransitionTo(Mathf.IsEqualApprox(StateMachine.Direction, 0.0)
                     ? AvailableState.Idle
                     : AvailableState.Walking);
             }
@@ -69,9 +63,8 @@ namespace INTOnlineCoop.Script.Player.States
         {
             Vector2 velocity = Character.Velocity;
 
-            velocity.X = Direction * Speed;
+            velocity.X = StateMachine.Direction * Speed;
             velocity.Y += Gravity * (float)delta;
-            Direction = 0;
             Character.Velocity = velocity;
             _ = Character.MoveAndSlide();
         }
