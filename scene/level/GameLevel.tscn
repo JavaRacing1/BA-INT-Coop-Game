@@ -1,5 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://7h7m71uuto1n"]
-[gd_scene load_steps=27 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=28 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
@@ -62,14 +61,12 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="Characters" type="Node2D" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_spritesPlayer1", "_spritesPlayer2", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("5_f3so1")
 _timer = NodePath("RoundTimer")
 _labelLeftTime = NodePath("TimeLeft")
 _labelTime = NodePath("TimeLabel")
-_spritesPlayer1 = [NodePath("FigureA1"), NodePath("FigureA2"), NodePath("FigureA3"), NodePath("FigureA4")]
-_spritesPlayer2 = [NodePath("FigureB1"), NodePath("FigureB2"), NodePath("FigureB3"), NodePath("FigureB4")]
 _textureButtonBazzoka = NodePath("BazzokaButton")
 _textureButtonPistol = NodePath("PistolButton")
 _textureButtonShotgun = NodePath("ShotgunButton")
