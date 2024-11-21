@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -7,31 +9,39 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Walking : State
     {
-        // private bool _gettingHit;
-
         /// <summary>
-        /// Updates player movement
+        /// Handles walking input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        public override void HandleInput(double delta)
         {
-            Vector2 velocity = Character.Velocity;
-
-            float inputDirection = Input.GetAxis("walk_left", "walk_right");
-
-            if (Input.IsActionPressed("walk_right"))
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
             {
-                CharacterSprite.FlipH = false;
-            }
-            else if (Input.IsActionPressed("walk_left"))
-            {
-                CharacterSprite.FlipH = true;
+                return;
             }
 
-            velocity.X = inputDirection * Speed;
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
 
-            Character.Velocity = velocity;
-            _ = Character.MoveAndSlide();
+            if (Input.IsActionJustPressed("jump"))
+            {
+                Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr($"Error during Jump RPC: {error}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Changes animations and states
+        /// </summary>
+        /// <param name="delta"></param>
+        public override void ChangeAnimationsAndStates(double delta)
+        {
+            if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
+            {
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
+            }
 
             if (!Character.IsOnFloor())
             {
@@ -41,27 +51,29 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Input.IsActionJustPressed("jump"))
+            else if (StateMachine.Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            else if (Mathf.IsEqualApprox(inputDirection, 0.0))
+            else if (Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
                 CharacterSprite.Stop();
                 Character.StateMachine.TransitionTo(AvailableState.Idle);
             }
-            /*else if (_gettingHit)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.TakeingDamage);
-            }
-            else if (Healthpoints <= 0)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.Dead);
-            }*/
+        }
+
+        /// <summary>
+        /// Updates player movement
+        /// </summary>
+        /// <param name="delta">Current frame delta</param>
+        public override void PhysicProcess(double delta)
+        {
+            Vector2 velocity = Character.Velocity;
+            velocity.X = StateMachine.Direction * Speed;
+            Character.Velocity = velocity;
+            _ = Character.MoveAndSlide();
         }
     }
 }

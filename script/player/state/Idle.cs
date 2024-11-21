@@ -1,5 +1,7 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+
 namespace INTOnlineCoop.Script.Player.States
 {
     /// <summary>
@@ -18,13 +20,38 @@ namespace INTOnlineCoop.Script.Player.States
             base.Enter();
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
+            StateMachine.Jumped = false;
+            StateMachine.Direction = 0;
         }
 
         /// <summary>
-        /// Updates player movement and changeing played animation
+        /// Handles input in Idle state
         /// </summary>
         /// <param name="delta">Current frame delta</param>
-        public override void PhysicProcess(double delta)
+        public override void HandleInput(double delta)
+        {
+            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
+            {
+                return;
+            }
+
+            if (Input.IsActionJustPressed("jump"))
+            {
+                Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr($"Error during Jump RPC: {error}");
+                }
+            }
+
+            StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
+        }
+
+        /// <summary>
+        /// Manages the used animations + state changes
+        /// </summary>
+        /// <param name="delta">Frame delta</param>
+        public override void ChangeAnimationsAndStates(double delta)
         {
             _idleFrameCounter++;
             if (_idleFrameCounter == 0)
@@ -49,39 +76,19 @@ namespace INTOnlineCoop.Script.Player.States
                 CharacterSprite.Play("InAir");
                 Character.StateMachine.TransitionTo(AvailableState.Falling);
             }
-            else if (Input.IsActionJustPressed("jump"))
+            else if (StateMachine.Jumped)
             {
                 CharacterSprite.Stop();
                 CharacterSprite.Play("JumpingOffGround");
                 Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
-            //Übergang in den Walking-Zustand, falls Eingabe erfolgt
-            else if (Input.IsActionPressed("walk_right") || Input.IsActionPressed("walk_left"))
+            else if (!Mathf.IsEqualApprox(StateMachine.Direction, 0.0))
             {
                 CharacterSprite.Stop();
-                if (Input.IsActionPressed("walk_right"))
-                {
-                    CharacterSprite.FlipH = false;
-                    CharacterSprite.Play("Walking");
-                }
-                else
-                {
-                    CharacterSprite.FlipH = true;
-                    CharacterSprite.Play("Walking");
-                }
-
+                CharacterSprite.FlipH = StateMachine.Direction < 0;
+                CharacterSprite.Play("Walking");
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }
-            /*else if (_gettingHit)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.TakeingDamage);
-            }
-            else if (Healthpoints <= 0)
-            {
-                _figureAnimation.Stop();
-                Character.StateMachine.TransitionTo(AvailableState.Dead);
-            }*/
         }
     }
 }

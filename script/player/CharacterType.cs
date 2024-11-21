@@ -125,5 +125,14 @@ namespace INTOnlineCoop.Script.Player
                 return None;
             }
         }
+
+        /// <summary>
+        /// Converts the type to a string
+        /// </summary>
+        /// <returns>Converted string</returns>
+        public override string ToString()
+        {
+            return "CharacterType: " + Name;
+        }
     }
 }
