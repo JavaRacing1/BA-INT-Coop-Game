@@ -147,6 +147,10 @@ namespace INTOnlineCoop.Script.Level
             }
         }
 
+        /// <summary>
+        /// Updates the window focus state
+        /// </summary>
+        /// <param name="what">Received Notification</param>
         public override void _Notification(int what)
         {
             _windowIsFocused = (long)what switch

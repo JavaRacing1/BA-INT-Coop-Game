@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1cunf8r08v2w" path="res://assets/sprites/background/PixelSchlossDungeoTextfeldHintergrund.png" id="2_eq2re"]
 [ext_resource type="PackedScene" uid="uid://b731hwb4mwfjs" path="res://scene/ui/component/GeneratorSettingsContainer.tscn" id="3_jk25u"]
 
-[node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings")]
+[node name="SandboxSettingsScreen" type="Control" node_paths=PackedStringArray("_generatorSettings", "_characterGrid", "_playButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8b3xc")
 _generatorSettings = NodePath("Background/GeneratorContainer/GeneratorSettingsContainer")
+_characterGrid = NodePath("Background/CharacterGrid")
+_playButton = NodePath("Background/PlayButton")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -73,6 +75,25 @@ horizontal_alignment = 1
 
 [node name="GeneratorSettingsContainer" parent="Background/GeneratorContainer" instance=ExtResource("3_jk25u")]
 layout_mode = 2
+
+[node name="SelectionLabel" type="Label" parent="Background"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 23.0
+offset_right = 252.0
+offset_bottom = 44.0
+theme = ExtResource("1_v0gyq")
+text = "Charakterauswahl"
+horizontal_alignment = 1
+
+[node name="CharacterGrid" type="GridContainer" parent="Background"]
+custom_minimum_size = Vector2(280, 260)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 270.0
+offset_bottom = 80.0
+columns = 7
 
 [connection signal="pressed" from="Background/PlayButton" to="." method="OnPlayButtonPressed"]
 [connection signal="pressed" from="Background/BackButton" to="." method="OnBackButtonPressed"]

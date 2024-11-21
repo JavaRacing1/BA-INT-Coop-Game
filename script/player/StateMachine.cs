@@ -13,12 +13,21 @@ namespace INTOnlineCoop.Script.Player
     {
         /// <summary>State when character is not moving but controllable</summary>
         Idle,
+
         /// <summary>State when character is falling</summary>
         Falling,
+
         /// <summary>State when character jumped</summary>
         Jumping,
+
         /// <summary>State when character is walking</summary>
-        Walking
+        Walking,
+
+        /// <summary>State when character takes damage</summary>
+        TakingDamage,
+
+        /// <summary>State when character dies of haveing no healthpoints left (healthpoints lower than 0)</summary>
+        Dead
     }
 
     /// <summary>
@@ -26,12 +35,23 @@ namespace INTOnlineCoop.Script.Player
     /// </summary>
     public partial class StateMachine : Node
     {
-        private readonly Dictionary<AvailableState, State> _states = new(); //State-Dictionary zum Speichern aller States anlegen
+        private readonly Dictionary<AvailableState, State>
+            _states = new(); //State-Dictionary zum Speichern aller States anlegen
 
         /// <summary>
         /// Current state of the state machine
         /// </summary>
         public State CurrentState { get; private set; }
+
+        /// <summary>
+        /// True if the player jumped
+        /// </summary>
+        [Export] public bool Jumped;
+
+        /// <summary>
+        /// Movement of the player
+        /// </summary>
+        [Export] public float Direction;
 
         /// <summary>
         /// Load all available states
@@ -50,6 +70,7 @@ namespace INTOnlineCoop.Script.Player
                         GD.PrintErr($"Could not parse state '{state.Name}'");
                         continue;
                     }
+
                     _states.Add(availableState, state); //States zum Dictionary hinzufügen
                     GD.Print($"State registered: {node.Name}");
                 }
@@ -72,6 +93,15 @@ namespace INTOnlineCoop.Script.Player
             {
                 GD.PrintErr($"State {state} not found");
             }
+        }
+
+        /// <summary>
+        /// Transfers the jump input to all peers
+        /// </summary>
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void Jump()
+        {
+            Jumped = true;
         }
     }
 }

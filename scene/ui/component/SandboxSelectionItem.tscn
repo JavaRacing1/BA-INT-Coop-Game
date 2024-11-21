@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbtkrkcyq65n0"]
+
+[ext_resource type="Texture2D" uid="uid://cxla3kihubdik" path="res://assets/sprites/game_figure/zero/body.png" id="1_fgi78"]
+[ext_resource type="Script" path="res://script/ui/component/SandboxSelectionItem.cs" id="1_iknrl"]
+
+[node name="SandboxSelectionItem" type="Button" node_paths=PackedStringArray("_texture")]
+custom_minimum_size = Vector2(54, 72)
+offset_right = 54.0
+offset_bottom = 72.0
+script = ExtResource("1_iknrl")
+_texture = NodePath("CharacterTexture")
+
+[node name="CharacterTexture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -7.0
+offset_right = 38.0
+offset_bottom = 41.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_fgi78")
+
+[connection signal="pressed" from="." to="." method="OnButtonPressed"]

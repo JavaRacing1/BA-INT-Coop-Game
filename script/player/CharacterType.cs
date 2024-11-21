@@ -12,40 +12,40 @@ namespace INTOnlineCoop.Script.Player
     public partial class CharacterType : RefCounted
     {
         /// <summary> Character that is not available </summary>
-        public static readonly CharacterType None = new("None");
+        public static readonly CharacterType None = new("None", 0);
 
         /// <summary> Amara (Borderlands 3) </summary>
-        public static readonly CharacterType Amara = new("Amara");
+        public static readonly CharacterType Amara = new("Amara", 0);
 
         /// <summary> Athena (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Athena = new("Athena");
+        public static readonly CharacterType Athena = new("Athena", 0);
 
         /// <summary> Axton (Borderlands 2) </summary>
-        public static readonly CharacterType Axton = new("Axton");
+        public static readonly CharacterType Axton = new("Axton", 11);
 
         /// <summary> Gaige (Borderlands 2) </summary>
-        public static readonly CharacterType Gaige = new("Gaige");
+        public static readonly CharacterType Gaige = new("Gaige", 0);
 
         /// <summary> Krieg (Borderlands 2) </summary>
-        public static readonly CharacterType Krieg = new("Krieg");
+        public static readonly CharacterType Krieg = new("Krieg", 0);
 
         /// <summary> Maja (Borderlands 2) </summary>
-        public static readonly CharacterType Maja = new("Maja");
+        public static readonly CharacterType Maja = new("Maja", 0);
 
         /// <summary> Moze (Borderlands 3) </summary>
-        public static readonly CharacterType Moze = new("Moze");
+        public static readonly CharacterType Moze = new("Moze", 0);
 
         /// <summary> Nisha (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Nisha = new("Nisha");
+        public static readonly CharacterType Nisha = new("Nisha", 0);
 
         /// <summary> Salvador (Borderlands 2) </summary>
-        public static readonly CharacterType Salvador = new("Salvador");
+        public static readonly CharacterType Salvador = new("Salvador", 0);
 
         /// <summary> Wilhelm (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Wilhelm = new("Wilhelm");
+        public static readonly CharacterType Wilhelm = new("Wilhelm", 0);
 
         /// <summary> Zero (Borderlands 2) </summary>
-        public static readonly CharacterType Zero = new("Zero");
+        public static readonly CharacterType Zero = new("Zero", 14);
 
         /// <summary>
         /// List of all available characters
@@ -74,6 +74,11 @@ namespace INTOnlineCoop.Script.Player
         public string Name { get; private set; }
 
         /// <summary>
+        /// Index of the last idle frame
+        /// </summary>
+        public int LastIdleFrame { get; private set; }
+
+        /// <summary>
         /// Head texture of the character
         /// </summary>
         public Texture2D HeadTexture { get; private set; }
@@ -88,13 +93,15 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public SpriteFrames SpriteFrames { get; private set; }
 
-        private CharacterType(string name)
+        private CharacterType(string name, int lastIdleFrame)
         {
             Name = name;
+            LastIdleFrame = lastIdleFrame;
             if (name == "None")
             {
                 return;
             }
+
             HeadTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/head.png");
             BodyTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/body.png");
             //TODO: Add SpriteFrames for each character
@@ -117,6 +124,15 @@ namespace INTOnlineCoop.Script.Player
                 GD.PrintErr($"Couldn't convert Character {name} to CharacterType!");
                 return None;
             }
+        }
+
+        /// <summary>
+        /// Converts the type to a string
+        /// </summary>
+        /// <returns>Converted string</returns>
+        public override string ToString()
+        {
+            return "CharacterType: " + Name;
         }
     }
 }

@@ -1,56 +1,106 @@
-[gd_scene load_steps=10 format=3 uid="uid://buofo08bpqit7"]
+[gd_scene load_steps=13 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
-[ext_resource type="Texture2D" uid="uid://c6uq12tmewlt2" path="res://assets/texture/test_character_frame.png" id="2_8sgm3"]
+[ext_resource type="SpriteFrames" uid="uid://w8wxaimre167" path="res://assets/texture/figures/zero/spriteSheet.res" id="2_ad60y"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
-[ext_resource type="Script" path="res://script/player/states/Idle.cs" id="3_idfjx"]
-[ext_resource type="Script" path="res://script/player/states/Falling.cs" id="4_wuv2g"]
-[ext_resource type="Script" path="res://script/player/states/Walking.cs" id="5_oo4e5"]
-[ext_resource type="Script" path="res://script/player/states/Jumping.cs" id="6_st2wn"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fe7eh"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_8sgm3")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Script" path="res://script/player/state/Idle.cs" id="4_m11px"]
+[ext_resource type="Script" path="res://script/player/state/Falling.cs" id="5_yk43w"]
+[ext_resource type="Script" path="res://script/player/state/Walking.cs" id="6_ghi6c"]
+[ext_resource type="Script" path="res://script/player/state/Jumping.cs" id="7_k2ptf"]
+[ext_resource type="Script" path="res://script/player/state/TakingDamage.cs" id="8_rhafw"]
+[ext_resource type="Script" path="res://script/player/state/Dead.cs" id="9_o70kj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
-size = Vector2(18, 37)
+size = Vector2(16, 30)
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("StateMachine")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rcucl"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:PeerId")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+properties/2/path = NodePath(".:_type")
+properties/2/spawn = true
+properties/2/replication_mode = 0
+properties/3/path = NodePath(".:velocity")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:IsBlocked")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gdvl3"]
+properties/0/path = NodePath("StateMachine:Direction")
+properties/0/spawn = false
+properties/0/replication_mode = 2
+
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
+_sprite = NodePath("CharacterSprite")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -4)
-sprite_frames = SubResource("SpriteFrames_fe7eh")
+sprite_frames = ExtResource("2_ad60y")
+animation = &"Idle"
+metadata/_aseprite_wizard_interface_config_ = {
+"output_section": false,
+"pending_changes": {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"slice": "",
+"source": ""
+}
+}
 
 [node name="CharacterCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_5aihb")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rcucl")
+
+[node name="StateMachine" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gdvl3")
 script = ExtResource("3_68vnu")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
-script = ExtResource("3_idfjx")
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("4_m11px")
 Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
-script = ExtResource("4_wuv2g")
+[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("5_yk43w")
 Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
-script = ExtResource("5_oo4e5")
+[node name="Walking" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("6_ghi6c")
 Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
 
-[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character")]
-script = ExtResource("6_st2wn")
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("7_k2ptf")
 Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
+
+[node name="TakingDamage" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("8_rhafw")
+Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
+
+[node name="Dead" type="Node" parent="StateMachine" node_paths=PackedStringArray("Character", "CharacterSprite", "StateMachine")]
+script = ExtResource("9_o70kj")
+Character = NodePath("../..")
+CharacterSprite = NodePath("../../CharacterSprite")
+StateMachine = NodePath("..")
