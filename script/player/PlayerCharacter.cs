@@ -18,7 +18,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>
         /// Current type used by the character
         /// </summary>
-        public CharacterType Type { get; private set; }
+        public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
         /// Peer ID of the controlling player
@@ -31,15 +31,19 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public bool IsBlocked { get; set; }
 
+        [Export]
+        private string _type;
+
         /// <summary>
         /// Initializes the character
         /// </summary>
         /// <param name="position">Character position</param>
         /// <param name="type">Type of the character</param>
+        /// <param name="peerId">Peer ID of the controlling player</param>
         public void Init(Vector2 position, CharacterType type, long peerId)
         {
             Position = position;
-            Type = type;
+            _type = type.Name;
             PeerId = peerId;
 
             if (_sprite == null || type.SpriteFrames == null)

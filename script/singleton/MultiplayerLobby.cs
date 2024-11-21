@@ -496,6 +496,14 @@ namespace INTOnlineCoop.Script.Singleton
             LevelGenerator levelGenerator = new();
             levelGenerator.SetTerrainShape(terrainShape);
             Image image = levelGenerator.Generate(seed);
+            if (Multiplayer.IsServer())
+            {
+                GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
+                level.Init(image);
+                GetTree().Root.AddChild(level, true);
+                GetTree().CurrentScene = level;
+                GetNode("/root/MainMenu").QueueFree();
+            }
             Error error = Rpc(MethodName.SendLevelToClient, image.GetWidth(), image.GetHeight(), image.GetData());
             if (error != Error.Ok)
             {
@@ -513,16 +521,6 @@ namespace INTOnlineCoop.Script.Singleton
         private void SendLevelToClient(int width, int height, byte[] levelImageData)
         {
             Image levelImage = Image.CreateFromData(width, height, false, Image.Format.Rgba8, levelImageData);
-            if (Multiplayer.IsServer())
-            {
-                GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();
-                level.Init(levelImage);
-                GetTree().Root.AddChild(level, true);
-                GetTree().CurrentScene = level;
-                GetNode("/root/MainMenu").QueueFree();
-                return;
-            }
-
             Error error = EmitSignal(SignalName.LevelDataReceived, levelImage);
             if (error != Error.Ok)
             {
