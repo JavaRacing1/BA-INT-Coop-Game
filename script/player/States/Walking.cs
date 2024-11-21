@@ -22,7 +22,14 @@ namespace INTOnlineCoop.Script.Player.States
 
             StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
 
-            StateMachine.Jumped = Input.IsActionJustPressed("jump");
+            if (Input.IsActionJustPressed("jump"))
+            {
+                Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr($"Error during Jump RPC: {error}");
+                }
+            }
         }
 
         /// <summary>

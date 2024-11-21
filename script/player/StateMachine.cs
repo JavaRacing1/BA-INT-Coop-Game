@@ -94,5 +94,14 @@ namespace INTOnlineCoop.Script.Player
                 GD.PrintErr($"State {state} not found");
             }
         }
+
+        /// <summary>
+        /// Transfers the jump input to all peers
+        /// </summary>
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void Jump()
+        {
+            Jumped = true;
+        }
     }
 }
