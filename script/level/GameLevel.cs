@@ -21,6 +21,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Node2D _characterParent;
         [Export] private CanvasLayer _userInterfaceLayer;
         [Export] private ColorRect _bottomWaterRect;
+        [Export] private CollisionShape2D _waterCollisionShape;
 
         private Image _terrainImage;
 
@@ -43,11 +44,18 @@ namespace INTOnlineCoop.Script.Level
                 _camera.Init(terrainSize);
             }
 
-            if (_bottomWaterRect != null)
+            if (_bottomWaterRect != null && _waterCollisionShape != null)
             {
-                _bottomWaterRect.Size =
-                    new((terrainImage.GetWidth() * tileSize.X) + 1000, 300);
-                _bottomWaterRect.Position = new(-500, (terrainImage.GetHeight() * tileSize.Y) - 32);
+                Vector2 waterSize = new((terrainImage.GetWidth() * tileSize.X) + 1000, 300);
+                Vector2 waterPosition = new(-500, (terrainImage.GetHeight() * tileSize.Y) - 32);
+                _bottomWaterRect.Size = waterSize;
+                _bottomWaterRect.Position = waterPosition;
+
+                _waterCollisionShape.Position = waterPosition + new Vector2(0, 64);
+                if (_waterCollisionShape.Shape is RectangleShape2D waterShape)
+                {
+                    waterShape.Size = waterSize;
+                }
             }
 
             GD.Print("GameLevel initialized!");

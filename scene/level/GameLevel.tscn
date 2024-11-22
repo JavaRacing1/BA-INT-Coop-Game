@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=30 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
@@ -34,7 +34,10 @@ shader_parameter/WAVE_THRESHOLD = 50.0
 shader_parameter/SPEED = 3.0
 shader_parameter/WAVE_INTERVAL = 100.0
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_characterManager", "_camera", "_characterParent", "_userInterfaceLayer", "_bottomWaterRect")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c0uom"]
+size = Vector2(639, 37)
+
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_characterManager", "_camera", "_characterParent", "_userInterfaceLayer", "_bottomWaterRect", "_waterCollisionShape")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 _characterManager = NodePath("LevelCharacterManager")
@@ -42,6 +45,7 @@ _camera = NodePath("PlayerCamera")
 _characterParent = NodePath("Characters")
 _userInterfaceLayer = NodePath("UserInterfaceLayer")
 _bottomWaterRect = NodePath("BottomWater")
+_waterCollisionShape = NodePath("WaterArea/WaterCollisionShape")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -259,6 +263,14 @@ material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
 offset_bottom = 360.0
+
+[node name="WaterArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="WaterCollisionShape" type="CollisionShape2D" parent="WaterArea"]
+position = Vector2(319.5, 340.5)
+shape = SubResource("RectangleShape2D_c0uom")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
