@@ -150,6 +150,12 @@ camera_down={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Water"
 
+[physics]
+
+2d/default_gravity=0.0
+2d/solver/default_contact_bias=0.0
+2d/solver/default_constraint_bias=0.0
+
 [rendering]
 
 2d/snap/snap_2d_transforms_to_pixel=true

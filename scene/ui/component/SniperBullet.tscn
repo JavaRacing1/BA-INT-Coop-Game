@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfolj1wfcnnky"]
+
+[ext_resource type="Texture2D" uid="uid://b472w02urrgs" path="res://assets/sprites/wepons/SniperBullet.png" id="1_p3hta"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vm7un"]
+size = Vector2(27, 12)
+
+[node name="SniperBullet" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.5, 4)
+shape = SubResource("RectangleShape2D_vm7un")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+texture = ExtResource("1_p3hta")
