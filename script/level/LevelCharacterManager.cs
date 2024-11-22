@@ -17,7 +17,34 @@ namespace INTOnlineCoop.Script.Level
         private static readonly Random ShuffleRandom = new();
         private readonly PlayerCharacter[] _characterOrder = new PlayerCharacter[MultiplayerLobby.MaxPlayers * 4];
 
+        [Export] private Timer _roundTimer;
+        [Export] private PlayerCamera _camera;
+        [Export] private GameLevelUserInterface _userInterface;
+
         private int _currentCharacterIndex;
+
+
+        /// <summary>
+        /// Add round change on timer timeout
+        /// </summary>
+        public override void _Ready()
+        {
+            if (Multiplayer.IsServer())
+            {
+                _roundTimer.Timeout += NextCharacter;
+            }
+        }
+
+        /// <summary>
+        /// Remove timer signal
+        /// </summary>
+        public override void _ExitTree()
+        {
+            if (Multiplayer.IsServer())
+            {
+                _roundTimer.Timeout -= NextCharacter;
+            }
+        }
 
         /// <summary>
         /// Spawns all player characters
@@ -55,6 +82,8 @@ namespace INTOnlineCoop.Script.Level
                     _characterOrder[peerIndex + (i * peerAmount)] = shuffledCharacters[i];
                 }
             }
+
+            NextCharacter();
         }
 
         /// <summary>
@@ -64,7 +93,53 @@ namespace INTOnlineCoop.Script.Level
         {
             _characterOrder[_currentCharacterIndex].IsBlocked = true;
             _currentCharacterIndex = (_currentCharacterIndex + 1) % _characterOrder.Length;
-            _characterOrder[_currentCharacterIndex].IsBlocked = false;
+
+            PlayerCharacter character = _characterOrder[_currentCharacterIndex];
+            character.IsBlocked = false;
+            Vector2 newCharacterPos = character.Position;
+            long peerId = character.PeerId;
+
+            if (_roundTimer == null)
+            {
+                return;
+            }
+
+            Error error = _userInterface.Rpc(GameLevelUserInterface.MethodName.HideTimerLabel);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Error while hiding timer: " + error);
+            }
+
+            SceneTreeTimer timer = GetTree().CreateTimer(5);
+            timer.Timeout += () =>
+            {
+                error = Rpc(MethodName.StartRound, newCharacterPos, peerId);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr("Error while resetting timer: " + error);
+                }
+            };
+        }
+
+        [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void StartRound(Vector2 characterPosition, long peerId)
+        {
+            _roundTimer.WaitTime = 65;
+            _roundTimer.OneShot = true;
+            _roundTimer.Start();
+
+            if (_camera != null)
+            {
+                _camera.ChangeCameraZoom(1);
+                _camera.MoveCamera(characterPosition);
+            }
+
+            if (_userInterface != null)
+            {
+                PlayerData data = MultiplayerLobby.Instance.GetPlayerData(peerId);
+                _userInterface.DisplayTurnNotification(data.Name, data.PlayerNumber);
+                _userInterface.DisplayWeapons(data.PlayerNumber);
+            }
         }
     }
 }

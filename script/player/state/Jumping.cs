@@ -9,7 +9,7 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Jumping : State
     {
-        private const float JumpVelocity = 170f;
+        private const float JumpVelocity = 180f;
 
         /// <summary>
         /// Handles jumping input
@@ -17,8 +17,14 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
+            if (Character.PeerId != Multiplayer.GetUniqueId())
             {
+                return;
+            }
+
+            if (GameLevel.IsInputBlocked || Character.IsBlocked)
+            {
+                StateMachine.Direction = 0;
                 return;
             }
 

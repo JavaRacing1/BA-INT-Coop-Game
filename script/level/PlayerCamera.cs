@@ -28,6 +28,12 @@ namespace INTOnlineCoop.Script.Level
         private bool _windowIsFocused = true;
 
         /// <summary>
+        /// Emitted when the camera position or zoom changed
+        /// </summary>
+        [Signal]
+        public delegate void CameraUpdatedEventHandler();
+
+        /// <summary>
         /// Initializes the camera
         /// </summary>
         /// <param name="terrainSize">Size of the terrain</param>
@@ -50,6 +56,7 @@ namespace INTOnlineCoop.Script.Level
         {
             Position = newPosition;
             LimitPosition();
+            _ = EmitSignal(SignalName.CameraUpdated);
         }
 
         /// <summary>
@@ -60,6 +67,7 @@ namespace INTOnlineCoop.Script.Level
         {
             float clampedZoom = Math.Clamp(newZoomLevel, _minZoom, _maxZoom);
             Zoom = new Vector2(clampedZoom, clampedZoom);
+            _ = EmitSignal(SignalName.CameraUpdated);
         }
 
         /// <summary>
@@ -106,6 +114,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 PositionSmoothingEnabled = true;
                 LimitPosition();
+                _ = EmitSignal(SignalName.CameraUpdated);
             }
 
             if (_isZoomingIn || _isZoomingOut)
@@ -113,6 +122,7 @@ namespace INTOnlineCoop.Script.Level
                 float newZoom = _isZoomingIn ? Zoom.X + _zoomSize : Zoom.X - _zoomSize;
                 float interpolatedZoom = Mathf.Lerp(Zoom.X, Math.Clamp(newZoom, _minZoom, _maxZoom), ZoomInterpolationWeight);
                 Zoom = new Vector2(interpolatedZoom, interpolatedZoom);
+                _ = EmitSignal(SignalName.CameraUpdated);
                 _ = await ToSignal(GetTree().CreateTimer(0.05), Timer.SignalName.Timeout);
                 if (_isZoomingIn)
                 {
