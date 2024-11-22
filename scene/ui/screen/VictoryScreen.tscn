@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://dis5100gmdxwa"]
+
+[ext_resource type="Texture2D" uid="uid://cotyf0gh4yh18" path="res://assets/sprites/background/VictoryScreent.png" id="1_m2oyi"]
+[ext_resource type="Script" path="res://script/ui/screen/VictoryScreen.cs" id="1_x4bm1"]
+[ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="2_pk1bv"]
+
+[node name="VictoryScreen" type="Node"]
+script = ExtResource("1_x4bm1")
+
+[node name="CancasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CancasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_m2oyi")
+
+[node name="MultiplayerLobbyButton" type="Button" parent="CancasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = -60.0
+offset_right = -160.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_pk1bv")
+theme_override_font_sizes/font_size = 30
+text = "Zurück zur Lobby"
+
+[node name="Label" type="Label" parent="CancasLayer"]
+offset_left = 236.0
+offset_top = 31.0
+offset_right = 428.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
+theme_override_colors/font_outline_color = Color(0.937255, 0.823529, 0.835294, 1)
+theme_override_fonts/font = ExtResource("2_pk1bv")
+theme_override_font_sizes/font_size = 40
+text = "GEWONNEN!"
+
+[node name="PlayerName" type="Label" parent="CancasLayer"]
+offset_left = 240.0
+offset_top = 105.0
+offset_right = 435.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_pk1bv")
+theme_override_font_sizes/font_size = 30
+text = "Spieler siegt!"
+
+[connection signal="pressed" from="CancasLayer/MultiplayerLobbyButton" to="." method="OnMultiplayerLobbyButtonPressed"]
