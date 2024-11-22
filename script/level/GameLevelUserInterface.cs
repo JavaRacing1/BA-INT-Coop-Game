@@ -12,14 +12,15 @@ namespace INTOnlineCoop.Script.Level
     {
         // Timer Nodes exportieren
         [Export] private Timer _timer;
-        [Export] private Label _labelLeftTime;
         [Export] private Label _labelTime;
 
         // PlayerCharacter Listennodes
-        [Export] private Label _labelPlayer1;
-        [Export] private Label _labelPlayer2;
+        [Export] private RichTextLabel _labelPlayer1;
+        [Export] private RichTextLabel _labelPlayer2;
         [Export] private Sprite2D[] _spritesPlayer1;
         [Export] private Sprite2D[] _spritesPlayer2;
+
+        [Export] private Label _notificationLabel;
 
         // Waffenbutton Node Liste
         [Export] private TextureButton _textureButtonBazzoka;
@@ -48,11 +49,7 @@ namespace INTOnlineCoop.Script.Level
         public override void _Ready()
         {
             // Setze Default Farbe für Timer Label
-            _labelTime.AddThemeColorOverride("font_color", Color.Color8(255, 255, 255, 255));
-            _labelLeftTime.AddThemeColorOverride("font_color", Color.Color8(255, 255, 255, 255));
-
-            //Initialiseriung der für die Runde aktiven Figuren für Spieler 1 und 2 (Interface oben rechts)
-            //"PlayerDead" Textur mit jeweilger Head Texture der Spielerfigur erstezen
+            _labelTime.AddThemeColorOverride("font_color", Color.Color8(255, 255, 255));
 
             //Spielfigurenzustände zu Beginn auf "lebend" setzen
             // _isFigureA1Dead = false 
@@ -61,45 +58,20 @@ namespace INTOnlineCoop.Script.Level
             {
                 int playerNumber = data.PlayerNumber;
                 UpdateCharacterIcons(playerNumber, data.Characters);
-                SetPlayerNames(playerNumber, data.Name);
+                SetPlayerName(playerNumber, data.Name);
             }
 
             //aktivieren aller Waffen Button
             //Bazzoka = unendliche Schüsse, Sniper und Shotgun auf x zum Start festlegen,
             //Pistole wegen möglichen Singel oder Tripel-Schuss unterscheiden von Anzhal Schüssen
-
-            // Timer starten
-            StartRound();
         }
 
         /// <summary>
-        /// 
+        /// Update timer label
         /// </summary>
-        public void StartRound()
-        {
-            // Timer für 60 Sekunden setzen und starten
-            _timer.WaitTime = 60.0f;
-            _timer.OneShot = true;
-            _timer.Start();
-
-
-            // Optional: Initiales Update des Labels
-            UpdateTimeLabel();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="delta"></param>
+        /// <param name="delta">Current frame delta</param>
         public override void _Process(double delta)
         {
-            if (_timer.IsStopped())
-            {
-                // Falls Timer abgelaufen ist, Rundenende loggen
-                GD.Print("Die Runde ist vorbei.");
-                return;
-            }
-
             // Zeit-Label aktualisieren
             UpdateTimeLabel();
         }
@@ -111,15 +83,23 @@ namespace INTOnlineCoop.Script.Level
         {
             // Verbleibende Zeit vom Timer abrufen
             float timeLeft = (float)_timer.TimeLeft;
-            //Verändere Color von Lable TiemLeft und TimeLable, wenn timeLeft <= 30 s
-            if (timeLeft <= 30f)
+            if (timeLeft != 0 && !_labelTime.Visible)
             {
-                _labelTime.AddThemeColorOverride("font_color", Color.Color8(255, 0, 0, 255));
-                _labelLeftTime.AddThemeColorOverride("font_color", Color.Color8(255, 0, 0, 255));
+                _labelTime.Visible = true;
             }
 
+            //Verändere Color vom TimeLable, wenn timeLeft unter 10 s
+            _labelTime.AddThemeColorOverride("font_color",
+                timeLeft <= 10f ? Color.Color8(255, 0, 0) : Color.Color8(255, 255, 255));
+
             // Zeit formatieren (Minuten:Sekunden) und auf Label anzeigen
-            _labelLeftTime.Text = FormatTime(timeLeft);
+            _labelTime.Text = FormatTime(timeLeft);
+        }
+
+        [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void HideTimerLabel()
+        {
+            _labelTime.Visible = false;
         }
 
         /// <summary>
@@ -132,6 +112,25 @@ namespace INTOnlineCoop.Script.Level
             int minutes = (int)(time / 60);
             int seconds = (int)(time % 60);
             return $"{minutes:00}:{seconds:00}";
+        }
+
+        /// <summary>
+        /// Displays the turn notification
+        /// </summary>
+        /// <param name="playerName">Name of the player</param>
+        /// <param name="playerNumber">Player number</param>
+        public void DisplayTurnNotification(string playerName, int playerNumber)
+        {
+            if (_notificationLabel == null)
+            {
+                return;
+            }
+
+            _notificationLabel.Visible = true;
+            _notificationLabel.Text = playerName + " ist am Zug!";
+            _notificationLabel.AddThemeColorOverride("font_color",
+                playerNumber == 1 ? Color.Color8(255, 70, 54) : Color.Color8(97, 146, 255));
+            GetTree().CreateTimer(5).Timeout += () => _notificationLabel.Visible = false;
         }
 
         /// <summary>
@@ -162,15 +161,22 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         /// <param name="playerNumber">Number of the player</param>
         /// <param name="playerName">Username</param>
-        public void SetPlayerNames(int playerNumber, string playerName)
+        public void SetPlayerName(int playerNumber, string playerName)
         {
-            Label playerLabel = playerNumber == 1 ? _labelPlayer1 : _labelPlayer2;
+            RichTextLabel playerLabel = playerNumber == 1 ? _labelPlayer1 : _labelPlayer2;
             if (playerLabel == null)
             {
                 return;
             }
 
-            playerLabel.Text = playerName;
+            long currentPeer = Multiplayer.GetUniqueId();
+            if (currentPeer == 1)
+            {
+                return;
+            }
+            bool isCurrentClient = MultiplayerLobby.Instance.GetPlayerData(currentPeer).PlayerNumber == playerNumber;
+            string prefix = isCurrentClient ? "[right][u]" : "[right]";
+            playerLabel.Text = prefix + playerName;
         }
 
         /// <summary>

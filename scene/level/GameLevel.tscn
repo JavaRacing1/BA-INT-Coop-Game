@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=29 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://b35e1neqjtmy8" path="res://assets/texture/button/weapons/SniperPressed.png" id="21_7b1b2"]
 [ext_resource type="Texture2D" uid="uid://b6ay2snm5gvth" path="res://assets/texture/button/weapons/SniperHoverd.png" id="22_ctkvd"]
 [ext_resource type="Texture2D" uid="uid://b7h66j48601xa" path="res://assets/texture/level/BackgroundLayer.jpg" id="24_k8bir"]
+[ext_resource type="Theme" uid="uid://cqi3axgr2ci8h" path="res://resource/theme/MainTheme.tres" id="25_t3ani"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3cewb"]
 shader = ExtResource("7_6fdox")
@@ -51,8 +52,11 @@ script = ExtResource("2_0aiww")
 script = ExtResource("2_l7ks5")
 _tileMap = NodePath("../LevelTileMap")
 
-[node name="LevelCharacterManager" type="Node2D" parent="."]
+[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface")]
 script = ExtResource("4_ibvwl")
+_roundTimer = NodePath("../RoundTimer")
+_camera = NodePath("../PlayerCamera")
+_userInterface = NodePath("../UserInterfaceLayer")
 
 [node name="LevelTileMap" type="TileMapLayer" parent="."]
 texture_filter = 4
@@ -63,37 +67,35 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="RoundTimer" type="Timer" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_notificationLabel", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("6_rfhch")
 _timer = NodePath("../RoundTimer")
-_labelLeftTime = NodePath("TimeLeft")
-_labelTime = NodePath("TimeLabel")
+_labelTime = NodePath("TimeLeft")
 _labelPlayer1 = NodePath("PlayerOneBar/PlayerOneName")
 _labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
 _spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
 _spritesPlayer2 = [NodePath("PlayerTwoBar/PlayerTwoChar1"), NodePath("PlayerTwoBar/PlayerTwoChar2"), NodePath("PlayerTwoBar/PlayerTwoChar3"), NodePath("PlayerTwoBar/PlayerTwoChar4")]
+_notificationLabel = NodePath("PlayerNotificationLabel")
 _textureButtonBazzoka = NodePath("BazzokaButton")
 _textureButtonPistol = NodePath("PistolButton")
 _textureButtonShotgun = NodePath("ShotgunButton")
 _textureButtonSniper = NodePath("SniperButton")
 
-[node name="TimeLabel" type="Label" parent="UserInterfaceLayer"]
-offset_left = 10.0
-offset_top = 2.0
-offset_right = 58.0
-offset_bottom = 22.0
-theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 20
-text = "TIME:"
-
 [node name="TimeLeft" type="Label" parent="UserInterfaceLayer"]
-offset_left = 65.0
-offset_top = 2.0
-offset_right = 119.0
-offset_bottom = 22.0
+visible = false
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.97
+anchor_right = 0.95
+anchor_bottom = 0.97
+offset_left = -81.0
+offset_top = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 30
 text = "59'59"
 
 [node name="PlayerOneBar" type="Control" parent="UserInterfaceLayer"]
@@ -102,18 +104,21 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="PlayerOneName" type="Label" parent="UserInterfaceLayer/PlayerOneBar"]
+[node name="PlayerOneName" type="RichTextLabel" parent="UserInterfaceLayer/PlayerOneBar"]
+layout_mode = 0
 offset_left = 310.0
 offset_top = 5.0
 offset_right = 510.0
 offset_bottom = 30.0
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 0.273989, 0.21327, 1)
+theme = ExtResource("25_t3ani")
+theme_override_colors/default_color = Color(1, 0.27451, 0.211765, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 20
-text = "Spieler 1:"
-horizontal_alignment = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[right]Spieler 1:"
+scroll_active = false
+shortcut_keys_enabled = false
 
 [node name="PlayerOneChar1" type="Sprite2D" parent="UserInterfaceLayer/PlayerOneBar"]
 position = Vector2(530, 15)
@@ -141,18 +146,19 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="PlayerTwoName" type="Label" parent="UserInterfaceLayer/PlayerTwoBar"]
+[node name="PlayerTwoName" type="RichTextLabel" parent="UserInterfaceLayer/PlayerTwoBar"]
+layout_mode = 0
 offset_left = 310.0
 offset_top = 35.0
 offset_right = 510.0
 offset_bottom = 60.0
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.379009, 0.572699, 1, 1)
+theme = ExtResource("25_t3ani")
+theme_override_colors/default_color = Color(0.380392, 0.572549, 1, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 20
-text = "Spieler 2:"
-horizontal_alignment = 2
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[right]Spieler 2:"
 
 [node name="PlayerTwoChar1" type="Sprite2D" parent="UserInterfaceLayer/PlayerTwoBar"]
 position = Vector2(530, 45)
@@ -221,6 +227,24 @@ texture_pressed = ExtResource("21_7b1b2")
 texture_hover = ExtResource("22_ctkvd")
 texture_disabled = ExtResource("19_7y1v3")
 stretch_mode = 0
+
+[node name="PlayerNotificationLabel" type="Label" parent="UserInterfaceLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.5
+offset_top = -15.0
+offset_right = 151.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("25_t3ani")
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 30
+text = "Spieler 1 ist am Zug!"
 
 [node name="BottomWater" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_3cewb")

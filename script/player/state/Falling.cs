@@ -15,8 +15,14 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta"></param>
         public override void HandleInput(double delta)
         {
-            if (GameLevel.IsInputBlocked || Character.IsBlocked || Character.PeerId != Multiplayer.GetUniqueId())
+            if (Character.PeerId != Multiplayer.GetUniqueId())
             {
+                return;
+            }
+
+            if (GameLevel.IsInputBlocked || Character.IsBlocked)
+            {
+                StateMachine.Direction = 0;
                 return;
             }
 
@@ -29,7 +35,7 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta"></param>
         public override void ChangeAnimationsAndStates(double delta)
         {
-            if ((CharacterSprite.Animation == "InAir") && Character.IsOnFloor())
+            if ((CharacterSprite.Animation == "JumpingOffGround" || CharacterSprite.Animation == "InAir") && Character.IsOnFloor())
             {
                 //InAir Animation muss beendet werden, da Kollision mit Boden erkannt
                 //-> wechsel auf LandingOnGround Animation
