@@ -1,35 +1,31 @@
 using Godot;
 
 using INTOnlineCoop.Script.Player;
+using INTOnlineCoop.Script.Singleton;
 
 namespace INTOnlineCoop.Script.Level
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class UIElements : CanvasLayer
+    public partial class GameLevelUserInterface : CanvasLayer
     {
         // Timer Nodes exportieren
-        [Export]
-        private Timer _timer;
-        [Export]
-        private Label _labelLeftTime;
-        [Export]
-        private Label _labelTime;
+        [Export] private Timer _timer;
+        [Export] private Label _labelLeftTime;
+        [Export] private Label _labelTime;
 
         // PlayerCharacter Listennodes
+        [Export] private Label _labelPlayer1;
+        [Export] private Label _labelPlayer2;
         [Export] private Sprite2D[] _spritesPlayer1;
         [Export] private Sprite2D[] _spritesPlayer2;
 
         // Waffenbutton Node Liste
-        [Export]
-        private TextureButton _textureButtonBazzoka;
-        [Export]
-        private TextureButton _textureButtonPistol;
-        [Export]
-        private TextureButton _textureButtonShotgun;
-        [Export]
-        private TextureButton _textureButtonSniper;
+        [Export] private TextureButton _textureButtonBazzoka;
+        [Export] private TextureButton _textureButtonPistol;
+        [Export] private TextureButton _textureButtonShotgun;
+        [Export] private TextureButton _textureButtonSniper;
 
         //Hilfsvariable für Todeszustände der SPielfiguren
         //private readonly bool[] _player1CharacterDead;
@@ -61,6 +57,12 @@ namespace INTOnlineCoop.Script.Level
             //Spielfigurenzustände zu Beginn auf "lebend" setzen
             // _isFigureA1Dead = false 
 
+            foreach (PlayerData data in MultiplayerLobby.Instance.GetPlayerData())
+            {
+                int playerNumber = data.PlayerNumber;
+                UpdateCharacterIcons(playerNumber, data.Characters);
+                SetPlayerNames(playerNumber, data.Name);
+            }
 
             //aktivieren aller Waffen Button
             //Bazzoka = unendliche Schüsse, Sniper und Shotgun auf x zum Start festlegen,
@@ -68,7 +70,6 @@ namespace INTOnlineCoop.Script.Level
 
             // Timer starten
             StartRound();
-
         }
 
         /// <summary>
@@ -92,8 +93,6 @@ namespace INTOnlineCoop.Script.Level
         /// <param name="delta"></param>
         public override void _Process(double delta)
         {
-
-
             if (_timer.IsStopped())
             {
                 // Falls Timer abgelaufen ist, Rundenende loggen
@@ -118,9 +117,11 @@ namespace INTOnlineCoop.Script.Level
                 _labelTime.AddThemeColorOverride("font_color", Color.Color8(255, 0, 0, 255));
                 _labelLeftTime.AddThemeColorOverride("font_color", Color.Color8(255, 0, 0, 255));
             }
+
             // Zeit formatieren (Minuten:Sekunden) und auf Label anzeigen
             _labelLeftTime.Text = FormatTime(timeLeft);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -133,51 +134,45 @@ namespace INTOnlineCoop.Script.Level
             return $"{minutes:00}:{seconds:00}";
         }
 
-
         /// <summary>
-        /// Set the character textures to Player UI List top right of the camera
+        /// Changes the character icons of a player
         /// </summary>
-        /// <param name="characterTypes"></param>
-        public void SetCharactersPlayer1(CharacterType[] characterTypes)
+        /// <param name="playerNumber">Number of the player</param>
+        /// <param name="characters">Current characters</param>
+        public void UpdateCharacterIcons(int playerNumber, CharacterType[] characters)
         {
-            if (_spritesPlayer1 is not { Length: 4 } || characterTypes.Length != 4)
+            Sprite2D[] playerSprites = playerNumber == 1 ? _spritesPlayer1 : _spritesPlayer2;
+            if (characters.Length != 4 || playerSprites.Length != 4)
             {
-                GD.PrintErr("Sprites array for Player 1 are not initialized.");
+                GD.PrintErr("Wrong number of characters in GameLevel UI");
                 return;
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < playerSprites.Length; i++)
             {
-                Sprite2D spritePL1 = _spritesPlayer1[i];
-                CharacterType character = characterTypes[i];
-                if (character != CharacterType.None)
-                {
-                    spritePL1.Texture = character.HeadTexture;
-                }
+                CharacterType type = characters[i];
+                playerSprites[i].Texture = type == CharacterType.None
+                    ? GD.Load<Texture2D>("res://assets/texture/PlayerDead.png")
+                    : characters[i].HeadTexture;
             }
         }
+
         /// <summary>
-        /// Set the character textures to Player UI List top right of the camera
+        /// Sets the name of a player
         /// </summary>
-        /// <param name="characterTypes"></param>
-        public void SetCharactersPlayer2(CharacterType[] characterTypes)
+        /// <param name="playerNumber">Number of the player</param>
+        /// <param name="playerName">Username</param>
+        public void SetPlayerNames(int playerNumber, string playerName)
         {
-            if (_spritesPlayer2 is not { Length: 4 } || characterTypes.Length != 4)
+            Label playerLabel = playerNumber == 1 ? _labelPlayer1 : _labelPlayer2;
+            if (playerLabel == null)
             {
-                GD.PrintErr("Sprites array for Player 2 are not initialized.");
                 return;
             }
 
-            for (int i = 0; i < 4; i++)
-            {
-                Sprite2D spritePL2 = _spritesPlayer2[i];
-                CharacterType character = characterTypes[i];
-                if (character != CharacterType.None)
-                {
-                    spritePL2.Texture = character.HeadTexture;
-                }
-            }
+            playerLabel.Text = playerName;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -191,6 +186,7 @@ namespace INTOnlineCoop.Script.Level
                 _shotTaken = false;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -209,6 +205,7 @@ namespace INTOnlineCoop.Script.Level
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -227,6 +224,7 @@ namespace INTOnlineCoop.Script.Level
                 }
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -247,9 +245,3 @@ namespace INTOnlineCoop.Script.Level
         }
     }
 }
-
-
-
-
-
-

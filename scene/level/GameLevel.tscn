@@ -5,8 +5,8 @@
 [ext_resource type="Script" path="res://script/level/tile/LevelTileManager.cs" id="2_l7ks5"]
 [ext_resource type="TileSet" uid="uid://m5d5tod6nelb" path="res://resource/tileset/TestTileSet.tres" id="3_g3n4h"]
 [ext_resource type="Script" path="res://script/level/LevelCharacterManager.cs" id="4_ibvwl"]
-[ext_resource type="Script" path="res://script/level/UIElements.cs" id="5_f3so1"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="5_upmi1"]
+[ext_resource type="Script" path="res://script/level/GameLevelUserInterface.cs" id="6_rfhch"]
 [ext_resource type="Shader" path="res://resource/shader/BottomWater.gdshader" id="7_6fdox"]
 [ext_resource type="Texture2D" uid="uid://ondk6i3fqub8" path="res://assets/texture/PlayerDead.png" id="7_oq8g1"]
 [ext_resource type="Texture2D" uid="uid://8bwckspxtstw" path="res://assets/texture/button/weapons/BazzokaNormal.png" id="8_kwbqy"]
@@ -61,18 +61,22 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="Characters" type="Node2D" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="RoundTimer" type="Timer" parent="."]
+
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelLeftTime", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
-script = ExtResource("5_f3so1")
-_timer = NodePath("RoundTimer")
+script = ExtResource("6_rfhch")
+_timer = NodePath("../RoundTimer")
 _labelLeftTime = NodePath("TimeLeft")
 _labelTime = NodePath("TimeLabel")
+_labelPlayer1 = NodePath("PlayerOneBar/PlayerOneName")
+_labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
+_spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
+_spritesPlayer2 = [NodePath("PlayerTwoBar/PlayerTwoChar1"), NodePath("PlayerTwoBar/PlayerTwoChar2"), NodePath("PlayerTwoBar/PlayerTwoChar3"), NodePath("PlayerTwoBar/PlayerTwoChar4")]
 _textureButtonBazzoka = NodePath("BazzokaButton")
 _textureButtonPistol = NodePath("PistolButton")
 _textureButtonShotgun = NodePath("ShotgunButton")
 _textureButtonSniper = NodePath("SniperButton")
-
-[node name="RoundTimer" type="Timer" parent="UserInterfaceLayer"]
 
 [node name="TimeLabel" type="Label" parent="UserInterfaceLayer"]
 offset_left = 10.0
@@ -83,18 +87,6 @@ theme_override_fonts/font = ExtResource("5_upmi1")
 theme_override_font_sizes/font_size = 20
 text = "TIME:"
 
-[node name="PlayerANumber" type="Label" parent="UserInterfaceLayer"]
-offset_left = 380.0
-offset_top = 5.0
-offset_right = 493.0
-offset_bottom = 30.0
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 25
-text = "Player 1:"
-horizontal_alignment = 2
-
 [node name="TimeLeft" type="Label" parent="UserInterfaceLayer"]
 offset_left = 65.0
 offset_top = 2.0
@@ -104,24 +96,82 @@ theme_override_fonts/font = ExtResource("5_upmi1")
 theme_override_font_sizes/font_size = 20
 text = "59'59"
 
-[node name="FigureA1" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(515, 15)
-scale = Vector2(2, 2)
+[node name="PlayerOneBar" type="Control" parent="UserInterfaceLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerOneName" type="Label" parent="UserInterfaceLayer/PlayerOneBar"]
+offset_left = 310.0
+offset_top = 5.0
+offset_right = 510.0
+offset_bottom = 30.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.273989, 0.21327, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 20
+text = "Spieler 1:"
+horizontal_alignment = 2
+
+[node name="PlayerOneChar1" type="Sprite2D" parent="UserInterfaceLayer/PlayerOneBar"]
+position = Vector2(530, 15)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_oq8g1")
 
-[node name="FigureA2" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(550, 15)
-scale = Vector2(2, 2)
+[node name="PlayerOneChar2" type="Sprite2D" parent="UserInterfaceLayer/PlayerOneBar"]
+position = Vector2(560, 15)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_oq8g1")
 
-[node name="FigureA3" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(585, 15)
-scale = Vector2(2, 2)
+[node name="PlayerOneChar3" type="Sprite2D" parent="UserInterfaceLayer/PlayerOneBar"]
+position = Vector2(590, 15)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_oq8g1")
 
-[node name="FigureA4" type="Sprite2D" parent="UserInterfaceLayer"]
+[node name="PlayerOneChar4" type="Sprite2D" parent="UserInterfaceLayer/PlayerOneBar"]
 position = Vector2(620, 15)
-scale = Vector2(2, 2)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("7_oq8g1")
+
+[node name="PlayerTwoBar" type="Control" parent="UserInterfaceLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerTwoName" type="Label" parent="UserInterfaceLayer/PlayerTwoBar"]
+offset_left = 310.0
+offset_top = 35.0
+offset_right = 510.0
+offset_bottom = 60.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.379009, 0.572699, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("5_upmi1")
+theme_override_font_sizes/font_size = 20
+text = "Spieler 2:"
+horizontal_alignment = 2
+
+[node name="PlayerTwoChar1" type="Sprite2D" parent="UserInterfaceLayer/PlayerTwoBar"]
+position = Vector2(530, 45)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("7_oq8g1")
+
+[node name="PlayerTwoChar2" type="Sprite2D" parent="UserInterfaceLayer/PlayerTwoBar"]
+position = Vector2(560, 45)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("7_oq8g1")
+
+[node name="PlayerTwoChar3" type="Sprite2D" parent="UserInterfaceLayer/PlayerTwoBar"]
+position = Vector2(590, 45)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("7_oq8g1")
+
+[node name="PlayerTwoChar4" type="Sprite2D" parent="UserInterfaceLayer/PlayerTwoBar"]
+position = Vector2(620, 45)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_oq8g1")
 
 [node name="BazzokaButton" type="TextureButton" parent="UserInterfaceLayer"]
@@ -172,44 +222,6 @@ texture_hover = ExtResource("22_ctkvd")
 texture_disabled = ExtResource("19_7y1v3")
 stretch_mode = 0
 
-[node name="PlayerBNumber" type="Label" parent="UserInterfaceLayer"]
-offset_left = 380.0
-offset_top = 40.0
-offset_right = 493.0
-offset_bottom = 65.0
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 1, 1)
-theme_override_fonts/font = ExtResource("5_upmi1")
-theme_override_font_sizes/font_size = 25
-text = "Player 2:"
-horizontal_alignment = 2
-
-[node name="FigureB1" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(515, 50)
-scale = Vector2(2, 2)
-texture = ExtResource("7_oq8g1")
-
-[node name="FigureB2" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(550, 50)
-scale = Vector2(2, 2)
-texture = ExtResource("7_oq8g1")
-
-[node name="FigureB3" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(585, 50)
-scale = Vector2(2, 2)
-texture = ExtResource("7_oq8g1")
-
-[node name="FigureB4" type="Sprite2D" parent="UserInterfaceLayer"]
-position = Vector2(620, 50)
-scale = Vector2(2, 2)
-texture = ExtResource("7_oq8g1")
-
-[node name="TextureRect" type="TextureRect" parent="UserInterfaceLayer"]
-z_index = -1
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("24_k8bir")
-
 [node name="BottomWater" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
@@ -220,6 +232,15 @@ offset_bottom = 360.0
 _spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
 spawn_path = NodePath("../Characters")
 spawn_limit = 8
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -3
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer"]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("24_k8bir")
 
 [connection signal="pressed" from="UserInterfaceLayer/BazzokaButton" to="." method="OnBazzokaButtonPressed"]
 [connection signal="pressed" from="UserInterfaceLayer/PistolButton" to="." method="OnPistolButtonPressed"]
