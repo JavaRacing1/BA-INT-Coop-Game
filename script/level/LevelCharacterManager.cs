@@ -138,6 +138,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 PlayerData data = MultiplayerLobby.Instance.GetPlayerData(peerId);
                 _userInterface.DisplayTurnNotification(data.Name, data.PlayerNumber);
+                _userInterface.DisplayWeapons(data.PlayerNumber);
             }
         }
     }

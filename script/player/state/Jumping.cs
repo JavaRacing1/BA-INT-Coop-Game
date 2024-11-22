@@ -9,7 +9,7 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Jumping : State
     {
-        private const float JumpVelocity = 170f;
+        private const float JumpVelocity = 180f;
 
         /// <summary>
         /// Handles jumping input

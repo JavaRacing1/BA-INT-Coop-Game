@@ -23,7 +23,8 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Label _notificationLabel;
 
         // Waffenbutton Node Liste
-        [Export] private TextureButton _textureButtonBazzoka;
+        [Export] private HBoxContainer _weaponContainer;
+        [Export] private TextureButton _textureButtonBazooka;
         [Export] private TextureButton _textureButtonPistol;
         [Export] private TextureButton _textureButtonShotgun;
         [Export] private TextureButton _textureButtonSniper;
@@ -134,6 +135,21 @@ namespace INTOnlineCoop.Script.Level
         }
 
         /// <summary>
+        /// Updates the display status of the weapons
+        /// </summary>
+        /// <param name="playerNumber">Number of the player who is on turn</param>
+        public void DisplayWeapons(int playerNumber)
+        {
+            long peerId = Multiplayer.GetUniqueId();
+            if (peerId == 1 || _weaponContainer == null)
+            {
+                return;
+            }
+
+            _weaponContainer.Visible = MultiplayerLobby.Instance.GetPlayerData(peerId).PlayerNumber == playerNumber;
+        }
+
+        /// <summary>
         /// Changes the character icons of a player
         /// </summary>
         /// <param name="playerNumber">Number of the player</param>
@@ -174,6 +190,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 return;
             }
+
             bool isCurrentClient = MultiplayerLobby.Instance.GetPlayerData(currentPeer).PlayerNumber == playerNumber;
             string prefix = isCurrentClient ? "[right][u]" : "[right]";
             playerLabel.Text = prefix + playerName;

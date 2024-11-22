@@ -67,7 +67,7 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="RoundTimer" type="Timer" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_notificationLabel", "_textureButtonBazzoka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_notificationLabel", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("6_rfhch")
 _timer = NodePath("../RoundTimer")
@@ -77,10 +77,11 @@ _labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
 _spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
 _spritesPlayer2 = [NodePath("PlayerTwoBar/PlayerTwoChar1"), NodePath("PlayerTwoBar/PlayerTwoChar2"), NodePath("PlayerTwoBar/PlayerTwoChar3"), NodePath("PlayerTwoBar/PlayerTwoChar4")]
 _notificationLabel = NodePath("PlayerNotificationLabel")
-_textureButtonBazzoka = NodePath("BazzokaButton")
-_textureButtonPistol = NodePath("PistolButton")
-_textureButtonShotgun = NodePath("ShotgunButton")
-_textureButtonSniper = NodePath("SniperButton")
+_weaponContainer = NodePath("WeaponContainer")
+_textureButtonBazooka = NodePath("WeaponContainer/BazookaButton")
+_textureButtonPistol = NodePath("WeaponContainer/PistolButton")
+_textureButtonShotgun = NodePath("WeaponContainer/ShotgunButton")
+_textureButtonSniper = NodePath("WeaponContainer/SniperButton")
 
 [node name="TimeLeft" type="Label" parent="UserInterfaceLayer"]
 visible = false
@@ -180,52 +181,58 @@ position = Vector2(620, 45)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_oq8g1")
 
-[node name="BazzokaButton" type="TextureButton" parent="UserInterfaceLayer"]
-offset_left = 200.0
-offset_top = 310.0
-offset_right = 280.0
-offset_bottom = 390.0
-scale = Vector2(0.5, 0.5)
+[node name="WeaponContainer" type="HBoxContainer" parent="UserInterfaceLayer"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+offset_left = -86.0
+offset_top = -40.0
+offset_right = 86.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="BazookaButton" type="TextureButton" parent="UserInterfaceLayer/WeaponContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 texture_normal = ExtResource("8_kwbqy")
 texture_pressed = ExtResource("9_0lkg7")
 texture_hover = ExtResource("10_4n4dx")
 texture_disabled = ExtResource("11_srw63")
+ignore_texture_size = true
 stretch_mode = 0
 
-[node name="PistolButton" type="TextureButton" parent="UserInterfaceLayer"]
-offset_left = 275.0
-offset_top = 310.0
-offset_right = 355.0
-offset_bottom = 390.0
-scale = Vector2(0.5, 0.5)
+[node name="PistolButton" type="TextureButton" parent="UserInterfaceLayer/WeaponContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 texture_normal = ExtResource("9_sq5tk")
 texture_pressed = ExtResource("13_mnii5")
 texture_hover = ExtResource("14_bxod5")
 texture_disabled = ExtResource("15_n8i5y")
+ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ShotgunButton" type="TextureButton" parent="UserInterfaceLayer"]
-offset_left = 350.0
-offset_top = 310.0
-offset_right = 430.0
-offset_bottom = 390.0
-scale = Vector2(0.5, 0.5)
+[node name="ShotgunButton" type="TextureButton" parent="UserInterfaceLayer/WeaponContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 texture_normal = ExtResource("10_txkbf")
 texture_pressed = ExtResource("17_qkipk")
 texture_hover = ExtResource("18_if113")
 texture_disabled = ExtResource("17_tax4o")
+ignore_texture_size = true
 stretch_mode = 0
 
-[node name="SniperButton" type="TextureButton" parent="UserInterfaceLayer"]
-offset_left = 425.0
-offset_top = 310.0
-offset_right = 505.0
-offset_bottom = 390.0
-scale = Vector2(0.5, 0.5)
+[node name="SniperButton" type="TextureButton" parent="UserInterfaceLayer/WeaponContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
 texture_normal = ExtResource("11_i7h4u")
 texture_pressed = ExtResource("21_7b1b2")
 texture_hover = ExtResource("22_ctkvd")
 texture_disabled = ExtResource("19_7y1v3")
+ignore_texture_size = true
 stretch_mode = 0
 
 [node name="PlayerNotificationLabel" type="Label" parent="UserInterfaceLayer"]
@@ -266,7 +273,7 @@ offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("24_k8bir")
 
-[connection signal="pressed" from="UserInterfaceLayer/BazzokaButton" to="." method="OnBazzokaButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/PistolButton" to="." method="OnPistolButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/SniperButton" to="." method="OnSniperButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/BazookaButton" to="." method="OnBazzokaButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="." method="OnPistolButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="." method="OnSniperButtonPressed"]
