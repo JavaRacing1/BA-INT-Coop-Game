@@ -10,6 +10,15 @@ namespace INTOnlineCoop.Script.Level
     /// </summary>
     public partial class GameLevelUserInterface : CanvasLayer
     {
+        /// <summary>
+        /// Color of the first player
+        /// </summary>
+        public static readonly Color PlayerOneColor = Color.Color8(255, 70, 54);
+        /// <summary>
+        /// Color of the second player
+        /// </summary>
+        public static readonly Color PlayerTwoColor = Color.Color8(97, 146, 255);
+
         // Timer Nodes exportieren
         [Export] private Timer _timer;
         [Export] private Label _labelTime;
@@ -130,7 +139,7 @@ namespace INTOnlineCoop.Script.Level
             _notificationLabel.Visible = true;
             _notificationLabel.Text = playerName + " ist am Zug!";
             _notificationLabel.AddThemeColorOverride("font_color",
-                playerNumber == 1 ? Color.Color8(255, 70, 54) : Color.Color8(97, 146, 255));
+                playerNumber == 1 ? PlayerOneColor : PlayerTwoColor);
             GetTree().CreateTimer(5).Timeout += () => _notificationLabel.Visible = false;
         }
 

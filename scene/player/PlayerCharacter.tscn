@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://buofo08bpqit7"]
+[gd_scene load_steps=14 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
 [ext_resource type="SpriteFrames" uid="uid://bypvanrplbd8v" path="res://assets/sprites/game_figure/zero/sprite.res" id="2_ad60y"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://script/player/state/Jumping.cs" id="7_k2ptf"]
 [ext_resource type="Script" path="res://script/player/state/TakingDamage.cs" id="8_rhafw"]
 [ext_resource type="Script" path="res://script/player/state/Dead.cs" id="9_o70kj"]
+[ext_resource type="Texture2D" uid="uid://dd72h6d4w0bgv" path="res://assets/sprites/game_figure/zero/head.png" id="10_vxtb0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5aihb"]
 size = Vector2(16, 30)
@@ -29,17 +30,22 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath(".:IsBlocked")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath(".:_health")
+properties/5/spawn = true
+properties/5/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gdvl3"]
 properties/0/path = NodePath("StateMachine:Direction")
 properties/0/spawn = false
 properties/0/replication_mode = 2
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_healthLabel", "_characterIcon", "StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
 _sprite = NodePath("CharacterSprite")
+_healthLabel = NodePath("HealthLabel")
+_characterIcon = NodePath("CharacterIcon")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
@@ -104,3 +110,23 @@ script = ExtResource("9_o70kj")
 Character = NodePath("../..")
 CharacterSprite = NodePath("../../CharacterSprite")
 StateMachine = NodePath("..")
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -55.0
+offset_right = 25.0
+offset_bottom = -13.0
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 30
+text = "100"
+horizontal_alignment = 1
+
+[node name="CharacterIcon" type="TextureRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(80, 80)
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("10_vxtb0")
+stretch_mode = 4

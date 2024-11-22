@@ -1,5 +1,8 @@
 using Godot;
 
+using INTOnlineCoop.Script.Level;
+using INTOnlineCoop.Script.Singleton;
+
 namespace INTOnlineCoop.Script.Player
 {
     /// <summary>
@@ -7,18 +10,22 @@ namespace INTOnlineCoop.Script.Player
     /// </summary>
     public partial class PlayerCharacter : CharacterBody2D
     {
+        /// <summary>
+        /// True if the player is blocked from inputs
+        /// </summary>
+        [Export] public bool IsBlocked;
+
         [Export] private AnimatedSprite2D _sprite;
+        [Export] private Label _healthLabel;
+        [Export] private TextureRect _characterIcon;
+        [Export] private string _type;
+        [Export] private int _health;
 
         /// <summary>
         /// Current StateMachine instance
         /// </summary>
         [Export]
         public StateMachine StateMachine { get; private set; }
-
-        /// <summary>
-        /// Current type used by the character
-        /// </summary>
-        public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
         /// Peer ID of the controlling player
@@ -31,15 +38,28 @@ namespace INTOnlineCoop.Script.Player
             {
                 _peerId = value;
                 StateMachine?.SetMultiplayerAuthority((int)_peerId);
+                ChangeHealthLabelColor(_peerId);
             }
         }
 
         /// <summary>
-        /// True if the player is blocked from inputs
+        /// Current type used by the character
         /// </summary>
-        [Export] public bool IsBlocked;
+        public CharacterType Type => CharacterType.FromName(_type);
 
-        [Export] private string _type;
+        /// <summary>
+        /// Current health of the player
+        /// </summary>
+        public int Health
+        {
+            get => _health;
+            set
+            {
+                _health = value;
+                _healthLabel.Text = $"{_health}";
+            }
+        }
+
         private long _peerId;
 
         /// <summary>
@@ -57,6 +77,8 @@ namespace INTOnlineCoop.Script.Player
             if (StateMachine != null)
             {
             }
+
+            _characterIcon.Texture = type.HeadTexture;
 
             if (_sprite == null || type.SpriteFrames == null)
             {
@@ -101,6 +123,52 @@ namespace INTOnlineCoop.Script.Player
         {
             StateMachine.CurrentState.HandleInput(delta);
             StateMachine.CurrentState.ChangeAnimationsAndStates(delta);
+        }
+
+        private void ChangeHealthLabelColor(long controllingPeerId)
+        {
+            if (_healthLabel == null)
+            {
+                return;
+            }
+
+            PlayerData playerData = MultiplayerLobby.Instance.GetPlayerData(controllingPeerId);
+            _healthLabel.AddThemeColorOverride("font_color",
+                playerData.PlayerNumber == 1
+                    ? GameLevelUserInterface.PlayerOneColor
+                    : GameLevelUserInterface.PlayerTwoColor);
+        }
+
+        /// <summary>
+        /// Displays the health label
+        /// </summary>
+        public void DisplayHealth()
+        {
+            _healthLabel.Visible = true;
+        }
+
+        /// <summary>
+        /// Displays the character icon
+        /// </summary>
+        public void DisplayCharacterIcon()
+        {
+            _characterIcon.Visible = true;
+        }
+
+        /// <summary>
+        /// Hides the health label
+        /// </summary>
+        public void HideHealth()
+        {
+            _healthLabel.Visible = false;
+        }
+
+        /// <summary>
+        /// Hides the character icon
+        /// </summary>
+        public void HideCharacterIcon()
+        {
+            _characterIcon.Visible = false;
         }
     }
 }

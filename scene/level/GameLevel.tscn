@@ -47,6 +47,7 @@ _bottomWaterRect = NodePath("BottomWater")
 limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("2_0aiww")
+_minZoom = 0.2
 
 [node name="LevelTileManager" type="Node2D" parent="." node_paths=PackedStringArray("_tileMap")]
 script = ExtResource("2_l7ks5")

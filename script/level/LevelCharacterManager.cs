@@ -130,8 +130,8 @@ namespace INTOnlineCoop.Script.Level
 
             if (_camera != null)
             {
-                _camera.Position = characterPosition;
-                _camera.Zoom = Vector2.One;
+                _camera.ChangeCameraZoom(1);
+                _camera.MoveCamera(characterPosition);
             }
 
             if (_userInterface != null)

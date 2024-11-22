@@ -89,6 +89,8 @@ namespace INTOnlineCoop.Script.Level
             _tileManager?.InitTileMap(_terrainImage);
             MultiplayerLobby.Instance.PlayerDisconnected += OnDisconnect;
 
+            _camera.CameraUpdated += UpdatePlayerLabels;
+
             Error error = MultiplayerLobby.Instance.RpcId(1, MultiplayerLobby.MethodName.PlayerLoaded);
             if (error != Error.Ok)
             {
@@ -102,6 +104,7 @@ namespace INTOnlineCoop.Script.Level
         public override void _ExitTree()
         {
             MultiplayerLobby.Instance.PlayerDisconnected -= OnDisconnect;
+            _camera.CameraUpdated -= UpdatePlayerLabels;
         }
 
         /// <summary>
@@ -162,6 +165,28 @@ namespace INTOnlineCoop.Script.Level
             GetTree().Root.AddChild(menu);
             GetTree().CurrentScene = menu;
             QueueFree();
+        }
+
+        private void UpdatePlayerLabels()
+        {
+            foreach (Node node in _characterParent.GetChildren())
+            {
+                if (node is not PlayerCharacter character)
+                {
+                    continue;
+                }
+
+                if (_camera.Zoom.X < 0.3)
+                {
+                    character.HideHealth();
+                    character.DisplayCharacterIcon();
+                }
+                else
+                {
+                    character.DisplayHealth();
+                    character.HideCharacterIcon();
+                }
+            }
         }
     }
 }
