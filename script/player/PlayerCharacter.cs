@@ -19,7 +19,7 @@ namespace INTOnlineCoop.Script.Player
         [Export] private Label _healthLabel;
         [Export] private TextureRect _characterIcon;
         [Export] private string _type;
-        [Export] private int _health;
+        [Export] private int _health = 100;
 
         private long _peerId;
 

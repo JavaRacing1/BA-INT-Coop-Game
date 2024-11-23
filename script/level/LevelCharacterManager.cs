@@ -23,6 +23,7 @@ namespace INTOnlineCoop.Script.Level
 
         private Node _characterParent;
         private int _currentCharacterIndex;
+        private long _currentPlayerPeer;
 
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace INTOnlineCoop.Script.Level
                     continue;
                 }
 
-                character.PlayerDied -= _userInterface.KillCharacterIcon;
+                character.PlayerDied -= OnPlayerDeath;
             }
         }
 
@@ -88,7 +89,7 @@ namespace INTOnlineCoop.Script.Level
                     PlayerCharacter character = scene.Instantiate<PlayerCharacter>();
                     character.Init(scaledSpawnPosition, type, peerId);
                     character.IsBlocked = true;
-                    character.PlayerDied += _userInterface.KillCharacterIcon;
+                    character.PlayerDied += OnPlayerDeath;
                     parentNode.AddChild(character, true);
 
                     characters.Add(character);
@@ -110,12 +111,35 @@ namespace INTOnlineCoop.Script.Level
         public void NextCharacter()
         {
             _characterOrder[_currentCharacterIndex].IsBlocked = true;
-            _currentCharacterIndex = (_currentCharacterIndex + 1) % _characterOrder.Length;
+            int characterIndex = _currentCharacterIndex;
+            int loopIndex = 0;
+            PlayerCharacter nextCharacter = null;
+            while (loopIndex < _characterOrder.Length + 1)
+            {
+                loopIndex++;
+                characterIndex = (characterIndex + 1) % _characterOrder.Length;
+                PlayerCharacter character = _characterOrder[characterIndex];
+                if ((_currentPlayerPeer != 0 && character.PeerId == _currentPlayerPeer) || (character.Health <= 0))
+                {
+                    continue;
+                }
 
-            PlayerCharacter character = _characterOrder[_currentCharacterIndex];
-            character.IsBlocked = false;
-            Vector2 newCharacterPos = character.Position;
-            long peerId = character.PeerId;
+                nextCharacter = character;
+                _currentCharacterIndex = characterIndex;
+                _currentPlayerPeer = character.PeerId;
+                break;
+            }
+
+            if (nextCharacter == null)
+            {
+                //TODO: Play win or loose screen
+                GD.Print("Win/Loose");
+                return;
+            }
+
+            nextCharacter.IsBlocked = false;
+            Vector2 newCharacterPos = nextCharacter.Position;
+            long peerId = nextCharacter.PeerId;
 
             if (_roundTimer == null)
             {
@@ -137,6 +161,11 @@ namespace INTOnlineCoop.Script.Level
                     GD.PrintErr("Error while resetting timer: " + error);
                 }
             };
+        }
+
+        private void OnPlayerDeath(PlayerCharacter character)
+        {
+            NextCharacter();
         }
 
         [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

@@ -97,7 +97,7 @@ namespace INTOnlineCoop.Script.Level
         {
             // Verbleibende Zeit vom Timer abrufen
             float timeLeft = (float)_timer.TimeLeft;
-            if (timeLeft != 0 && !_labelTime.Visible)
+            if (timeLeft >= 60 && !_labelTime.Visible)
             {
                 _labelTime.Visible = true;
             }
