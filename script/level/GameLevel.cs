@@ -21,6 +21,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Node2D _characterParent;
         [Export] private CanvasLayer _userInterfaceLayer;
         [Export] private ColorRect _bottomWaterRect;
+        [Export] private CollisionShape2D _waterCollisionShape;
 
         private Image _terrainImage;
 
@@ -43,11 +44,19 @@ namespace INTOnlineCoop.Script.Level
                 _camera.Init(terrainSize);
             }
 
-            if (_bottomWaterRect != null)
+            if (_bottomWaterRect != null && _waterCollisionShape != null)
             {
-                _bottomWaterRect.Size =
-                    new((terrainImage.GetWidth() * tileSize.X) + 1000, 300);
-                _bottomWaterRect.Position = new(-500, (terrainImage.GetHeight() * tileSize.Y) - 32);
+                Vector2 waterSize = new((terrainImage.GetWidth() * tileSize.X) + 1000, 300);
+                Vector2 waterPosition = new(-500, (terrainImage.GetHeight() * tileSize.Y) - 32);
+                _bottomWaterRect.Size = waterSize;
+                _bottomWaterRect.Position = waterPosition;
+
+                _waterCollisionShape.Position = waterPosition + new Vector2(waterSize.X / 2, 210);
+                RectangleShape2D shape = new()
+                {
+                    Size = waterSize
+                };
+                _waterCollisionShape.SetShape(shape);
             }
 
             GD.Print("GameLevel initialized!");
@@ -68,12 +77,10 @@ namespace INTOnlineCoop.Script.Level
             PlayerPositionGenerator positionGenerator = new();
             positionGenerator.Init(_terrainImage, shape.ToString(), debugMode: true);
             (double, double) unscaledSpawnPosition = positionGenerator.GetSpawnPosition(new Random().NextDouble());
-            GD.Print($"Unscaled Position: {unscaledSpawnPosition}");
 
             Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
             Vector2 scaledSpawnPosition = new((float)unscaledSpawnPosition.Item1 * tileSize.X,
                 (float)unscaledSpawnPosition.Item2 * tileSize.Y);
-            GD.Print($"Scaled Position: {scaledSpawnPosition}");
             PlayerCharacter character = GD.Load<PackedScene>("res://scene/player/PlayerCharacter.tscn")
                 .Instantiate<PlayerCharacter>();
             character.Init(scaledSpawnPosition, characterType, 1);
@@ -188,5 +195,6 @@ namespace INTOnlineCoop.Script.Level
                 }
             }
         }
+
     }
 }

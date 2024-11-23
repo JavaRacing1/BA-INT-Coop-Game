@@ -6,7 +6,7 @@
 [node name="MultiplayerConnectionWindow" type="Window" node_paths=PackedStringArray("_usernameInput", "_serverAddressInput", "_portInput", "_connectionButton", "_errorLabel")]
 title = "Mit Server verbinden"
 initial_position = 2
-size = Vector2i(270, 175)
+size = Vector2i(272, 175)
 wrap_controls = true
 exclusive = true
 unresizable = true

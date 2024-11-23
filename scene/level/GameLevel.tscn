@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://7h7m71uuto1n"]
+[gd_scene load_steps=30 format=3 uid="uid://7h7m71uuto1n"]
 
 [ext_resource type="Script" path="res://script/level/GameLevel.cs" id="1_v0801"]
 [ext_resource type="Script" path="res://script/level/PlayerCamera.cs" id="2_0aiww"]
@@ -34,7 +34,10 @@ shader_parameter/WAVE_THRESHOLD = 50.0
 shader_parameter/SPEED = 3.0
 shader_parameter/WAVE_INTERVAL = 100.0
 
-[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_characterManager", "_camera", "_characterParent", "_userInterfaceLayer", "_bottomWaterRect")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c0uom"]
+size = Vector2(639, 37)
+
+[node name="GameLevel" type="Node2D" node_paths=PackedStringArray("_tileManager", "_characterManager", "_camera", "_characterParent", "_userInterfaceLayer", "_bottomWaterRect", "_waterCollisionShape")]
 script = ExtResource("1_v0801")
 _tileManager = NodePath("LevelTileManager")
 _characterManager = NodePath("LevelCharacterManager")
@@ -42,6 +45,7 @@ _camera = NodePath("PlayerCamera")
 _characterParent = NodePath("Characters")
 _userInterfaceLayer = NodePath("UserInterfaceLayer")
 _bottomWaterRect = NodePath("BottomWater")
+_waterCollisionShape = NodePath("WaterArea/WaterCollisionShape")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -53,11 +57,13 @@ _minZoom = 0.2
 script = ExtResource("2_l7ks5")
 _tileMap = NodePath("../LevelTileMap")
 
-[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface")]
+[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface", "_bottomWaterRect", "_waterCollisionShape")]
 script = ExtResource("4_ibvwl")
 _roundTimer = NodePath("../RoundTimer")
 _camera = NodePath("../PlayerCamera")
 _userInterface = NodePath("../UserInterfaceLayer")
+_bottomWaterRect = NodePath("../BottomWater")
+_waterCollisionShape = NodePath("../WaterArea/WaterCollisionShape")
 
 [node name="LevelTileMap" type="TileMapLayer" parent="."]
 texture_filter = 4
@@ -68,7 +74,7 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="RoundTimer" type="Timer" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_notificationLabel", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_playerNotificationLabel", "_waterNotificationLabel", "_characterParent", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("6_rfhch")
 _timer = NodePath("../RoundTimer")
@@ -77,7 +83,9 @@ _labelPlayer1 = NodePath("PlayerOneBar/PlayerOneName")
 _labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
 _spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
 _spritesPlayer2 = [NodePath("PlayerTwoBar/PlayerTwoChar1"), NodePath("PlayerTwoBar/PlayerTwoChar2"), NodePath("PlayerTwoBar/PlayerTwoChar3"), NodePath("PlayerTwoBar/PlayerTwoChar4")]
-_notificationLabel = NodePath("PlayerNotificationLabel")
+_playerNotificationLabel = NodePath("PlayerNotificationLabel")
+_waterNotificationLabel = NodePath("WaterNotificationLabel")
+_characterParent = NodePath("../Characters")
 _weaponContainer = NodePath("WeaponContainer")
 _textureButtonBazooka = NodePath("WeaponContainer/BazookaButton")
 _textureButtonPistol = NodePath("WeaponContainer/PistolButton")
@@ -253,12 +261,41 @@ theme = ExtResource("25_t3ani")
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 30
 text = "Spieler 1 ist am Zug!"
+horizontal_alignment = 1
+
+[node name="WaterNotificationLabel" type="Label" parent="UserInterfaceLayer"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+offset_left = -151.5
+offset_top = -15.0
+offset_right = 151.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("25_t3ani")
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 20
+text = "Das Wasser ist gestiegen!"
+horizontal_alignment = 1
 
 [node name="BottomWater" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
 offset_bottom = 360.0
+
+[node name="WaterArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="WaterCollisionShape" type="CollisionShape2D" parent="WaterArea"]
+position = Vector2(319.5, 340.5)
+shape = SubResource("RectangleShape2D_c0uom")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
@@ -278,3 +315,4 @@ texture = ExtResource("24_k8bir")
 [connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="." method="OnPistolButtonPressed"]
 [connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
 [connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="." method="OnSniperButtonPressed"]
+[connection signal="body_entered" from="WaterArea" to="LevelCharacterManager" method="OnWaterEntered"]

@@ -40,7 +40,7 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public virtual void Enter()
         {
-            GD.Print($"{Multiplayer.GetUniqueId()}: Entering {Name} state");
+            //GD.Print($"{Multiplayer.GetUniqueId()}: Entering {Name} state");
         }
 
         /// <summary>
