@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
-[ext_resource type="SpriteFrames" uid="uid://u8ro7o112m35" path="res://assets/sprites/game_figure/athena/sprite.res" id="2_g2u1s"]
+[ext_resource type="SpriteFrames" uid="uid://dmci2ce3hsbs5" path="res://assets/sprites/game_figure/athena/sprite.res" id="2_g2u1s"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/state/Idle.cs" id="4_m11px"]
 [ext_resource type="Script" path="res://script/player/state/Falling.cs" id="5_yk43w"]

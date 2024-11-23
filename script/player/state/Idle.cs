@@ -18,10 +18,15 @@ namespace INTOnlineCoop.Script.Player.States
         public override void Enter()
         {
             base.Enter();
+            if (!Character.TexturesLoaded)
+            {
+                Character.LoadTextures();
+            }
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
             StateMachine.Jumped = false;
             StateMachine.Direction = 0;
+            _idleFrameCounter = 0;
         }
 
         /// <summary>

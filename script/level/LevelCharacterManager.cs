@@ -252,7 +252,7 @@ namespace INTOnlineCoop.Script.Level
 
         private void EndGame(Winner gameWinner)
         {
-            GD.Print("Win/Loose");
+            GD.Print("Win/Loose: " + gameWinner);
         }
 
         private void OnWaterEntered(Node2D body)

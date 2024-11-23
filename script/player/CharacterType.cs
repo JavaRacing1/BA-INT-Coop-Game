@@ -15,34 +15,34 @@ namespace INTOnlineCoop.Script.Player
         public static readonly CharacterType None = new("None", 0);
 
         /// <summary> Amara (Borderlands 3) </summary>
-        public static readonly CharacterType Amara = new("Amara", 0);
+        public static readonly CharacterType Amara = new("Amara", 10);
 
         /// <summary> Athena (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Athena = new("Athena", 0);
+        public static readonly CharacterType Athena = new("Athena", 16);
 
         /// <summary> Axton (Borderlands 2) </summary>
         public static readonly CharacterType Axton = new("Axton", 11);
 
         /// <summary> Gaige (Borderlands 2) </summary>
-        public static readonly CharacterType Gaige = new("Gaige", 0);
+        public static readonly CharacterType Gaige = new("Gaige", 13);
 
         /// <summary> Krieg (Borderlands 2) </summary>
-        public static readonly CharacterType Krieg = new("Krieg", 0);
+        public static readonly CharacterType Krieg = new("Krieg", 17);
 
         /// <summary> Maja (Borderlands 2) </summary>
-        public static readonly CharacterType Maja = new("Maja", 0);
+        public static readonly CharacterType Maja = new("Maja", 13);
 
         /// <summary> Moze (Borderlands 3) </summary>
-        public static readonly CharacterType Moze = new("Moze", 0);
+        public static readonly CharacterType Moze = new("Moze", 19);
 
         /// <summary> Nisha (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Nisha = new("Nisha", 0);
+        public static readonly CharacterType Nisha = new("Nisha", 10);
 
         /// <summary> Salvador (Borderlands 2) </summary>
-        public static readonly CharacterType Salvador = new("Salvador", 0);
+        public static readonly CharacterType Salvador = new("Salvador", 13);
 
         /// <summary> Wilhelm (Borderlands Pre-Sequel) </summary>
-        public static readonly CharacterType Wilhelm = new("Wilhelm", 0);
+        public static readonly CharacterType Wilhelm = new("Wilhelm", 12);
 
         /// <summary> Zero (Borderlands 2) </summary>
         public static readonly CharacterType Zero = new("Zero", 14);
@@ -104,8 +104,7 @@ namespace INTOnlineCoop.Script.Player
 
             HeadTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/head.png");
             BodyTexture = GD.Load<Texture2D>($"res://assets/sprites/game_figure/{name.ToLower()}/body.png");
-            //TODO: Add SpriteFrames for each character
-            //SpriteFrames = GD.Load<SpriteFrames>($"res://assets/sprites/game_figure/{name.ToLower()}/sprite.res");
+            SpriteFrames = GD.Load<SpriteFrames>($"res://assets/sprites/game_figure/{name.ToLower()}/sprite.res");
         }
 
         /// <summary>

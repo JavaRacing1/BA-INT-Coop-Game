@@ -50,6 +50,11 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
+        /// True if the character has the correct textures
+        /// </summary>
+        public bool TexturesLoaded { get; private set; }
+
+        /// <summary>
         /// Emitted when the player died
         /// </summary>
         [Signal]
@@ -79,15 +84,21 @@ namespace INTOnlineCoop.Script.Player
             Position = position;
             _type = type.Name;
             PeerId = peerId;
+        }
 
-            _characterIcon.Texture = type.HeadTexture;
-
-            if (_sprite == null || type.SpriteFrames == null)
+        /// <summary>
+        /// Loads the textures of the selected character
+        /// </summary>
+        public void LoadTextures()
+        {
+            if (_sprite == null || Type.SpriteFrames == null)
             {
                 return;
             }
 
-            _sprite.SpriteFrames = type.SpriteFrames;
+            _characterIcon.Texture = Type.HeadTexture;
+            _sprite.SpriteFrames = Type.SpriteFrames;
+            TexturesLoaded = true;
         }
 
         /// <summary>

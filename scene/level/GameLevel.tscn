@@ -283,7 +283,6 @@ text = "Das Wasser ist gestiegen!"
 horizontal_alignment = 1
 
 [node name="BottomWater" type="ColorRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
