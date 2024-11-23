@@ -21,6 +21,8 @@ namespace INTOnlineCoop.Script.Player
         [Export] private string _type;
         [Export] private int _health;
 
+        private long _peerId;
+
         /// <summary>
         /// Current StateMachine instance
         /// </summary>
@@ -48,6 +50,12 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
+        /// Emitted when the player died
+        /// </summary>
+        [Signal]
+        public delegate void PlayerDiedEventHandler(PlayerCharacter character);
+
+        /// <summary>
         /// Current health of the player
         /// </summary>
         public int Health
@@ -60,8 +68,6 @@ namespace INTOnlineCoop.Script.Player
             }
         }
 
-        private long _peerId;
-
         /// <summary>
         /// Initializes the character
         /// </summary>
@@ -73,10 +79,6 @@ namespace INTOnlineCoop.Script.Player
             Position = position;
             _type = type.Name;
             PeerId = peerId;
-
-            if (StateMachine != null)
-            {
-            }
 
             _characterIcon.Texture = type.HeadTexture;
 
@@ -169,6 +171,20 @@ namespace INTOnlineCoop.Script.Player
         public void HideCharacterIcon()
         {
             _characterIcon.Visible = false;
+        }
+
+        /// <summary>
+        /// Damages the player
+        /// </summary>
+        /// <param name="damageAmount"></param>
+        [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void Damage(int damageAmount)
+        {
+            Health -= damageAmount;
+            if (Health <= 0)
+            {
+                _ = EmitSignal(SignalName.PlayerDied, this);
+            }
         }
     }
 }

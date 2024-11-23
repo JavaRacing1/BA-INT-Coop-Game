@@ -14,6 +14,7 @@ namespace INTOnlineCoop.Script.Level
         /// Color of the first player
         /// </summary>
         public static readonly Color PlayerOneColor = Color.Color8(255, 70, 54);
+
         /// <summary>
         /// Color of the second player
         /// </summary>
@@ -30,6 +31,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Sprite2D[] _spritesPlayer2;
 
         [Export] private Label _notificationLabel;
+        [Export] private Node _characterParent;
 
         // Waffenbutton Node Liste
         [Export] private HBoxContainer _weaponContainer;
@@ -37,6 +39,8 @@ namespace INTOnlineCoop.Script.Level
         [Export] private TextureButton _textureButtonPistol;
         [Export] private TextureButton _textureButtonShotgun;
         [Export] private TextureButton _textureButtonSniper;
+
+        private bool _areSignalsConnected;
 
         //Hilfsvariable für Todeszustände der SPielfiguren
         //private readonly bool[] _player1CharacterDead;
@@ -136,11 +140,56 @@ namespace INTOnlineCoop.Script.Level
                 return;
             }
 
+            if (!_areSignalsConnected)
+            {
+                ConnectPlayerSignals();
+                _areSignalsConnected = true;
+            }
+
             _notificationLabel.Visible = true;
             _notificationLabel.Text = playerName + " ist am Zug!";
             _notificationLabel.AddThemeColorOverride("font_color",
                 playerNumber == 1 ? PlayerOneColor : PlayerTwoColor);
             GetTree().CreateTimer(5).Timeout += () => _notificationLabel.Visible = false;
+        }
+
+        private void ConnectPlayerSignals()
+        {
+            if (_characterParent == null)
+            {
+                return;
+            }
+
+            foreach (Node node in _characterParent.GetChildren())
+            {
+                if (node is not PlayerCharacter character)
+                {
+                    continue;
+                }
+
+                character.PlayerDied += KillCharacterIcon;
+            }
+        }
+
+        /// <summary>
+        /// Disconnects player signals
+        /// </summary>
+        public override void _ExitTree()
+        {
+            if (!_areSignalsConnected)
+            {
+                return;
+            }
+
+            foreach (Node node in _characterParent.GetChildren())
+            {
+                if (node is not PlayerCharacter character)
+                {
+                    continue;
+                }
+
+                character.PlayerDied -= KillCharacterIcon;
+            }
         }
 
         /// <summary>
@@ -174,10 +223,28 @@ namespace INTOnlineCoop.Script.Level
 
             for (int i = 0; i < playerSprites.Length; i++)
             {
-                CharacterType type = characters[i];
-                playerSprites[i].Texture = type == CharacterType.None
-                    ? GD.Load<Texture2D>("res://assets/texture/PlayerDead.png")
-                    : characters[i].HeadTexture;
+                playerSprites[i].Texture = characters[i].HeadTexture;
+            }
+        }
+
+        /// <summary>
+        /// Updates the icon of a killed character
+        /// </summary>
+        /// <param name="character">Died character</param>
+        public void KillCharacterIcon(PlayerCharacter character)
+        {
+            PlayerData data = MultiplayerLobby.Instance.GetPlayerData(character.PeerId);
+            int playerNumber = data.PlayerNumber;
+            Sprite2D[] playerSprites = playerNumber == 1 ? _spritesPlayer1 : _spritesPlayer2;
+
+            for (int i = 0; i < playerSprites.Length; i++)
+            {
+                CharacterType type = data.Characters[i];
+                if (type == character.Type)
+                {
+                    playerSprites[i].Texture = GD.Load<Texture2D>("res://assets/texture/PlayerDead.png");
+                    break;
+                }
             }
         }
 

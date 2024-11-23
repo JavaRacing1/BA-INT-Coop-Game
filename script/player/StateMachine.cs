@@ -72,7 +72,6 @@ namespace INTOnlineCoop.Script.Player
                     }
 
                     _states.Add(availableState, state); //States zum Dictionary hinzufügen
-                    GD.Print($"State registered: {node.Name}");
                 }
             }
         }

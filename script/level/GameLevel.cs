@@ -51,11 +51,12 @@ namespace INTOnlineCoop.Script.Level
                 _bottomWaterRect.Size = waterSize;
                 _bottomWaterRect.Position = waterPosition;
 
-                _waterCollisionShape.Position = waterPosition + new Vector2(0, 64);
-                if (_waterCollisionShape.Shape is RectangleShape2D waterShape)
+                _waterCollisionShape.Position = waterPosition + new Vector2(waterSize.X / 2, 210);
+                RectangleShape2D shape = new()
                 {
-                    waterShape.Size = waterSize;
-                }
+                    Size = waterSize
+                };
+                _waterCollisionShape.SetShape(shape);
             }
 
             GD.Print("GameLevel initialized!");
@@ -194,6 +195,20 @@ namespace INTOnlineCoop.Script.Level
                     character.DisplayHealth();
                     character.HideCharacterIcon();
                 }
+            }
+        }
+
+        private void OnWaterEntered(Node2D body)
+        {
+            if (body is not PlayerCharacter character || !Multiplayer.IsServer())
+            {
+                return;
+            }
+
+            Error error = character.Rpc(PlayerCharacter.MethodName.Damage, 1000);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Error during PlayerDied RPC: " + error);
             }
         }
     }

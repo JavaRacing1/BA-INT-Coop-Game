@@ -21,6 +21,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private PlayerCamera _camera;
         [Export] private GameLevelUserInterface _userInterface;
 
+        private Node _characterParent;
         private int _currentCharacterIndex;
 
 
@@ -44,6 +45,21 @@ namespace INTOnlineCoop.Script.Level
             {
                 _roundTimer.Timeout -= NextCharacter;
             }
+
+            if (_characterParent == null)
+            {
+                return;
+            }
+
+            foreach (Node node in _characterParent.GetChildren())
+            {
+                if (node is not PlayerCharacter character)
+                {
+                    continue;
+                }
+
+                character.PlayerDied -= _userInterface.KillCharacterIcon;
+            }
         }
 
         /// <summary>
@@ -51,6 +67,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public void SpawnCharacters(Node parentNode, PlayerPositionGenerator generator, Vector2I tileSize)
         {
+            _characterParent = parentNode;
             PackedScene scene = GD.Load<PackedScene>("res://scene/player/PlayerCharacter.tscn");
             double spawnSeed = new Random().NextDouble();
 
@@ -71,6 +88,7 @@ namespace INTOnlineCoop.Script.Level
                     PlayerCharacter character = scene.Instantiate<PlayerCharacter>();
                     character.Init(scaledSpawnPosition, type, peerId);
                     character.IsBlocked = true;
+                    character.PlayerDied += _userInterface.KillCharacterIcon;
                     parentNode.AddChild(character, true);
 
                     characters.Add(character);
