@@ -160,6 +160,10 @@ namespace INTOnlineCoop.Script.Level
 
         private void OnDisconnect(int peerId)
         {
+            if (_characterManager.IsGameFinished)
+            {
+                return;
+            }
             GD.Print($"{peerId} disconnected! Closing level");
             OnExit();
         }

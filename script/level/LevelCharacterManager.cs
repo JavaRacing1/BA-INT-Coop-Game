@@ -41,13 +41,17 @@ namespace INTOnlineCoop.Script.Level
         [Export(PropertyHint.Range, "0,50,")] private int _waterRisingMinRound = 16;
 
         [Export(PropertyHint.Range, "0,1000,")]
-        private int _waterRisingAmount = 32;
+        private int _waterRisingAmount = 48;
 
         private Node _characterParent;
         private int _currentCharacterIndex;
         private long _currentPlayerPeer;
         private int _currentRoundNumber;
 
+        /// <summary>
+        /// True if the game has ended
+        /// </summary>
+        public bool IsGameFinished { get; private set; }
 
         /// <summary>
         /// Add round change on timer timeout
@@ -65,7 +69,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _ExitTree()
         {
-            if (Multiplayer.IsServer())
+            if (Multiplayer.HasMultiplayerPeer() && Multiplayer.IsServer())
             {
                 _roundTimer.Timeout -= NextCharacter;
             }
@@ -153,14 +157,7 @@ namespace INTOnlineCoop.Script.Level
                 break;
             }
 
-            if (nextCharacter == null)
-            {
-                //TODO: Play win or loose screen
-                EndGame(GetWinner());
-                return;
-            }
-
-            if (_roundTimer == null)
+            if (nextCharacter == null || _roundTimer == null)
             {
                 return;
             }
@@ -217,6 +214,10 @@ namespace INTOnlineCoop.Script.Level
 
         private void OnPlayerDeath(PlayerCharacter character)
         {
+            if (!Multiplayer.IsServer())
+            {
+                return;
+            }
             if (character == _characterOrder[_currentCharacterIndex])
             {
                 NextCharacter();
@@ -227,7 +228,8 @@ namespace INTOnlineCoop.Script.Level
             Winner potentialWinner = GetWinner();
             if (potentialWinner != Winner.None)
             {
-                EndGame(potentialWinner);
+                IsGameFinished = true;
+                _ = Rpc(MethodName.EndGame, potentialWinner.ToString());
             }
         }
 
@@ -250,9 +252,26 @@ namespace INTOnlineCoop.Script.Level
                 : (playerDeadAmount[1] == 4 ? Winner.PlayerOne : Winner.None);
         }
 
-        private void EndGame(Winner gameWinner)
+        [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void EndGame(string winnerString)
         {
-            GD.Print("Win/Loose: " + gameWinner);
+            IsGameFinished = true;
+            bool parseOk = Enum.TryParse(winnerString, true, out Winner winner);
+            if (!parseOk)
+            {
+                GD.PrintErr("Received invalid winner string: " + winnerString);
+                return;
+            }
+
+            int playerNumber = MultiplayerLobby.Instance.GetPlayerData(Multiplayer.GetUniqueId()).PlayerNumber;
+            Node screen = playerNumber == (int)winner
+                ? GD.Load<PackedScene>("res://scene/ui/screen/VictoryScreen.tscn").Instantiate()
+                : GD.Load<PackedScene>("res://scene/ui/screen/DefeatScreen.tscn").Instantiate();
+
+            MultiplayerLobby.Instance.CloseConnection();
+            GetTree().Root.AddChild(screen);
+            GetTree().CurrentScene = screen;
+            GetParent().QueueFree();
         }
 
         private void OnWaterEntered(Node2D body)

@@ -17,7 +17,7 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            if (Character.PeerId != Multiplayer.GetUniqueId())
+            if (!Multiplayer.HasMultiplayerPeer() || Character.PeerId != Multiplayer.GetUniqueId())
             {
                 return;
             }

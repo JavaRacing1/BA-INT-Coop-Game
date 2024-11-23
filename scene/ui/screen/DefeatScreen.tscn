@@ -1,23 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxjqyrxm51840"]
+[gd_scene load_steps=4 format=3 uid="uid://bfvyb8kbenoyt"]
 
 [ext_resource type="Script" path="res://script/ui/screen/DefeatScreen.cs" id="1_qfd0m"]
 [ext_resource type="Texture2D" uid="uid://iw5xyum8fbyw" path="res://assets/sprites/background/DefeatScreent.png" id="2_5tis8"]
 [ext_resource type="FontFile" uid="uid://bibc2xthmqefg" path="res://assets/font/Minecraft/MinecraftRegular-Bmg3.otf" id="3_re5yh"]
 
-[node name="DefeatScreen" type="Node"]
-script = ExtResource("1_qfd0m")
-
-[node name="CancasLayer" type="CanvasLayer" parent="."]
-
-[node name="TextureRect" type="TextureRect" parent="CancasLayer"]
+[node name="DefeatScreen" type="TextureRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_5tis8")
+script = ExtResource("1_qfd0m")
 
-[node name="MultiplayerLobbyButton" type="Button" parent="CancasLayer"]
+[node name="MultiplayerLobbyButton" type="Button" parent="."]
+layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -31,13 +28,19 @@ grow_vertical = 0
 theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_re5yh")
 theme_override_font_sizes/font_size = 30
-text = "Zurück zur Lobby"
+text = "Hauptmenü"
 
-[node name="Label" type="Label" parent="CancasLayer"]
-offset_left = 237.0
-offset_top = 22.0
-offset_right = 437.0
-offset_bottom = 62.0
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.15
+anchor_right = 0.5
+anchor_bottom = 0.15
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 40.0
+grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.0177324, 0.0177324, 0.0177324, 1)
 theme_override_colors/font_outline_color = Color(0.937255, 0.823529, 0.835294, 1)
@@ -45,14 +48,4 @@ theme_override_fonts/font = ExtResource("3_re5yh")
 theme_override_font_sizes/font_size = 40
 text = "VERLOREN!"
 
-[node name="PlayerName" type="Label" parent="CancasLayer"]
-offset_left = 188.0
-offset_top = 80.0
-offset_right = 506.0
-offset_bottom = 110.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_re5yh")
-theme_override_font_sizes/font_size = 30
-text = "Spieler hat verloren!"
-
-[connection signal="pressed" from="CancasLayer/MultiplayerLobbyButton" to="." method="OnMultiplayerLobbyButtonPressed"]
+[connection signal="pressed" from="MultiplayerLobbyButton" to="." method="OnMultiplayerLobbyButtonPressed"]

@@ -12,7 +12,7 @@ namespace INTOnlineCoop.Script.UI.Screen
         /// </summary>
         private void OnMultiplayerLobbyButtonPressed()
         {
-            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/LobbyScreen.tscn");
+            _ = GetTree().ChangeSceneToFile("res://scene/ui/screen/MainMenu.tscn");
         }
     }
 }
