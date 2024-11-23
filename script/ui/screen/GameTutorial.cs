@@ -17,11 +17,11 @@ namespace INTOnlineCoop.Script.UI.Screen
 
         private readonly string[] _tutorialText =
         {
-            "Willkommen beim PixelSmashers!\nDiese Einführung wird dir die Grundlagen des Spiels erklären.",
-            "Wähle vor dem Spielstart 4 Figuren für dein Team in der Figuren-\nauswahl aus!",
-            "Im Sandbox-Modus kannst du die Fähigkeiten eines Charakters testen.",
-            "Die Online-Verbindung funktioniert folgendermaßen:",
-            "Bewege deine Spielfigur mit A, D und LEERTASTE, wenn du am Zug bist.",
+            "Willkommen bei PixelSmashers!\nDiese Einführung wird dir die Grundlagen des Spiels erklären.",
+            "Bevor du eine Partie startest, wähle vier Spielfiguren für dein Team in der Figurenauswahl aus!",
+            "Im Sandbox-Modus kannst du die Fähigkeiten jedes Charakters auf jedem Spielgelände testen.",
+            "Steuere die Kamera mit den Pfeiltasten und zoome mithilfe des Mausrades!",
+            "Bewege eine Spielfigur mit A, D und LEERTASTE, wenn du am Zug bist.",
             "Eröffne das Feuer durch Zielen und Klicken mit dem Mauszeiger.",
             "Versuche, alle deine Feinde auszuschalten und gewinne das Spiel!",
             "Wenn der Timer abläuft ist das Spiel zu Ende, gewonnen hat der mit den meisten verbliebenen Einheiten.",
