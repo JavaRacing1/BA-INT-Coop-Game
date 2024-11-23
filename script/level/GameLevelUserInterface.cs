@@ -30,7 +30,8 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Sprite2D[] _spritesPlayer1;
         [Export] private Sprite2D[] _spritesPlayer2;
 
-        [Export] private Label _notificationLabel;
+        [Export] private Label _playerNotificationLabel;
+        [Export] private Label _waterNotificationLabel;
         [Export] private Node _characterParent;
 
         // Waffenbutton Node Liste
@@ -133,9 +134,9 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         /// <param name="playerName">Name of the player</param>
         /// <param name="playerNumber">Player number</param>
-        public void DisplayTurnNotification(string playerName, int playerNumber)
+        public void DisplayTurnNotification(string playerName, int playerNumber, bool isWaterRising)
         {
-            if (_notificationLabel == null)
+            if (_playerNotificationLabel == null || _waterNotificationLabel == null)
             {
                 return;
             }
@@ -146,11 +147,21 @@ namespace INTOnlineCoop.Script.Level
                 _areSignalsConnected = true;
             }
 
-            _notificationLabel.Visible = true;
-            _notificationLabel.Text = playerName + " ist am Zug!";
-            _notificationLabel.AddThemeColorOverride("font_color",
-                playerNumber == 1 ? PlayerOneColor : PlayerTwoColor);
-            GetTree().CreateTimer(5).Timeout += () => _notificationLabel.Visible = false;
+            _playerNotificationLabel.Visible = true;
+            _playerNotificationLabel.Text = playerName + " ist am Zug!";
+            Color textColor = playerNumber == 1 ? PlayerOneColor : PlayerTwoColor;
+            _playerNotificationLabel.AddThemeColorOverride("font_color", textColor);
+            if (isWaterRising)
+            {
+                _waterNotificationLabel.Visible = true;
+                _waterNotificationLabel.AddThemeColorOverride("font_color", textColor);
+            }
+
+            GetTree().CreateTimer(5).Timeout += () =>
+            {
+                _playerNotificationLabel.Visible = false;
+                _waterNotificationLabel.Visible = false;
+            };
         }
 
         private void ConnectPlayerSignals()
@@ -246,6 +257,11 @@ namespace INTOnlineCoop.Script.Level
                     break;
                 }
             }
+
+            // Hide player information
+            character.HideHealth();
+            character.HideCharacterIcon();
+            character.StateMachine.TransitionTo(AvailableState.Dead);
         }
 
         /// <summary>

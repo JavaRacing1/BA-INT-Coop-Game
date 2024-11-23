@@ -77,12 +77,10 @@ namespace INTOnlineCoop.Script.Level
             PlayerPositionGenerator positionGenerator = new();
             positionGenerator.Init(_terrainImage, shape.ToString(), debugMode: true);
             (double, double) unscaledSpawnPosition = positionGenerator.GetSpawnPosition(new Random().NextDouble());
-            GD.Print($"Unscaled Position: {unscaledSpawnPosition}");
 
             Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
             Vector2 scaledSpawnPosition = new((float)unscaledSpawnPosition.Item1 * tileSize.X,
                 (float)unscaledSpawnPosition.Item2 * tileSize.Y);
-            GD.Print($"Scaled Position: {scaledSpawnPosition}");
             PlayerCharacter character = GD.Load<PackedScene>("res://scene/player/PlayerCharacter.tscn")
                 .Instantiate<PlayerCharacter>();
             character.Init(scaledSpawnPosition, characterType, 1);
@@ -198,18 +196,5 @@ namespace INTOnlineCoop.Script.Level
             }
         }
 
-        private void OnWaterEntered(Node2D body)
-        {
-            if (body is not PlayerCharacter character || !Multiplayer.IsServer())
-            {
-                return;
-            }
-
-            Error error = character.Rpc(PlayerCharacter.MethodName.Damage, 1000);
-            if (error != Error.Ok)
-            {
-                GD.PrintErr("Error during PlayerDied RPC: " + error);
-            }
-        }
     }
 }

@@ -146,7 +146,10 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public void DisplayHealth()
         {
-            _healthLabel.Visible = true;
+            if (Health > 0)
+            {
+                _healthLabel.Visible = true;
+            }
         }
 
         /// <summary>
@@ -154,7 +157,10 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public void DisplayCharacterIcon()
         {
-            _characterIcon.Visible = true;
+            if (Health > 0)
+            {
+                _characterIcon.Visible = true;
+            }
         }
 
         /// <summary>
@@ -180,6 +186,11 @@ namespace INTOnlineCoop.Script.Player
         [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         public void Damage(int damageAmount)
         {
+            if (Health <= 0)
+            {
+                return;
+            }
+
             Health -= damageAmount;
             if (Health <= 0)
             {

@@ -20,10 +20,16 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Timer _roundTimer;
         [Export] private PlayerCamera _camera;
         [Export] private GameLevelUserInterface _userInterface;
+        [Export] private ColorRect _bottomWaterRect;
+        [Export] private CollisionShape2D _waterCollisionShape;
+
+        [Export(PropertyHint.Range, "0,50,")] private int _waterRisingMinRound = 16;
+        [Export(PropertyHint.Range, "0,1000,")] private int _waterRisingAmount = 32;
 
         private Node _characterParent;
         private int _currentCharacterIndex;
         private long _currentPlayerPeer;
+        private int _currentRoundNumber;
 
 
         /// <summary>
@@ -137,14 +143,16 @@ namespace INTOnlineCoop.Script.Level
                 return;
             }
 
-            nextCharacter.IsBlocked = false;
-            Vector2 newCharacterPos = nextCharacter.Position;
-            long peerId = nextCharacter.PeerId;
-
             if (_roundTimer == null)
             {
                 return;
             }
+
+            _currentRoundNumber++;
+
+            nextCharacter.IsBlocked = false;
+            Vector2 newCharacterPos = nextCharacter.Position;
+            long peerId = nextCharacter.PeerId;
 
             Error error = _userInterface.Rpc(GameLevelUserInterface.MethodName.HideTimerLabel);
             if (error != Error.Ok)
@@ -155,7 +163,8 @@ namespace INTOnlineCoop.Script.Level
             SceneTreeTimer timer = GetTree().CreateTimer(5);
             timer.Timeout += () =>
             {
-                error = Rpc(MethodName.StartRound, newCharacterPos, peerId);
+                error = Rpc(MethodName.StartRound, newCharacterPos, peerId,
+                    _currentRoundNumber > _waterRisingMinRound);
                 if (error != Error.Ok)
                 {
                     GD.PrintErr("Error while resetting timer: " + error);
@@ -165,11 +174,15 @@ namespace INTOnlineCoop.Script.Level
 
         private void OnPlayerDeath(PlayerCharacter character)
         {
-            NextCharacter();
+            if (character == _characterOrder[_currentCharacterIndex])
+            {
+                NextCharacter();
+            }
+            character.StateMachine.TransitionTo(AvailableState.Dead);
         }
 
         [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-        private void StartRound(Vector2 characterPosition, long peerId)
+        private void StartRound(Vector2 characterPosition, long peerId, bool isWaterRising)
         {
             _roundTimer.WaitTime = 65;
             _roundTimer.OneShot = true;
@@ -181,12 +194,45 @@ namespace INTOnlineCoop.Script.Level
                 _camera.MoveCamera(characterPosition);
             }
 
+            if (isWaterRising)
+            {
+                RiseWater();
+            }
+
             if (_userInterface != null)
             {
                 PlayerData data = MultiplayerLobby.Instance.GetPlayerData(peerId);
-                _userInterface.DisplayTurnNotification(data.Name, data.PlayerNumber);
+                _userInterface.DisplayTurnNotification(data.Name, data.PlayerNumber, isWaterRising);
                 _userInterface.DisplayWeapons(data.PlayerNumber);
             }
+        }
+
+        private void OnWaterEntered(Node2D body)
+        {
+            if (body is not PlayerCharacter character || !Multiplayer.IsServer())
+            {
+                return;
+            }
+
+            Error error = character.Rpc(PlayerCharacter.MethodName.Damage, 1000);
+            if (error != Error.Ok)
+            {
+                GD.PrintErr("Error during PlayerDied RPC: " + error);
+            }
+        }
+
+        private void RiseWater()
+        {
+            _bottomWaterRect.Position -= new Vector2(0, _waterRisingAmount);
+            _bottomWaterRect.Size += new Vector2(_waterRisingAmount, _waterRisingAmount);
+
+            RectangleShape2D oldWaterShape = (RectangleShape2D)_waterCollisionShape.Shape;
+            RectangleShape2D newWaterShape = new()
+            {
+                Size = new Vector2(oldWaterShape.Size.X, oldWaterShape.Size.Y + _waterRisingAmount)
+            };
+            _waterCollisionShape.Position -= new Vector2(0, _waterRisingAmount * 0.4f);
+            _waterCollisionShape.SetShape(newWaterShape);
         }
     }
 }
