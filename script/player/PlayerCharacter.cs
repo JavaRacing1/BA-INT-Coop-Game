@@ -254,20 +254,20 @@ namespace INTOnlineCoop.Script.Player
                 return;
             }
 
-            bool oldFlip = _currentItem.FlipH;
-            _currentItem.FlipH = !_sprite.FlipH;
-            if (oldFlip == _currentItem.FlipH)
+            float oldScale = _currentItem.Scale.X;
+            float newScale = !_sprite.FlipH ? 1 : -1;
+
+            Vector2 itemScale = _currentItem.Scale;
+            itemScale.X = newScale;
+            _currentItem.Scale = itemScale;
+
+            if (Mathf.IsEqualApprox(oldScale, newScale))
             {
                 return;
             }
 
             Vector2 oldPosition = _currentItem.Position;
             _currentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
-
-            if (_currentItem is DirectionItem directionItem)
-            {
-                directionItem.MirrorCrosshair();
-            }
         }
     }
 }

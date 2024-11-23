@@ -81,6 +81,12 @@ namespace INTOnlineCoop.Script.Player.States
                     CharacterSprite.Play();
                 }
             }
+            else
+            {
+                _idleFrameCounter = 0;
+                CharacterSprite.Pause();
+                CharacterSprite.Frame = 0;
+            }
 
             if (!Character.IsOnFloor())
             {

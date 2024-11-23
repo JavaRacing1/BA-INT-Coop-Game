@@ -4,14 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_3rmtw"]
 [ext_resource type="Script" path="res://script/item/DirectionItem.cs" id="2_wkh3p"]
 
-[node name="PistolItem" type="Sprite2D" node_paths=PackedStringArray("_crosshair")]
-position = Vector2(12, -5)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_55fov")
-flip_h = true
+[node name="PistolItem" type="Marker2D" node_paths=PackedStringArray("_crosshair", "Sprite")]
+position = Vector2(4, -3)
 script = ExtResource("2_wkh3p")
 _crosshair = NodePath("Crosshair")
+Sprite = NodePath("PistolSprite")
+
+[node name="PistolSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_55fov")
+offset = Vector2(18, -5)
+flip_h = true
 
 [node name="Crosshair" type="Sprite2D" parent="."]
-position = Vector2(400, 0)
+position = Vector2(150, 0)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_3rmtw")
