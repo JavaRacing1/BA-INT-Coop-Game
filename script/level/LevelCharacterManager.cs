@@ -177,6 +177,10 @@ namespace INTOnlineCoop.Script.Level
             SceneTreeTimer timer = GetTree().CreateTimer(5);
             timer.Timeout += () =>
             {
+                if (!IsInstanceValid(this))
+                {
+                    return;
+                }
                 error = Rpc(MethodName.StartRound, newCharacterPos, peerId,
                     _currentRoundNumber > _waterRisingMinRound);
                 if (error != Error.Ok)

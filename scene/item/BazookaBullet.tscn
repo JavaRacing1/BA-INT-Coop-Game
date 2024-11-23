@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://rcrp5w3i1ctg"]
+
+[ext_resource type="Texture2D" uid="uid://btpsnd0s3fjlu" path="res://assets/sprites/wepons/BazzokaBullet.png" id="1_cd2ug"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2osko"]
+size = Vector2(50, 14)
+
+[node name="BazookaBullet" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 6)
+shape = SubResource("RectangleShape2D_2osko")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4, 5.5)
+texture = ExtResource("1_cd2ug")
