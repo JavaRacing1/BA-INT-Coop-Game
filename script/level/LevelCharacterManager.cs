@@ -4,6 +4,7 @@ using System.Linq;
 
 using Godot;
 
+using INTOnlineCoop.Script.Item;
 using INTOnlineCoop.Script.Player;
 using INTOnlineCoop.Script.Singleton;
 
@@ -138,6 +139,7 @@ namespace INTOnlineCoop.Script.Level
         public void NextCharacter()
         {
             _characterOrder[_currentCharacterIndex].IsBlocked = true;
+            _ = _characterOrder[_currentCharacterIndex].Rpc(PlayerCharacter.MethodName.SetItem, SelectableItem.None.Name);
             int characterIndex = _currentCharacterIndex;
             int loopIndex = 0;
             PlayerCharacter nextCharacter = null;

@@ -310,8 +310,8 @@ offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("24_k8bir")
 
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/BazookaButton" to="." method="OnBazzokaButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="." method="OnPistolButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="." method="OnSniperButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/BazookaButton" to="UserInterfaceLayer" method="OnBazookaButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="UserInterfaceLayer" method="OnPistolButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="UserInterfaceLayer" method="OnShotgunButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="UserInterfaceLayer" method="OnSniperButtonPressed"]
 [connection signal="body_entered" from="WaterArea" to="LevelCharacterManager" method="OnWaterEntered"]

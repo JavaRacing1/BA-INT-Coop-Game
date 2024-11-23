@@ -46,6 +46,7 @@ namespace INTOnlineCoop.Script.Player.States
             if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
             }
 
             if (Character.Velocity.Y > 0)

@@ -52,6 +52,7 @@ namespace INTOnlineCoop.Script.Player.States
                     CharacterSprite.Play("Walking");
                 }
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
             }
 
             if (!Character.IsOnFloor())

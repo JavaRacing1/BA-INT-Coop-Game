@@ -1,5 +1,6 @@
 using Godot;
 
+using INTOnlineCoop.Script.Item;
 using INTOnlineCoop.Script.Level;
 using INTOnlineCoop.Script.Singleton;
 
@@ -18,10 +19,12 @@ namespace INTOnlineCoop.Script.Player
         [Export] private AnimatedSprite2D _sprite;
         [Export] private Label _healthLabel;
         [Export] private TextureRect _characterIcon;
+        [Export] private Node2D _itemContainer;
         [Export] private string _type;
         [Export] private int _health = 100;
 
         private long _peerId;
+        private ControllableItem _currentItem;
 
         /// <summary>
         /// Current StateMachine instance
@@ -53,6 +56,11 @@ namespace INTOnlineCoop.Script.Player
         /// True if the character has the correct textures
         /// </summary>
         public bool TexturesLoaded { get; private set; }
+
+        /// <summary>
+        /// True if the character has an item equippe
+        /// </summary>
+        public bool HasWeapon => _currentItem != null;
 
         /// <summary>
         /// Emitted when the player died
@@ -206,6 +214,59 @@ namespace INTOnlineCoop.Script.Player
             if (Health <= 0)
             {
                 _ = EmitSignal(SignalName.PlayerDied, this);
+            }
+        }
+
+        /// <summary>
+        /// Changes the current selected item
+        /// </summary>
+        /// <param name="itemString"></param>
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true,
+            TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void SetItem(string itemString)
+        {
+            SelectableItem itemType = SelectableItem.FromName(itemString);
+
+            foreach (Node node in _itemContainer.GetChildren())
+            {
+                node.QueueFree();
+            }
+
+            if (itemType == SelectableItem.None)
+            {
+                _currentItem = null;
+                return;
+            }
+
+            ControllableItem item = itemType.CreateItem();
+            _currentItem = item;
+            UpdateWeaponDirection();
+            _itemContainer.AddChild(item);
+        }
+
+        /// <summary>
+        /// Updates the weapon direction to the right direction
+        /// </summary>
+        public void UpdateWeaponDirection()
+        {
+            if (_currentItem == null)
+            {
+                return;
+            }
+
+            bool oldFlip = _currentItem.FlipH;
+            _currentItem.FlipH = !_sprite.FlipH;
+            if (oldFlip == _currentItem.FlipH)
+            {
+                return;
+            }
+
+            Vector2 oldPosition = _currentItem.Position;
+            _currentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
+
+            if (_currentItem is DirectionItem directionItem)
+            {
+                directionItem.MirrorCrosshair();
             }
         }
     }

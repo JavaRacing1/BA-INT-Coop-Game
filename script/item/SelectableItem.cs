@@ -9,31 +9,35 @@ namespace INTOnlineCoop.Script.Item
     /// <summary>
     /// Contains weapon information
     /// </summary>
-    public partial class Item : RefCounted
+    public partial class SelectableItem : RefCounted
     {
         /// <summary> Used when no item was chosen </summary>
-        public static readonly Item None = new("None");
+        public static readonly SelectableItem None = new("None");
 
         /// <summary> Pistol for shooting normal bullets </summary>
-        public static readonly Item Pistol = new("Pistol");
+        public static readonly SelectableItem Pistol = new("Pistol");
 
         /// <summary> Shotgun for shooting multiple bullets </summary>
-        public static readonly Item Shotgun = new("Shotgun");
+        public static readonly SelectableItem Shotgun = new("Shotgun");
 
         /// <summary> Bazooka for rockets </summary>
-        public static readonly Item Bazooka = new("Bazooka");
+        public static readonly SelectableItem Bazooka = new("Bazooka");
 
         /// <summary> Sniper for shooting long range bullets </summary>
-        public static readonly Item Sniper = new("Sniper");
+        public static readonly SelectableItem Sniper = new("Sniper");
 
         /// <summary>
         /// Enumerable of all available items
         /// </summary>
-        public static IEnumerable<Item> Values
+        public static IEnumerable<SelectableItem> Values
         {
             get
             {
+                yield return None;
                 yield return Pistol;
+                yield return Shotgun;
+                yield return Bazooka;
+                yield return Sniper;
             }
         }
 
@@ -52,9 +56,14 @@ namespace INTOnlineCoop.Script.Item
         /// </summary>
         public PackedScene BulletScene { get; private set; }
 
-        private Item(string name, bool hasBullet = true)
+        private SelectableItem(string name, bool hasBullet = true)
         {
             Name = name;
+            if (name == "None")
+            {
+                return;
+            }
+
             ItemScene = GD.Load<PackedScene>($"res://scene/item/{name}Item.tscn");
             if (hasBullet)
             {
@@ -63,11 +72,20 @@ namespace INTOnlineCoop.Script.Item
         }
 
         /// <summary>
+        /// Creates an instance of the item
+        /// </summary>
+        /// <returns>Controllable item</returns>
+        public ControllableItem CreateItem()
+        {
+            return ItemScene.Instantiate<ControllableItem>();
+        }
+
+        /// <summary>
         /// Returns the item object with given name
         /// </summary>
         /// <param name="name">Name of the item</param>
         /// <returns>Item object</returns>
-        public static Item FromName(string name)
+        public static SelectableItem FromName(string name)
         {
             try
             {

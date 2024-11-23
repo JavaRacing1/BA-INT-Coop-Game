@@ -64,19 +64,22 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Frame delta</param>
         public override void ChangeAnimationsAndStates(double delta)
         {
-            _idleFrameCounter++;
-            if (_idleFrameCounter == 0)
+            if (!Character.HasWeapon)
             {
-                CharacterSprite.Frame = 0;
-            }
-            else if (CharacterSprite.Frame == Character.Type.LastIdleFrame && _idleFrameCounter > 0)
-            {
-                CharacterSprite.Pause();
-                _idleFrameCounter = -20;
-            }
-            else if (_idleFrameCounter == 400)
-            {
-                CharacterSprite.Play();
+                _idleFrameCounter++;
+                if (_idleFrameCounter == 0)
+                {
+                    CharacterSprite.Frame = 0;
+                }
+                else if (CharacterSprite.Frame == Character.Type.LastIdleFrame && _idleFrameCounter > 0)
+                {
+                    CharacterSprite.Pause();
+                    _idleFrameCounter = -20;
+                }
+                else if (_idleFrameCounter == 400)
+                {
+                    CharacterSprite.Play();
+                }
             }
 
             if (!Character.IsOnFloor())
@@ -97,6 +100,7 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 CharacterSprite.Stop();
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
                 CharacterSprite.Play("Walking");
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }

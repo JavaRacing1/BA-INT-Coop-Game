@@ -39,13 +39,14 @@ properties/0/path = NodePath("StateMachine:Direction")
 properties/0/spawn = false
 properties/0/replication_mode = 2
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_healthLabel", "_characterIcon", "StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_healthLabel", "_characterIcon", "_itemContainer", "StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
 _sprite = NodePath("CharacterSprite")
 _healthLabel = NodePath("HealthLabel")
 _characterIcon = NodePath("CharacterIcon")
+_itemContainer = NodePath("ItemContainer")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
@@ -130,3 +131,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("10_vxtb0")
 stretch_mode = 4
+
+[node name="ItemContainer" type="Node2D" parent="."]
+position = Vector2(0, 12)
