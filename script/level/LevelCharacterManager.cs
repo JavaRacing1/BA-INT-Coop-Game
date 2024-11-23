@@ -10,6 +10,21 @@ using INTOnlineCoop.Script.Singleton;
 namespace INTOnlineCoop.Script.Level
 {
     /// <summary>
+    /// Enum containing all possible winner states
+    /// </summary>
+    public enum Winner
+    {
+        /// <summary>No person has won yet</summary>
+        None,
+
+        /// <summary>First player has won</summary>
+        PlayerOne,
+
+        /// <summary>Second player has won</summary>
+        PlayerTwo
+    }
+
+    /// <summary>
     /// Manages all characters and their turns
     /// </summary>
     public partial class LevelCharacterManager : Node2D
@@ -24,7 +39,9 @@ namespace INTOnlineCoop.Script.Level
         [Export] private CollisionShape2D _waterCollisionShape;
 
         [Export(PropertyHint.Range, "0,50,")] private int _waterRisingMinRound = 16;
-        [Export(PropertyHint.Range, "0,1000,")] private int _waterRisingAmount = 32;
+
+        [Export(PropertyHint.Range, "0,1000,")]
+        private int _waterRisingAmount = 32;
 
         private Node _characterParent;
         private int _currentCharacterIndex;
@@ -139,7 +156,7 @@ namespace INTOnlineCoop.Script.Level
             if (nextCharacter == null)
             {
                 //TODO: Play win or loose screen
-                GD.Print("Win/Loose");
+                EndGame(GetWinner());
                 return;
             }
 
@@ -172,15 +189,6 @@ namespace INTOnlineCoop.Script.Level
             };
         }
 
-        private void OnPlayerDeath(PlayerCharacter character)
-        {
-            if (character == _characterOrder[_currentCharacterIndex])
-            {
-                NextCharacter();
-            }
-            character.StateMachine.TransitionTo(AvailableState.Dead);
-        }
-
         [Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
         private void StartRound(Vector2 characterPosition, long peerId, bool isWaterRising)
         {
@@ -205,6 +213,46 @@ namespace INTOnlineCoop.Script.Level
                 _userInterface.DisplayTurnNotification(data.Name, data.PlayerNumber, isWaterRising);
                 _userInterface.DisplayWeapons(data.PlayerNumber);
             }
+        }
+
+        private void OnPlayerDeath(PlayerCharacter character)
+        {
+            if (character == _characterOrder[_currentCharacterIndex])
+            {
+                NextCharacter();
+            }
+
+            character.StateMachine.TransitionTo(AvailableState.Dead);
+
+            Winner potentialWinner = GetWinner();
+            if (potentialWinner != Winner.None)
+            {
+                EndGame(potentialWinner);
+            }
+        }
+
+        private Winner GetWinner()
+        {
+            int[] playerDeadAmount = { 0, 0 };
+            foreach (PlayerCharacter orderChar in _characterOrder)
+            {
+                if (orderChar.Health > 0)
+                {
+                    continue;
+                }
+
+                int playerNumber = MultiplayerLobby.Instance.GetPlayerData(orderChar.PeerId).PlayerNumber;
+                playerDeadAmount[playerNumber - 1]++;
+            }
+
+            return playerDeadAmount[0] == 4
+                ? Winner.PlayerTwo
+                : (playerDeadAmount[1] == 4 ? Winner.PlayerOne : Winner.None);
+        }
+
+        private void EndGame(Winner gameWinner)
+        {
+            GD.Print("Win/Loose");
         }
 
         private void OnWaterEntered(Node2D body)
