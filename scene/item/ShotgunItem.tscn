@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqvv3t28nlrth"]
+
+[ext_resource type="Texture2D" uid="uid://bu7056msyppno" path="res://assets/sprites/weapons/Schrotfilnte.png" id="1_6vgd3"]
+[ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_mpsvs"]
+
+[node name="ShotgunItem" type="Sprite2D"]
+texture = ExtResource("1_6vgd3")
+flip_h = true
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+position = Vector2(200, 0)
+texture = ExtResource("2_mpsvs")

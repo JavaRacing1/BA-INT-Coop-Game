@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rcrp5w3i1ctg"]
 
-[ext_resource type="Texture2D" uid="uid://btpsnd0s3fjlu" path="res://assets/sprites/wepons/BazzokaBullet.png" id="1_cd2ug"]
+[ext_resource type="Texture2D" uid="uid://btpsnd0s3fjlu" path="res://assets/sprites/weapons/BazzokaBullet.png" id="1_cd2ug"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2osko"]
 size = Vector2(50, 14)

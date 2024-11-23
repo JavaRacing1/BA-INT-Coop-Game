@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn5t5gyluhn0"]
+
+[ext_resource type="Texture2D" uid="uid://cenns2bcmg3mn" path="res://assets/sprites/weapons/bazzoka.png" id="1_miutx"]
+[ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_6jpv3"]
+
+[node name="BazookaItem" type="Sprite2D"]
+texture = ExtResource("1_miutx")
+flip_h = true
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+position = Vector2(300, 0)
+texture = ExtResource("2_6jpv3")

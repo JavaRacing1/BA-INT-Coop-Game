@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkp0c1i06aju"
-path="res://.godot/imported/pistol.png-5dcd91325bf5cd2a6922b0529c2682cb.ctex"
+uid="uid://cenns2bcmg3mn"
+path="res://.godot/imported/bazzoka.png-aa7891d0dbf432d67e93a3b7e6ec0aa7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/pistol.png"
-dest_files=["res://.godot/imported/pistol.png-5dcd91325bf5cd2a6922b0529c2682cb.ctex"]
+source_file="res://assets/sprites/weapons/bazzoka.png"
+dest_files=["res://.godot/imported/bazzoka.png-aa7891d0dbf432d67e93a3b7e6ec0aa7.ctex"]
 
 [params]
 

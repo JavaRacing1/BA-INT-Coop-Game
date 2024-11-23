@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cfktavounaiku"]
 
-[ext_resource type="Texture2D" uid="uid://dr4etr75rvpb8" path="res://assets/sprites/wepons/ShotgunBullet.png" id="1_l7bff"]
+[ext_resource type="Texture2D" uid="uid://dr4etr75rvpb8" path="res://assets/sprites/weapons/ShotgunBullet.png" id="1_l7bff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3nr4l"]
 size = Vector2(22, 12)

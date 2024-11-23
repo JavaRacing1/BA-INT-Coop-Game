@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfolj1wfcnnky"]
 
-[ext_resource type="Texture2D" uid="uid://b472w02urrgs" path="res://assets/sprites/wepons/SniperBullet.png" id="1_p3hta"]
+[ext_resource type="Texture2D" uid="uid://b472w02urrgs" path="res://assets/sprites/weapons/SniperBullet.png" id="1_p3hta"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vm7un"]
 size = Vector2(27, 12)

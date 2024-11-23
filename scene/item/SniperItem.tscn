@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://thso4acnhec2"]
+
+[ext_resource type="Texture2D" uid="uid://da3h8jbh6qa0q" path="res://assets/sprites/weapons/sniper.png" id="1_f2l2c"]
+[ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_665se"]
+
+[node name="SniperItem" type="Sprite2D"]
+texture = ExtResource("1_f2l2c")
+flip_h = true
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+position = Vector2(400, 0)
+texture = ExtResource("2_665se")

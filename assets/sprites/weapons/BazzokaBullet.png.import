@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hkdavsam2h0p"
-path="res://.godot/imported/PistolBullet.png-d1652d59f6e2c4083dd6e98cb490045f.ctex"
+uid="uid://btpsnd0s3fjlu"
+path="res://.godot/imported/BazzokaBullet.png-1a9f1f2454c9faef7544846ee5ab8525.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/PistolBullet.png"
-dest_files=["res://.godot/imported/PistolBullet.png-d1652d59f6e2c4083dd6e98cb490045f.ctex"]
+source_file="res://assets/sprites/weapons/BazzokaBullet.png"
+dest_files=["res://.godot/imported/BazzokaBullet.png-1a9f1f2454c9faef7544846ee5ab8525.ctex"]
 
 [params]
 

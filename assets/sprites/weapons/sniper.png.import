@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btpsnd0s3fjlu"
-path="res://.godot/imported/BazzokaBullet.png-84616ff63150ee13c02b4c42888899af.ctex"
+uid="uid://da3h8jbh6qa0q"
+path="res://.godot/imported/sniper.png-cb17aaecf7969f727daacd672489507b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/BazzokaBullet.png"
-dest_files=["res://.godot/imported/BazzokaBullet.png-84616ff63150ee13c02b4c42888899af.ctex"]
+source_file="res://assets/sprites/weapons/sniper.png"
+dest_files=["res://.godot/imported/sniper.png-cb17aaecf7969f727daacd672489507b.ctex"]
 
 [params]
 
