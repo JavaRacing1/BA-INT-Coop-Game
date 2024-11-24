@@ -255,7 +255,7 @@ namespace INTOnlineCoop.Script.Level
             Bullet bullet = item.CreateBullet();
             bullet.Position = character.Position + new Vector2(0, 10);
             bullet.Direction = direction;
-            _bulletParent.AddChild(bullet);
+            _bulletParent.AddChild(bullet, true);
 
             _roundTimer.Stop();
             GetTree().CreateTimer(10).Timeout += NextCharacter;
