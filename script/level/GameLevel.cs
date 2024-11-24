@@ -93,7 +93,6 @@ namespace INTOnlineCoop.Script.Level
         public override void _Ready()
         {
             _tileManager?.InitTileMap(_terrainImage);
-            _tileManager?.InitTileMap(_terrainImage);
             MultiplayerLobby.Instance.PlayerDisconnected += OnDisconnect;
 
             _camera.CameraUpdated += UpdatePlayerLabels;
