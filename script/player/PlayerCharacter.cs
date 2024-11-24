@@ -167,10 +167,14 @@ namespace INTOnlineCoop.Script.Player
             }
 
             PlayerData playerData = MultiplayerLobby.Instance.GetPlayerData(controllingPeerId);
-            _healthLabel.AddThemeColorOverride("font_color",
-                playerData.PlayerNumber == 1
+            Color color = Color.Color8(255, 255, 255);
+            if (playerData != null)
+            {
+                color = playerData.PlayerNumber == 1
                     ? GameLevelUserInterface.PlayerOneColor
-                    : GameLevelUserInterface.PlayerTwoColor);
+                    : GameLevelUserInterface.PlayerTwoColor;
+            }
+            _healthLabel.AddThemeColorOverride("font_color", color);
         }
 
         /// <summary>

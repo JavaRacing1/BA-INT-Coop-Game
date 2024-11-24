@@ -19,7 +19,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private LevelCharacterManager _characterManager;
         [Export] private PlayerCamera _camera;
         [Export] private Node2D _characterParent;
-        [Export] private CanvasLayer _userInterfaceLayer;
+        [Export] private GameLevelUserInterface _userInterfaceLayer;
         [Export] private ColorRect _bottomWaterRect;
         [Export] private CollisionShape2D _waterCollisionShape;
 
@@ -52,10 +52,7 @@ namespace INTOnlineCoop.Script.Level
                 _bottomWaterRect.Position = waterPosition;
 
                 _waterCollisionShape.Position = waterPosition + new Vector2(waterSize.X / 2, 210);
-                RectangleShape2D shape = new()
-                {
-                    Size = waterSize
-                };
+                RectangleShape2D shape = new() { Size = waterSize };
                 _waterCollisionShape.SetShape(shape);
             }
 
@@ -85,6 +82,8 @@ namespace INTOnlineCoop.Script.Level
                 .Instantiate<PlayerCharacter>();
             character.Init(scaledSpawnPosition, characterType, 1);
             AddChild(character);
+
+            _userInterfaceLayer.HidePlayerBars();
         }
 
         /// <summary>
@@ -163,6 +162,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 return;
             }
+
             GD.Print($"{peerId} disconnected! Closing level");
             OnExit();
         }
@@ -198,6 +198,5 @@ namespace INTOnlineCoop.Script.Level
                 }
             }
         }
-
     }
 }

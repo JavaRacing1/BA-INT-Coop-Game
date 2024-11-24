@@ -26,6 +26,8 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Label _labelTime;
 
         // PlayerCharacter Listennodes
+        [Export] private Control _barPlayer1;
+        [Export] private Control _barPlayer2;
         [Export] private RichTextLabel _labelPlayer1;
         [Export] private RichTextLabel _labelPlayer2;
         [Export] private Sprite2D[] _spritesPlayer1;
@@ -288,6 +290,15 @@ namespace INTOnlineCoop.Script.Level
             bool isCurrentClient = MultiplayerLobby.Instance.GetPlayerData(currentPeer).PlayerNumber == playerNumber;
             string prefix = isCurrentClient ? "[right][u]" : "[right]";
             playerLabel.Text = prefix + playerName;
+        }
+
+        /// <summary>
+        /// Hides the player bars
+        /// </summary>
+        public void HidePlayerBars()
+        {
+            _barPlayer1.Visible = false;
+            _barPlayer2.Visible = false;
         }
 
         private void OnBazookaButtonPressed()

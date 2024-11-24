@@ -77,11 +77,13 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="RoundTimer" type="Timer" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_playerNotificationLabel", "_waterNotificationLabel", "_characterParent", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_barPlayer1", "_barPlayer2", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_playerNotificationLabel", "_waterNotificationLabel", "_characterParent", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("6_rfhch")
 _timer = NodePath("../RoundTimer")
 _labelTime = NodePath("TimeLeft")
+_barPlayer1 = NodePath("PlayerOneBar")
+_barPlayer2 = NodePath("PlayerTwoBar")
 _labelPlayer1 = NodePath("PlayerOneBar/PlayerOneName")
 _labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
 _spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
