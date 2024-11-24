@@ -10,9 +10,20 @@ namespace INTOnlineCoop.Script.Item
     public partial class ControllableItem : Node2D
     {
         /// <summary>
+        /// Item type
+        /// </summary>
+        public SelectableItem Item { get; set; }
+
+        /// <summary>
         /// Current StateMachine instance
         /// </summary>
         protected StateMachine StateMachine { get; private set; }
+
+        /// <summary>
+        /// Emitted when the item was used
+        /// </summary>
+        [Signal]
+        public delegate void ItemUsedEventHandler(SelectableItem item, Vector2 direction);
 
         /// <summary>
         /// Handles the input of the player
@@ -32,4 +43,3 @@ namespace INTOnlineCoop.Script.Item
         }
     }
 }
-

@@ -38,6 +38,7 @@ namespace INTOnlineCoop.Script.Level
         [Export] private GameLevelUserInterface _userInterface;
         [Export] private ColorRect _bottomWaterRect;
         [Export] private CollisionShape2D _waterCollisionShape;
+        [Export] private Node2D _bulletParent;
 
         [Export(PropertyHint.Range, "0,50,")] private int _waterRisingMinRound = 16;
 
@@ -88,6 +89,7 @@ namespace INTOnlineCoop.Script.Level
                 }
 
                 character.PlayerDied -= OnPlayerDeath;
+                character.PlayerUsedItem -= OnPlayerUsedItem;
             }
         }
 
@@ -118,6 +120,7 @@ namespace INTOnlineCoop.Script.Level
                     character.Init(scaledSpawnPosition, type, peerId);
                     character.IsBlocked = true;
                     character.PlayerDied += OnPlayerDeath;
+                    character.PlayerUsedItem += OnPlayerUsedItem;
                     parentNode.AddChild(character, true);
 
                     characters.Add(character);
@@ -139,7 +142,8 @@ namespace INTOnlineCoop.Script.Level
         public void NextCharacter()
         {
             _characterOrder[_currentCharacterIndex].IsBlocked = true;
-            _ = _characterOrder[_currentCharacterIndex].Rpc(PlayerCharacter.MethodName.SetItem, SelectableItem.None.Name);
+            _ = _characterOrder[_currentCharacterIndex]
+                .Rpc(PlayerCharacter.MethodName.SetItem, SelectableItem.None.Name);
             int characterIndex = _currentCharacterIndex;
             int loopIndex = 0;
             PlayerCharacter nextCharacter = null;
@@ -183,6 +187,7 @@ namespace INTOnlineCoop.Script.Level
                 {
                     return;
                 }
+
                 error = Rpc(MethodName.StartRound, newCharacterPos, peerId,
                     _currentRoundNumber > _waterRisingMinRound);
                 if (error != Error.Ok)
@@ -224,6 +229,7 @@ namespace INTOnlineCoop.Script.Level
             {
                 return;
             }
+
             if (character == _characterOrder[_currentCharacterIndex])
             {
                 NextCharacter();
@@ -237,6 +243,22 @@ namespace INTOnlineCoop.Script.Level
                 IsGameFinished = true;
                 _ = Rpc(MethodName.EndGame, potentialWinner.ToString());
             }
+        }
+
+        private void OnPlayerUsedItem(PlayerCharacter character, SelectableItem item, Vector2 direction)
+        {
+            if (item.BulletScene == null)
+            {
+                return;
+            }
+
+            Bullet bullet = item.CreateBullet();
+            bullet.Position = character.Position + new Vector2(0, 10);
+            bullet.Direction = direction;
+            _bulletParent.AddChild(bullet);
+
+            _roundTimer.Stop();
+            GetTree().CreateTimer(10).Timeout += NextCharacter;
         }
 
         private Winner GetWinner()

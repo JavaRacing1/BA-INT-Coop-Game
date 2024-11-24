@@ -77,7 +77,16 @@ namespace INTOnlineCoop.Script.Item
         /// <returns>Controllable item</returns>
         public ControllableItem CreateItem()
         {
-            return ItemScene.Instantiate<ControllableItem>();
+            return ItemScene?.Instantiate<ControllableItem>();
+        }
+
+        /// <summary>
+        /// Creates a new bullet instance
+        /// </summary>
+        /// <returns>New bullet</returns>
+        public Bullet CreateBullet()
+        {
+            return BulletScene?.Instantiate<Bullet>();
         }
 
         /// <summary>

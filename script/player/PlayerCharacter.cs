@@ -75,6 +75,13 @@ namespace INTOnlineCoop.Script.Player
         public delegate void PlayerDiedEventHandler(PlayerCharacter character);
 
         /// <summary>
+        /// Emitted when the player used an item. Only on server
+        /// </summary>
+        [Signal]
+        public delegate void PlayerUsedItemEventHandler(PlayerCharacter character, SelectableItem item,
+            Vector2 direction);
+
+        /// <summary>
         /// Current health of the player
         /// </summary>
         public int Health
@@ -242,6 +249,10 @@ namespace INTOnlineCoop.Script.Player
 
             if (itemType == SelectableItem.None)
             {
+                if (CurrentItem != null)
+                {
+                    CurrentItem.ItemUsed -= OnItemUse;
+                }
                 CurrentItem = null;
                 return;
             }
@@ -249,6 +260,8 @@ namespace INTOnlineCoop.Script.Player
             ControllableItem item = itemType.CreateItem();
             item.SetStateMachine(StateMachine);
             CurrentItem = item;
+            CurrentItem.Item = itemType;
+            CurrentItem.ItemUsed += OnItemUse;
             UpdateWeaponDirection();
             _itemContainer.AddChild(item);
 
@@ -297,6 +310,17 @@ namespace INTOnlineCoop.Script.Player
 
             Vector2 oldPosition = CurrentItem.Position;
             CurrentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
+        }
+
+        private void OnItemUse(SelectableItem item, Vector2 direction)
+        {
+            _ = Rpc(MethodName.OnServerItemUse, item.Name, direction);
+        }
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void OnServerItemUse(string itemString, Vector2 direction)
+        {
+            _ = EmitSignal(SignalName.PlayerUsedItem, this, SelectableItem.FromName(itemString), direction);
         }
     }
 }

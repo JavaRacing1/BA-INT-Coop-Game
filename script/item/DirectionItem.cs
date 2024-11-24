@@ -38,6 +38,11 @@ namespace INTOnlineCoop.Script.Item
             StateMachine.ItemRotation = 0;
             if (Input.IsActionJustPressed("use_item"))
             {
+                Vector2 direction = Mathf.IsEqualApprox(Scale.X, 1)
+                    ? Vector2.Right.Rotated(Rotation)
+                    : Vector2.Left.Rotated(Rotation);
+                _ = EmitSignal(ControllableItem.SignalName.ItemUsed, Item, direction);
+                _blockInput = true;
             }
         }
     }

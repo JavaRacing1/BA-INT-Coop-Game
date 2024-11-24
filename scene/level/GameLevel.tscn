@@ -57,13 +57,14 @@ _minZoom = 0.2
 script = ExtResource("2_l7ks5")
 _tileMap = NodePath("../LevelTileMap")
 
-[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface", "_bottomWaterRect", "_waterCollisionShape")]
+[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface", "_bottomWaterRect", "_waterCollisionShape", "_bulletParent")]
 script = ExtResource("4_ibvwl")
 _roundTimer = NodePath("../RoundTimer")
 _camera = NodePath("../PlayerCamera")
 _userInterface = NodePath("../UserInterfaceLayer")
 _bottomWaterRect = NodePath("../BottomWater")
 _waterCollisionShape = NodePath("../WaterArea/WaterCollisionShape")
+_bulletParent = NodePath("../Bullets")
 
 [node name="LevelTileMap" type="TileMapLayer" parent="."]
 texture_filter = 4
@@ -71,6 +72,8 @@ use_parent_material = true
 tile_set = ExtResource("3_g3n4h")
 
 [node name="Characters" type="Node2D" parent="."]
+
+[node name="Bullets" type="Node2D" parent="."]
 
 [node name="RoundTimer" type="Timer" parent="."]
 
@@ -296,10 +299,15 @@ collision_mask = 2
 position = Vector2(319.5, 340.5)
 shape = SubResource("RectangleShape2D_c0uom")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
 spawn_path = NodePath("../Characters")
 spawn_limit = 8
+
+[node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scene/item/BazookaBullet.tscn", "res://scene/item/PistolBullet.tscn", "res://scene/item/ShotgunBullet.tscn", "res://scene/item/SniperBullet.tscn")
+spawn_path = NodePath("../Bullets")
+spawn_limit = 6
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -3

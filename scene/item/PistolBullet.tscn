@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgsugdxnhrp3m"]
+[gd_scene load_steps=5 format=3 uid="uid://dgsugdxnhrp3m"]
 
+[ext_resource type="Script" path="res://script/item/Bullet.cs" id="1_36vv4"]
 [ext_resource type="Texture2D" uid="uid://hkdavsam2h0p" path="res://assets/sprites/weapons/PistolBullet.png" id="1_soqsu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rqy5y"]
@@ -12,10 +13,16 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath(".:velocity")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
-[node name="PistolBullet" type="RigidBody2D"]
+[node name="PistolBullet" type="CharacterBody2D"]
 collision_layer = 8
 collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_36vv4")
+_damage = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_rqy5y")
