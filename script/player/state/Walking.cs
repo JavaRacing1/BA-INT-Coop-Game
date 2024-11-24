@@ -10,6 +10,15 @@ namespace INTOnlineCoop.Script.Player.States
     public partial class Walking : State
     {
         /// <summary>
+        /// Resets the jumping states
+        /// </summary>
+        public override void Enter()
+        {
+            StateMachine.HasDoubleJumped = false;
+            StateMachine.Jumped = false;
+        }
+
+        /// <summary>
         /// Handles walking input
         /// </summary>
         /// <param name="delta">Current frame delta</param>

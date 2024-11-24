@@ -9,7 +9,7 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Jumping : State
     {
-        private const float JumpVelocity = 180f;
+        private const float JumpVelocity = 210f;
 
         /// <summary>
         /// Handles jumping input
@@ -26,6 +26,17 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 StateMachine.Direction = 0;
                 return;
+            }
+
+            if (Input.IsActionJustPressed("jump") && !StateMachine.HasDoubleJumped)
+            {
+                Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr($"Error during Jump RPC: {error}");
+                }
+
+                StateMachine.HasDoubleJumped = true;
             }
 
             StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");

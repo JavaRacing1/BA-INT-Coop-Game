@@ -58,6 +58,8 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         [Export] public float ItemRotation;
 
+        public bool HasDoubleJumped;
+
         /// <summary>
         /// Load all available states
         /// </summary>

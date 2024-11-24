@@ -25,6 +25,7 @@ namespace INTOnlineCoop.Script.Player.States
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
             StateMachine.Jumped = false;
+            StateMachine.HasDoubleJumped = false;
             StateMachine.Direction = 0;
             _idleFrameCounter = 0;
         }
