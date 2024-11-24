@@ -252,10 +252,22 @@ namespace INTOnlineCoop.Script.Level
                 return;
             }
 
-            Bullet bullet = item.CreateBullet();
-            bullet.Position = character.Position + new Vector2(0, 10);
-            bullet.Direction = direction;
-            _bulletParent.AddChild(bullet, true);
+            Random random = new();
+            int bulletAmount = item == SelectableItem.Shotgun ? 3 : 1;
+            for (int i = 0; i < bulletAmount; i++)
+            {
+                Bullet bullet = item.CreateBullet();
+                bullet.Position = character.Position + new Vector2(0, 10);
+                bullet.Direction = direction;
+                if (item == SelectableItem.Shotgun)
+                {
+                    bullet.Direction += new Vector2((float)(random.NextDouble() - 0.5f) / 4,
+                        (float)(random.NextDouble() - 0.5f) / 4);
+                    bullet.Direction = bullet.Direction.Normalized();
+                }
+
+                _bulletParent.AddChild(bullet, true);
+            }
 
             _roundTimer.Stop();
             GetTree().CreateTimer(10).Timeout += NextCharacter;
