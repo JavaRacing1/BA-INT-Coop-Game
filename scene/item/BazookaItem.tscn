@@ -4,11 +4,10 @@
 [ext_resource type="Script" path="res://script/item/DirectionItem.cs" id="2_1qwrs"]
 [ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_6jpv3"]
 
-[node name="BazookaItem" type="Marker2D" node_paths=PackedStringArray("_crosshair", "Sprite")]
+[node name="BazookaItem" type="Marker2D" node_paths=PackedStringArray("_crosshair")]
 position = Vector2(5, -7)
 script = ExtResource("2_1qwrs")
 _crosshair = NodePath("Crosshair")
-Sprite = NodePath("BazookaSprite")
 
 [node name="BazookaSprite" type="Sprite2D" parent="."]
 position = Vector2(-2, -1)

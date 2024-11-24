@@ -20,11 +20,12 @@ namespace INTOnlineCoop.Script.Player
         [Export] private Label _healthLabel;
         [Export] private TextureRect _characterIcon;
         [Export] private Node2D _itemContainer;
+        [Export] private MultiplayerSynchronizer _serverSynchronizer;
         [Export] private string _type;
         [Export] private int _health = 100;
 
         private long _peerId;
-        private ControllableItem _currentItem;
+        private NodePath _itemPath;
 
         /// <summary>
         /// Current StateMachine instance
@@ -53,6 +54,11 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
+        /// Current selected item 
+        /// </summary>
+        public ControllableItem CurrentItem { get; private set; }
+
+        /// <summary>
         /// True if the character has the correct textures
         /// </summary>
         public bool TexturesLoaded { get; private set; }
@@ -60,7 +66,7 @@ namespace INTOnlineCoop.Script.Player
         /// <summary>
         /// True if the character has an item equippe
         /// </summary>
-        public bool HasWeapon => _currentItem != null;
+        public bool HasWeapon => CurrentItem != null;
 
         /// <summary>
         /// Emitted when the player died
@@ -232,16 +238,39 @@ namespace INTOnlineCoop.Script.Player
                 node.QueueFree();
             }
 
+            UpdateServerSynchronizer(false);
+
             if (itemType == SelectableItem.None)
             {
-                _currentItem = null;
+                CurrentItem = null;
                 return;
             }
 
             ControllableItem item = itemType.CreateItem();
-            _currentItem = item;
+            item.SetStateMachine(StateMachine);
+            CurrentItem = item;
             UpdateWeaponDirection();
             _itemContainer.AddChild(item);
+
+            _itemPath = item.GetPath();
+            UpdateServerSynchronizer(true);
+        }
+
+        private void UpdateServerSynchronizer(bool addItemRotation)
+        {
+            SceneReplicationConfig config = _serverSynchronizer.ReplicationConfig;
+            NodePath propertyPath = new(_itemPath + ":rotation");
+            if (addItemRotation)
+            {
+                config.AddProperty(propertyPath);
+                config.PropertySetReplicationMode(propertyPath, SceneReplicationConfig.ReplicationMode.OnChange);
+            }
+            else
+            {
+                config.RemoveProperty(propertyPath);
+            }
+
+            _serverSynchronizer.ReplicationConfig = config;
         }
 
         /// <summary>
@@ -249,25 +278,25 @@ namespace INTOnlineCoop.Script.Player
         /// </summary>
         public void UpdateWeaponDirection()
         {
-            if (_currentItem == null)
+            if (CurrentItem == null)
             {
                 return;
             }
 
-            float oldScale = _currentItem.Scale.X;
+            float oldScale = CurrentItem.Scale.X;
             float newScale = !_sprite.FlipH ? 1 : -1;
 
-            Vector2 itemScale = _currentItem.Scale;
+            Vector2 itemScale = CurrentItem.Scale;
             itemScale.X = newScale;
-            _currentItem.Scale = itemScale;
+            CurrentItem.Scale = itemScale;
 
             if (Mathf.IsEqualApprox(oldScale, newScale))
             {
                 return;
             }
 
-            Vector2 oldPosition = _currentItem.Position;
-            _currentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
+            Vector2 oldPosition = CurrentItem.Position;
+            CurrentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
         }
     }
 }

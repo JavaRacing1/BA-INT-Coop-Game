@@ -46,6 +46,8 @@ namespace INTOnlineCoop.Script.Player.States
                 return;
             }
 
+            Character.CurrentItem?.HandleInput(delta);
+
             if (Input.IsActionJustPressed("jump"))
             {
                 Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
@@ -86,6 +88,12 @@ namespace INTOnlineCoop.Script.Player.States
                 _idleFrameCounter = 0;
                 CharacterSprite.Pause();
                 CharacterSprite.Frame = 0;
+
+                if (!Mathf.IsEqualApprox(StateMachine.ItemRotation, 0))
+                {
+                    float oldRotation = Character.CurrentItem.RotationDegrees;
+                    Character.CurrentItem.RotationDegrees = Mathf.Clamp(oldRotation + StateMachine.ItemRotation, -70, 70);
+                }
             }
 
             if (!Character.IsOnFloor())

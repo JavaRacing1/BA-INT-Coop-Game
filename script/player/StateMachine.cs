@@ -54,6 +54,11 @@ namespace INTOnlineCoop.Script.Player
         [Export] public float Direction;
 
         /// <summary>
+        /// Rotation of the item
+        /// </summary>
+        [Export] public float ItemRotation;
+
+        /// <summary>
         /// Load all available states
         /// </summary>
         public override void _Ready()
