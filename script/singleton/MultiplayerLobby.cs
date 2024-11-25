@@ -164,6 +164,10 @@ namespace INTOnlineCoop.Script.Singleton
         /// </summary>
         public void CloseConnection()
         {
+            if (Multiplayer.IsServer())
+            {
+                return;
+            }
             Multiplayer.MultiplayerPeer.DisconnectPeer(1);
             Multiplayer.MultiplayerPeer = null;
             _playerData.Clear();
