@@ -57,13 +57,14 @@ _minZoom = 0.2
 script = ExtResource("2_l7ks5")
 _tileMap = NodePath("../LevelTileMap")
 
-[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface", "_bottomWaterRect", "_waterCollisionShape")]
+[node name="LevelCharacterManager" type="Node2D" parent="." node_paths=PackedStringArray("_roundTimer", "_camera", "_userInterface", "_bottomWaterRect", "_waterCollisionShape", "_bulletParent")]
 script = ExtResource("4_ibvwl")
 _roundTimer = NodePath("../RoundTimer")
 _camera = NodePath("../PlayerCamera")
 _userInterface = NodePath("../UserInterfaceLayer")
 _bottomWaterRect = NodePath("../BottomWater")
 _waterCollisionShape = NodePath("../WaterArea/WaterCollisionShape")
+_bulletParent = NodePath("../Bullets")
 
 [node name="LevelTileMap" type="TileMapLayer" parent="."]
 texture_filter = 4
@@ -72,13 +73,17 @@ tile_set = ExtResource("3_g3n4h")
 
 [node name="Characters" type="Node2D" parent="."]
 
+[node name="Bullets" type="Node2D" parent="."]
+
 [node name="RoundTimer" type="Timer" parent="."]
 
-[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_playerNotificationLabel", "_waterNotificationLabel", "_characterParent", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
+[node name="UserInterfaceLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("_timer", "_labelTime", "_barPlayer1", "_barPlayer2", "_labelPlayer1", "_labelPlayer2", "_spritesPlayer1", "_spritesPlayer2", "_playerNotificationLabel", "_waterNotificationLabel", "_characterParent", "_weaponContainer", "_textureButtonBazooka", "_textureButtonPistol", "_textureButtonShotgun", "_textureButtonSniper")]
 layer = 2
 script = ExtResource("6_rfhch")
 _timer = NodePath("../RoundTimer")
 _labelTime = NodePath("TimeLeft")
+_barPlayer1 = NodePath("PlayerOneBar")
+_barPlayer2 = NodePath("PlayerTwoBar")
 _labelPlayer1 = NodePath("PlayerOneBar/PlayerOneName")
 _labelPlayer2 = NodePath("PlayerTwoBar/PlayerTwoName")
 _spritesPlayer1 = [NodePath("PlayerOneBar/PlayerOneChar1"), NodePath("PlayerOneBar/PlayerOneChar2"), NodePath("PlayerOneBar/PlayerOneChar3"), NodePath("PlayerOneBar/PlayerOneChar4")]
@@ -283,7 +288,6 @@ text = "Das Wasser ist gestiegen!"
 horizontal_alignment = 1
 
 [node name="BottomWater" type="ColorRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_3cewb")
 offset_top = 320.0
 offset_right = 640.0
@@ -297,10 +301,15 @@ collision_mask = 2
 position = Vector2(319.5, 340.5)
 shape = SubResource("RectangleShape2D_c0uom")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scene/player/PlayerCharacter.tscn")
 spawn_path = NodePath("../Characters")
 spawn_limit = 8
+
+[node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scene/item/BazookaBullet.tscn", "res://scene/item/PistolBullet.tscn", "res://scene/item/ShotgunBullet.tscn", "res://scene/item/SniperBullet.tscn")
+spawn_path = NodePath("../Bullets")
+spawn_limit = 6
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -3
@@ -311,8 +320,8 @@ offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("24_k8bir")
 
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/BazookaButton" to="." method="OnBazzokaButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="." method="OnPistolButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="." method="OnShotgunButtonPressed"]
-[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="." method="OnSniperButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/BazookaButton" to="UserInterfaceLayer" method="OnBazookaButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/PistolButton" to="UserInterfaceLayer" method="OnPistolButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/ShotgunButton" to="UserInterfaceLayer" method="OnShotgunButtonPressed"]
+[connection signal="pressed" from="UserInterfaceLayer/WeaponContainer/SniperButton" to="UserInterfaceLayer" method="OnSniperButtonPressed"]
 [connection signal="body_entered" from="WaterArea" to="LevelCharacterManager" method="OnWaterEntered"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cenns2bcmg3mn"
-path="res://.godot/imported/bazzoka.png-7856f62ca1915514b3e8db06fb81e6f8.ctex"
+uid="uid://cotyf0gh4yh18"
+path="res://.godot/imported/VictoryScreent.png-0525744a1c0b78e2c92e74a105eec4af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/bazzoka.png"
-dest_files=["res://.godot/imported/bazzoka.png-7856f62ca1915514b3e8db06fb81e6f8.ctex"]
+source_file="res://assets/sprites/background/VictoryScreent.png"
+dest_files=["res://.godot/imported/VictoryScreent.png-0525744a1c0b78e2c92e74a105eec4af.ctex"]
 
 [params]
 

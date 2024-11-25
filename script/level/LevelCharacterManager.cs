@@ -4,6 +4,7 @@ using System.Linq;
 
 using Godot;
 
+using INTOnlineCoop.Script.Item;
 using INTOnlineCoop.Script.Player;
 using INTOnlineCoop.Script.Singleton;
 
@@ -37,17 +38,22 @@ namespace INTOnlineCoop.Script.Level
         [Export] private GameLevelUserInterface _userInterface;
         [Export] private ColorRect _bottomWaterRect;
         [Export] private CollisionShape2D _waterCollisionShape;
+        [Export] private Node2D _bulletParent;
 
         [Export(PropertyHint.Range, "0,50,")] private int _waterRisingMinRound = 16;
 
         [Export(PropertyHint.Range, "0,1000,")]
-        private int _waterRisingAmount = 32;
+        private int _waterRisingAmount = 48;
 
         private Node _characterParent;
         private int _currentCharacterIndex;
         private long _currentPlayerPeer;
         private int _currentRoundNumber;
 
+        /// <summary>
+        /// True if the game has ended
+        /// </summary>
+        public bool IsGameFinished { get; private set; }
 
         /// <summary>
         /// Add round change on timer timeout
@@ -65,7 +71,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         public override void _ExitTree()
         {
-            if (Multiplayer.IsServer())
+            if (Multiplayer.HasMultiplayerPeer() && Multiplayer.IsServer())
             {
                 _roundTimer.Timeout -= NextCharacter;
             }
@@ -83,6 +89,7 @@ namespace INTOnlineCoop.Script.Level
                 }
 
                 character.PlayerDied -= OnPlayerDeath;
+                character.PlayerUsedItem -= OnPlayerUsedItem;
             }
         }
 
@@ -113,6 +120,7 @@ namespace INTOnlineCoop.Script.Level
                     character.Init(scaledSpawnPosition, type, peerId);
                     character.IsBlocked = true;
                     character.PlayerDied += OnPlayerDeath;
+                    character.PlayerUsedItem += OnPlayerUsedItem;
                     parentNode.AddChild(character, true);
 
                     characters.Add(character);
@@ -134,6 +142,8 @@ namespace INTOnlineCoop.Script.Level
         public void NextCharacter()
         {
             _characterOrder[_currentCharacterIndex].IsBlocked = true;
+            _ = _characterOrder[_currentCharacterIndex]
+                .Rpc(PlayerCharacter.MethodName.SetItem, SelectableItem.None.Name);
             int characterIndex = _currentCharacterIndex;
             int loopIndex = 0;
             PlayerCharacter nextCharacter = null;
@@ -153,14 +163,7 @@ namespace INTOnlineCoop.Script.Level
                 break;
             }
 
-            if (nextCharacter == null)
-            {
-                //TODO: Play win or loose screen
-                EndGame(GetWinner());
-                return;
-            }
-
-            if (_roundTimer == null)
+            if (nextCharacter == null || _roundTimer == null)
             {
                 return;
             }
@@ -180,6 +183,11 @@ namespace INTOnlineCoop.Script.Level
             SceneTreeTimer timer = GetTree().CreateTimer(5);
             timer.Timeout += () =>
             {
+                if (!IsInstanceValid(this))
+                {
+                    return;
+                }
+
                 error = Rpc(MethodName.StartRound, newCharacterPos, peerId,
                     _currentRoundNumber > _waterRisingMinRound);
                 if (error != Error.Ok)
@@ -217,6 +225,11 @@ namespace INTOnlineCoop.Script.Level
 
         private void OnPlayerDeath(PlayerCharacter character)
         {
+            if (!Multiplayer.IsServer())
+            {
+                return;
+            }
+
             if (character == _characterOrder[_currentCharacterIndex])
             {
                 NextCharacter();
@@ -227,8 +240,37 @@ namespace INTOnlineCoop.Script.Level
             Winner potentialWinner = GetWinner();
             if (potentialWinner != Winner.None)
             {
-                EndGame(potentialWinner);
+                IsGameFinished = true;
+                _ = Rpc(MethodName.EndGame, potentialWinner.ToString());
             }
+        }
+
+        private void OnPlayerUsedItem(PlayerCharacter character, SelectableItem item, Vector2 direction)
+        {
+            if (item.BulletScene == null)
+            {
+                return;
+            }
+
+            Random random = new();
+            int bulletAmount = item == SelectableItem.Shotgun ? 3 : 1;
+            for (int i = 0; i < bulletAmount; i++)
+            {
+                Bullet bullet = item.CreateBullet();
+                bullet.Position = character.Position + new Vector2(0, 10);
+                bullet.Direction = direction;
+                if (item == SelectableItem.Shotgun)
+                {
+                    bullet.Direction += new Vector2((float)(random.NextDouble() - 0.5f) / 4,
+                        (float)(random.NextDouble() - 0.5f) / 4);
+                    bullet.Direction = bullet.Direction.Normalized();
+                }
+
+                _bulletParent.AddChild(bullet, true);
+            }
+
+            _roundTimer.Stop();
+            GetTree().CreateTimer(10).Timeout += NextCharacter;
         }
 
         private Winner GetWinner()
@@ -250,9 +292,26 @@ namespace INTOnlineCoop.Script.Level
                 : (playerDeadAmount[1] == 4 ? Winner.PlayerOne : Winner.None);
         }
 
-        private void EndGame(Winner gameWinner)
+        [Rpc(TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void EndGame(string winnerString)
         {
-            GD.Print("Win/Loose");
+            IsGameFinished = true;
+            bool parseOk = Enum.TryParse(winnerString, true, out Winner winner);
+            if (!parseOk)
+            {
+                GD.PrintErr("Received invalid winner string: " + winnerString);
+                return;
+            }
+
+            int playerNumber = MultiplayerLobby.Instance.GetPlayerData(Multiplayer.GetUniqueId()).PlayerNumber;
+            Node screen = playerNumber == (int)winner
+                ? GD.Load<PackedScene>("res://scene/ui/screen/VictoryScreen.tscn").Instantiate()
+                : GD.Load<PackedScene>("res://scene/ui/screen/DefeatScreen.tscn").Instantiate();
+
+            MultiplayerLobby.Instance.CloseConnection();
+            GetTree().Root.AddChild(screen);
+            GetTree().CurrentScene = screen;
+            GetParent().QueueFree();
         }
 
         private void OnWaterEntered(Node2D body)

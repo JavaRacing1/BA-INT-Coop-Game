@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://thso4acnhec2"]
+
+[ext_resource type="Texture2D" uid="uid://da3h8jbh6qa0q" path="res://assets/sprites/weapons/sniper.png" id="1_f2l2c"]
+[ext_resource type="Texture2D" uid="uid://c7i3doou44f0o" path="res://assets/texture/Crosshair.png" id="2_665se"]
+[ext_resource type="Script" path="res://script/item/DirectionItem.cs" id="2_ve748"]
+
+[node name="SniperItem" type="Marker2D" node_paths=PackedStringArray("_crosshair")]
+position = Vector2(5, -5)
+script = ExtResource("2_ve748")
+_crosshair = NodePath("Crosshair")
+
+[node name="SniperSprite" type="Sprite2D" parent="."]
+position = Vector2(5, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_f2l2c")
+flip_h = true
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+position = Vector2(300, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_665se")

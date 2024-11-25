@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu7056msyppno"
-path="res://.godot/imported/Schrotfilnte.png-b294efd9babed4a79566b052651c4d45.ctex"
+uid="uid://csx52vcgvebmo"
+path="res://.godot/imported/sprite.png-913a5a71db511b9838c51bb59d4fa890.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/Schrotfilnte.png"
-dest_files=["res://.godot/imported/Schrotfilnte.png-b294efd9babed4a79566b052651c4d45.ctex"]
+source_file="res://assets/sprites/game_figure/moze/sprite.png"
+dest_files=["res://.godot/imported/sprite.png-913a5a71db511b9838c51bb59d4fa890.ctex"]
 
 [params]
 

@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgsugdxnhrp3m"]
+
+[ext_resource type="Script" path="res://script/item/Bullet.cs" id="1_36vv4"]
+[ext_resource type="Texture2D" uid="uid://hkdavsam2h0p" path="res://assets/sprites/weapons/PistolBullet.png" id="1_soqsu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqy5y"]
+size = Vector2(20, 8)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iycxu"]
+properties/0/path = NodePath(".:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="PistolBullet" type="Area2D"]
+scale = Vector2(0.3, 0.3)
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_36vv4")
+_damage = 20
+_speed = 300
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rqy5y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 0.75)
+texture = ExtResource("1_soqsu")
+offset = Vector2(3, 0)
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_iycxu")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

@@ -1,5 +1,6 @@
 using Godot;
 
+using INTOnlineCoop.Script.Item;
 using INTOnlineCoop.Script.Player;
 using INTOnlineCoop.Script.Singleton;
 
@@ -25,6 +26,8 @@ namespace INTOnlineCoop.Script.Level
         [Export] private Label _labelTime;
 
         // PlayerCharacter Listennodes
+        [Export] private Control _barPlayer1;
+        [Export] private Control _barPlayer2;
         [Export] private RichTextLabel _labelPlayer1;
         [Export] private RichTextLabel _labelPlayer2;
         [Export] private Sprite2D[] _spritesPlayer1;
@@ -134,6 +137,7 @@ namespace INTOnlineCoop.Script.Level
         /// </summary>
         /// <param name="playerName">Name of the player</param>
         /// <param name="playerNumber">Player number</param>
+        /// <param name="isWaterRising">True if the water is rising</param>
         public void DisplayTurnNotification(string playerName, int playerNumber, bool isWaterRising)
         {
             if (_playerNotificationLabel == null || _waterNotificationLabel == null)
@@ -289,74 +293,59 @@ namespace INTOnlineCoop.Script.Level
         }
 
         /// <summary>
-        /// 
+        /// Hides the player bars
         /// </summary>
-        private void OnBazzokaButtonPressed()
+        public void HidePlayerBars()
         {
-            //bool shotTaken = false;
-            GD.Print("Bazzoka ausgewählt.");
-            if (_shotTaken)
-            {
-                GD.Print("Bazzoka abgefeuert.");
-                _shotTaken = false;
-            }
+            _barPlayer1.Visible = false;
+            _barPlayer2.Visible = false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        private void OnBazookaButtonPressed()
+        {
+            UpdateWeapon(SelectableItem.Bazooka);
+        }
+
         private void OnPistolButtonPressed()
         {
-            GD.Print("Pistole ausgewählt.");
-            if (_shotTaken)
-            {
-                GD.Print("Pistole abgefeuert.");
-                _pistolUsageNumber--;
-                _shotTaken = false;
-                if (_pistolUsageNumber == 0)
-                {
-                    _textureButtonPistol.Disabled = true;
-                    GD.Print("keine Pistolenschüsse mehr vorhanden.");
-                }
-            }
+            UpdateWeapon(SelectableItem.Pistol);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private void OnShotgunButtonPressed()
         {
-            GD.Print("Shotgun ausgewählt.");
-            if (_shotTaken)
+            UpdateWeapon(SelectableItem.Shotgun);
+        }
+
+        private void OnSniperButtonPressed()
+        {
+            UpdateWeapon(SelectableItem.Sniper);
+        }
+
+        private void UpdateWeapon(SelectableItem item)
+        {
+            Error error = GetCurrentCharacter().Rpc(PlayerCharacter.MethodName.SetItem, item.Name);
+            if (error != Error.Ok)
             {
-                GD.Print("Shotgun abgefeuert.");
-                _shotgunUsageNumber--;
-                _shotTaken = false;
-                if (_shotgunUsageNumber == 0)
-                {
-                    _textureButtonShotgun.Disabled = true;
-                    GD.Print("keine Shotgunschüsse mehr vorhanden.");
-                }
+                GD.PrintErr("Error during SetWeapon RPC: " + error);
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void OnSniperButtonPressed()
+        private PlayerCharacter GetCurrentCharacter()
         {
-            GD.Print("Sniper ausgewählt.");
-            if (_shotTaken)
+            foreach (Node node in _characterParent.GetChildren())
             {
-                GD.Print("Sniper abgefeuert.");
-                _sniperUsageNumber--;
-                _shotTaken = false;
-                if (_sniperUsageNumber == 0)
+                if (node is not PlayerCharacter character)
                 {
-                    _textureButtonSniper.Disabled = true;
-                    GD.Print("keine Sniperschüsse mehr vorhanden.");
+                    continue;
+                }
+
+                if (!character.IsBlocked)
+                {
+                    return character;
                 }
             }
+
+            return null;
         }
     }
 }

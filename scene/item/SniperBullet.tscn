@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfolj1wfcnnky"]
+
+[ext_resource type="Texture2D" uid="uid://b472w02urrgs" path="res://assets/sprites/weapons/SniperBullet.png" id="1_p3hta"]
+[ext_resource type="Script" path="res://script/item/Bullet.cs" id="2_dg51d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vm7un"]
+size = Vector2(27, 12)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fti07"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="SniperBullet" type="Area2D"]
+scale = Vector2(0.3, 0.3)
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("2_dg51d")
+_damage = 50
+_speed = 300
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.5, 4)
+shape = SubResource("RectangleShape2D_vm7un")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3.5, 4)
+texture = ExtResource("1_p3hta")
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fti07")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

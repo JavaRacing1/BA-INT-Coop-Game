@@ -9,13 +9,14 @@ namespace INTOnlineCoop.Script.Player.States
     /// </summary>
     public partial class Falling : State
     {
+
         /// <summary>
         /// Handles falling input
         /// </summary>
         /// <param name="delta"></param>
         public override void HandleInput(double delta)
         {
-            if (Character.PeerId != Multiplayer.GetUniqueId())
+            if (!Multiplayer.HasMultiplayerPeer() || Character.PeerId != Multiplayer.GetUniqueId())
             {
                 return;
             }
@@ -24,6 +25,17 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 StateMachine.Direction = 0;
                 return;
+            }
+
+            if (Input.IsActionJustPressed("jump") && !StateMachine.HasDoubleJumped)
+            {
+                Error error = StateMachine.Rpc(StateMachine.MethodName.Jump);
+                if (error != Error.Ok)
+                {
+                    GD.PrintErr($"Error during Jump RPC: {error}");
+                }
+
+                StateMachine.HasDoubleJumped = true;
             }
 
             StateMachine.Direction = Input.GetAxis("walk_left", "walk_right");
@@ -35,7 +47,8 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta"></param>
         public override void ChangeAnimationsAndStates(double delta)
         {
-            if ((CharacterSprite.Animation == "JumpingOffGround" || CharacterSprite.Animation == "InAir") && Character.IsOnFloor())
+            if ((CharacterSprite.Animation == "JumpingOffGround" || CharacterSprite.Animation == "InAir") &&
+                Character.IsOnFloor())
             {
                 //InAir Animation muss beendet werden, da Kollision mit Boden erkannt
                 //-> wechsel auf LandingOnGround Animation
@@ -46,6 +59,14 @@ namespace INTOnlineCoop.Script.Player.States
             if (!Mathf.IsEqualApprox(StateMachine.Direction, 0))
             {
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
+            }
+
+            if (StateMachine.Jumped)
+            {
+                CharacterSprite.Stop();
+                CharacterSprite.Play("JumpingOffGround");
+                Character.StateMachine.TransitionTo(AvailableState.Jumping);
             }
 
             if (!Character.IsOnFloor())

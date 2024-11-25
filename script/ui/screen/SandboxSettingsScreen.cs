@@ -86,7 +86,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             {
                 LevelGenerator levelGenerator = new();
                 levelGenerator.SetTerrainShape(_generatorSettings.SelectedTerrainShape);
-                levelGenerator.EnableDebugMode();
+                //levelGenerator.EnableDebugMode();
                 Image image = levelGenerator.Generate(_generatorSettings.Seed);
 
                 GameLevel level = GD.Load<PackedScene>("res://scene/level/GameLevel.tscn").Instantiate<GameLevel>();

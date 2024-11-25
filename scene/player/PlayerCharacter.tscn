@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://buofo08bpqit7"]
 
 [ext_resource type="Script" path="res://script/player/PlayerCharacter.cs" id="1_cc308"]
-[ext_resource type="SpriteFrames" uid="uid://bypvanrplbd8v" path="res://assets/sprites/game_figure/zero/sprite.res" id="2_ad60y"]
+[ext_resource type="SpriteFrames" uid="uid://dmci2ce3hsbs5" path="res://assets/sprites/game_figure/athena/sprite.res" id="2_g2u1s"]
 [ext_resource type="Script" path="res://script/player/StateMachine.cs" id="3_68vnu"]
 [ext_resource type="Script" path="res://script/player/state/Idle.cs" id="4_m11px"]
 [ext_resource type="Script" path="res://script/player/state/Falling.cs" id="5_yk43w"]
@@ -38,19 +38,24 @@ properties/5/replication_mode = 2
 properties/0/path = NodePath("StateMachine:Direction")
 properties/0/spawn = false
 properties/0/replication_mode = 2
+properties/1/path = NodePath("StateMachine:ItemRotation")
+properties/1/spawn = false
+properties/1/replication_mode = 2
 
-[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_healthLabel", "_characterIcon", "StateMachine")]
+[node name="PlayerCharacter" type="CharacterBody2D" node_paths=PackedStringArray("_sprite", "_healthLabel", "_characterIcon", "_itemContainer", "_serverSynchronizer", "StateMachine")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cc308")
 _sprite = NodePath("CharacterSprite")
 _healthLabel = NodePath("HealthLabel")
 _characterIcon = NodePath("CharacterIcon")
+_itemContainer = NodePath("ItemContainer")
+_serverSynchronizer = NodePath("ServerSynchronizer")
 StateMachine = NodePath("StateMachine")
 
 [node name="CharacterSprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_ad60y")
-animation = &"Idle"
+sprite_frames = ExtResource("2_g2u1s")
+animation = &"TakeingDamage(Flying)"
 metadata/_aseprite_wizard_interface_config_ = {
 "output_section": false,
 "pending_changes": {
@@ -130,3 +135,6 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("10_vxtb0")
 stretch_mode = 4
+
+[node name="ItemContainer" type="Node2D" parent="."]
+position = Vector2(0, 12)

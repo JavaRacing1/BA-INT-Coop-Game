@@ -10,12 +10,21 @@ namespace INTOnlineCoop.Script.Player.States
     public partial class Walking : State
     {
         /// <summary>
+        /// Resets the jumping states
+        /// </summary>
+        public override void Enter()
+        {
+            StateMachine.HasDoubleJumped = false;
+            StateMachine.Jumped = false;
+        }
+
+        /// <summary>
         /// Handles walking input
         /// </summary>
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            if (Character.PeerId != Multiplayer.GetUniqueId())
+            if (!Multiplayer.HasMultiplayerPeer() || Character.PeerId != Multiplayer.GetUniqueId())
             {
                 return;
             }
@@ -52,6 +61,7 @@ namespace INTOnlineCoop.Script.Player.States
                     CharacterSprite.Play("Walking");
                 }
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
             }
 
             if (!Character.IsOnFloor())

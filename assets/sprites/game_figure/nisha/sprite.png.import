@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://da3h8jbh6qa0q"
-path="res://.godot/imported/sniper.png-24c3914078f52b41660dc0d518ee5060.ctex"
+uid="uid://dhdw5h3rh6i1m"
+path="res://.godot/imported/sprite.png-a40d327cd2c1fc7bc6246d3983030fe3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wepons/sniper.png"
-dest_files=["res://.godot/imported/sniper.png-24c3914078f52b41660dc0d518ee5060.ctex"]
+source_file="res://assets/sprites/game_figure/nisha/sprite.png"
+dest_files=["res://.godot/imported/sprite.png-a40d327cd2c1fc7bc6246d3983030fe3.ctex"]
 
 [params]
 

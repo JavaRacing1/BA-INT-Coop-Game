@@ -18,10 +18,16 @@ namespace INTOnlineCoop.Script.Player.States
         public override void Enter()
         {
             base.Enter();
+            if (!Character.TexturesLoaded)
+            {
+                Character.LoadTextures();
+            }
             CharacterSprite.Animation = "Idle";
             CharacterSprite.Pause();
             StateMachine.Jumped = false;
+            StateMachine.HasDoubleJumped = false;
             StateMachine.Direction = 0;
+            _idleFrameCounter = 0;
         }
 
         /// <summary>
@@ -30,7 +36,7 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Current frame delta</param>
         public override void HandleInput(double delta)
         {
-            if (Character.PeerId != Multiplayer.GetUniqueId())
+            if (!Multiplayer.HasMultiplayerPeer() || Character.PeerId != Multiplayer.GetUniqueId())
             {
                 return;
             }
@@ -40,6 +46,8 @@ namespace INTOnlineCoop.Script.Player.States
                 StateMachine.Direction = 0;
                 return;
             }
+
+            Character.CurrentItem?.HandleInput(delta);
 
             if (Input.IsActionJustPressed("jump"))
             {
@@ -59,19 +67,34 @@ namespace INTOnlineCoop.Script.Player.States
         /// <param name="delta">Frame delta</param>
         public override void ChangeAnimationsAndStates(double delta)
         {
-            _idleFrameCounter++;
-            if (_idleFrameCounter == 0)
+            if (!Character.HasWeapon)
             {
-                CharacterSprite.Frame = 0;
+                _idleFrameCounter++;
+                if (_idleFrameCounter == 0)
+                {
+                    CharacterSprite.Frame = 0;
+                }
+                else if (CharacterSprite.Frame == Character.Type.LastIdleFrame && _idleFrameCounter > 0)
+                {
+                    CharacterSprite.Pause();
+                    _idleFrameCounter = -20;
+                }
+                else if (_idleFrameCounter == 400)
+                {
+                    CharacterSprite.Play();
+                }
             }
-            else if (CharacterSprite.Frame == Character.Type.LastIdleFrame && _idleFrameCounter > 0)
+            else
             {
+                _idleFrameCounter = 0;
                 CharacterSprite.Pause();
-                _idleFrameCounter = -20;
-            }
-            else if (_idleFrameCounter == 400)
-            {
-                CharacterSprite.Play();
+                CharacterSprite.Frame = 0;
+
+                if (!Mathf.IsEqualApprox(StateMachine.ItemRotation, 0))
+                {
+                    float oldRotation = Character.CurrentItem.RotationDegrees;
+                    Character.CurrentItem.RotationDegrees = Mathf.Clamp(oldRotation + StateMachine.ItemRotation, -70, 70);
+                }
             }
 
             if (!Character.IsOnFloor())
@@ -92,6 +115,7 @@ namespace INTOnlineCoop.Script.Player.States
             {
                 CharacterSprite.Stop();
                 CharacterSprite.FlipH = StateMachine.Direction < 0;
+                Character.UpdateWeaponDirection();
                 CharacterSprite.Play("Walking");
                 Character.StateMachine.TransitionTo(AvailableState.Walking);
             }

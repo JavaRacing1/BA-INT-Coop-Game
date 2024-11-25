@@ -1,5 +1,6 @@
 using Godot;
 
+using INTOnlineCoop.Script.Item;
 using INTOnlineCoop.Script.Level;
 using INTOnlineCoop.Script.Singleton;
 
@@ -18,10 +19,13 @@ namespace INTOnlineCoop.Script.Player
         [Export] private AnimatedSprite2D _sprite;
         [Export] private Label _healthLabel;
         [Export] private TextureRect _characterIcon;
+        [Export] private Node2D _itemContainer;
+        [Export] private MultiplayerSynchronizer _serverSynchronizer;
         [Export] private string _type;
         [Export] private int _health = 100;
 
         private long _peerId;
+        private NodePath _itemPath;
 
         /// <summary>
         /// Current StateMachine instance
@@ -50,10 +54,32 @@ namespace INTOnlineCoop.Script.Player
         public CharacterType Type => CharacterType.FromName(_type);
 
         /// <summary>
+        /// Current selected item 
+        /// </summary>
+        public ControllableItem CurrentItem { get; private set; }
+
+        /// <summary>
+        /// True if the character has the correct textures
+        /// </summary>
+        public bool TexturesLoaded { get; private set; }
+
+        /// <summary>
+        /// True if the character has an item equippe
+        /// </summary>
+        public bool HasWeapon => CurrentItem != null;
+
+        /// <summary>
         /// Emitted when the player died
         /// </summary>
         [Signal]
         public delegate void PlayerDiedEventHandler(PlayerCharacter character);
+
+        /// <summary>
+        /// Emitted when the player used an item. Only on server
+        /// </summary>
+        [Signal]
+        public delegate void PlayerUsedItemEventHandler(PlayerCharacter character, SelectableItem item,
+            Vector2 direction);
 
         /// <summary>
         /// Current health of the player
@@ -79,15 +105,21 @@ namespace INTOnlineCoop.Script.Player
             Position = position;
             _type = type.Name;
             PeerId = peerId;
+        }
 
-            _characterIcon.Texture = type.HeadTexture;
-
-            if (_sprite == null || type.SpriteFrames == null)
+        /// <summary>
+        /// Loads the textures of the selected character
+        /// </summary>
+        public void LoadTextures()
+        {
+            if (_sprite == null || Type.SpriteFrames == null)
             {
                 return;
             }
 
-            _sprite.SpriteFrames = type.SpriteFrames;
+            _characterIcon.Texture = Type.HeadTexture;
+            _sprite.SpriteFrames = Type.SpriteFrames;
+            TexturesLoaded = true;
         }
 
         /// <summary>
@@ -135,10 +167,14 @@ namespace INTOnlineCoop.Script.Player
             }
 
             PlayerData playerData = MultiplayerLobby.Instance.GetPlayerData(controllingPeerId);
-            _healthLabel.AddThemeColorOverride("font_color",
-                playerData.PlayerNumber == 1
+            Color color = Color.Color8(255, 255, 255);
+            if (playerData != null)
+            {
+                color = playerData.PlayerNumber == 1
                     ? GameLevelUserInterface.PlayerOneColor
-                    : GameLevelUserInterface.PlayerTwoColor);
+                    : GameLevelUserInterface.PlayerTwoColor;
+            }
+            _healthLabel.AddThemeColorOverride("font_color", color);
         }
 
         /// <summary>
@@ -196,6 +232,99 @@ namespace INTOnlineCoop.Script.Player
             {
                 _ = EmitSignal(SignalName.PlayerDied, this);
             }
+        }
+
+        /// <summary>
+        /// Changes the current selected item
+        /// </summary>
+        /// <param name="itemString"></param>
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true,
+            TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        public void SetItem(string itemString)
+        {
+            SelectableItem itemType = SelectableItem.FromName(itemString);
+
+            foreach (Node node in _itemContainer.GetChildren())
+            {
+                node.QueueFree();
+            }
+
+            UpdateServerSynchronizer(false);
+
+            if (itemType == SelectableItem.None)
+            {
+                if (CurrentItem != null)
+                {
+                    CurrentItem.ItemUsed -= OnItemUse;
+                }
+                CurrentItem = null;
+                return;
+            }
+
+            ControllableItem item = itemType.CreateItem();
+            item.SetStateMachine(StateMachine);
+            CurrentItem = item;
+            CurrentItem.Item = itemType;
+            CurrentItem.ItemUsed += OnItemUse;
+            UpdateWeaponDirection();
+            _itemContainer.AddChild(item);
+
+            _itemPath = item.GetPath();
+            UpdateServerSynchronizer(true);
+        }
+
+        private void UpdateServerSynchronizer(bool addItemRotation)
+        {
+            SceneReplicationConfig config = _serverSynchronizer.ReplicationConfig;
+            NodePath propertyPath = new(_itemPath + ":rotation");
+            if (addItemRotation)
+            {
+                config.AddProperty(propertyPath);
+                config.PropertySetReplicationMode(propertyPath, SceneReplicationConfig.ReplicationMode.OnChange);
+            }
+            else
+            {
+                config.RemoveProperty(propertyPath);
+            }
+
+            _serverSynchronizer.ReplicationConfig = config;
+        }
+
+        /// <summary>
+        /// Updates the weapon direction to the right direction
+        /// </summary>
+        public void UpdateWeaponDirection()
+        {
+            if (CurrentItem == null)
+            {
+                return;
+            }
+
+            float oldScale = CurrentItem.Scale.X;
+            float newScale = !_sprite.FlipH ? 1 : -1;
+
+            Vector2 itemScale = CurrentItem.Scale;
+            itemScale.X = newScale;
+            CurrentItem.Scale = itemScale;
+
+            if (Mathf.IsEqualApprox(oldScale, newScale))
+            {
+                return;
+            }
+
+            Vector2 oldPosition = CurrentItem.Position;
+            CurrentItem.Position = new Vector2(-oldPosition.X, oldPosition.Y);
+        }
+
+        private void OnItemUse(SelectableItem item, Vector2 direction)
+        {
+            _ = Rpc(MethodName.OnServerItemUse, item.Name, direction);
+        }
+
+        [Rpc(MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+        private void OnServerItemUse(string itemString, Vector2 direction)
+        {
+            _ = EmitSignal(SignalName.PlayerUsedItem, this, SelectableItem.FromName(itemString), direction);
         }
     }
 }
