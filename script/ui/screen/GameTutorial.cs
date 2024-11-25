@@ -22,7 +22,7 @@ namespace INTOnlineCoop.Script.UI.Screen
             "Im Sandbox-Modus kannst du die Fähigkeiten jedes Charakters auf jedem Spielgelände testen.",
             "Steuere die Kamera mit den Pfeiltasten und zoome mit dem Mausrad!",
             "Bewege eine Spielfigur mit A, D und LEERTASTE, wenn du am Zug bist. Ein Zug dauert 60s.",
-            "Eröffne das Feuer durch Zielen mit dem Mauszeiger und Klicken mit den Maustasten.",
+            "Eröffne das Feuer durch Zielen mit W + S und Schießen mit Q",
             "Versuche, alle deine Feinde auszuschalten und gewinne das Spiel!",
             "Im Laufe des Spiels steigt das Wasser. Am Ende gewinnt der letzte Überlebende!"
         };
