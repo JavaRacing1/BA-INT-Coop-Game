@@ -19,6 +19,6 @@ void fragment() {
             float distanceToWave = coord.y - waveValue;
             color.b = clamp(color.b + 0.3 - distanceToWave, 0.5, 1.0);
         }
-    } 
+    }
     COLOR = vec4(color, alpha);
 }
