@@ -72,7 +72,7 @@ namespace INTOnlineCoop.Script.Level
             }
 
             PlayerPositionGenerator positionGenerator = new();
-            positionGenerator.Init(_terrainImage, shape.ToString(), debugMode: true);
+            positionGenerator.Init(_terrainImage, shape.ToString());
             (double, double) unscaledSpawnPosition = positionGenerator.GetSpawnPosition(new Random().NextDouble());
 
             Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
@@ -123,7 +123,7 @@ namespace INTOnlineCoop.Script.Level
             }
 
             PlayerPositionGenerator positionGenerator = new();
-            positionGenerator.Init(_terrainImage, "", debugMode: true);
+            positionGenerator.Init(_terrainImage, "");
             Vector2I tileSize = _tileManager?.GetTileSize() ?? Vector2I.Zero;
 
             _characterManager.SpawnCharacters(_characterParent, positionGenerator, tileSize);
